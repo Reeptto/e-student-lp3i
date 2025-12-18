@@ -22,13 +22,9 @@
         }
     </script>
 
-    <!-- Alpine.js Plugins & Core -->
     <script src="https://cdn.jsdelivr.net/npm/@alpinejs/collapse@3.x.x/dist/cdn.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
-
-    <!-- Lucide Icons -->
     <script src="https://unpkg.com/lucide@latest"></script>
-    
     <style>
         .custom-scrollbar::-webkit-scrollbar { width: 4px; }
         .custom-scrollbar::-webkit-scrollbar-track { background: #003354; }
@@ -128,7 +124,7 @@
                         </div>
                     </a>
 
-                    <a href="#" class="px-6 py-3 flex items-center justify-between text-gray-300 hover:text-white hover:bg-[#005585] transition-all">
+                    <a href="{{ route('pengumuman.index') }}" class="px-6 py-3 flex items-center justify-between text-gray-300 hover:text-white hover:bg-[#005585] transition-all">
                         <div class="flex items-center gap-3">
                             <i data-lucide="bell" class="w-[18px]"></i>
                             <span class="text-sm font-medium">Announcements</span>
@@ -217,8 +213,11 @@
                                 </div>
                                 
                                 <div class="py-1">
-                                    <a href="{{ route('profil') }}" class="flex items-center gap-3 px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-viridian transition-colors">
+                                    <a href="{{ route('profile.mahasiswa') }}" class="flex items-center gap-3 px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-viridian transition-colors">
                                         <i data-lucide="user" class="w-4 h-4"></i> My Profile
+                                    </a>
+                                    <a href="{{ route('profile.edit') }}" class="flex items-center gap-3 px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-viridian transition-colors">
+                                        <i data-lucide="user" class="w-4 h-4"></i> My Account
                                     </a>
                                     <a href="#" class="flex items-center gap-3 px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-viridian transition-colors">
                                         <i data-lucide="settings" class="w-4 h-4"></i> Settings
@@ -242,8 +241,8 @@
             <main class="flex-1 overflow-y-auto p-4 lg:p-8 scroll-smooth">
                 @yield('content')
                 
-                <footer class="mt-12 text-center text-gray-400 text-xs pb-4">
-                    <p>&copy; {{ date('Y') }} Politeknik LP3I. Crafted with <span class="text-[#FF0000]">❤</span> by IT Division.</p>
+                <footer class="mt-12 text-center text-gray-200 bg-gray-500 rounded-lg text-xs pb-4">
+                    <p class="pt-5">&copy; {{ date('Y') }} Politeknik LP3I. Crafted with <span class="text-[#FF0000]">❤</span> by IT Division.</p>
                 </footer>
             </main>
         </div>

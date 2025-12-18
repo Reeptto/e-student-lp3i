@@ -13,7 +13,7 @@ return new class extends Migration
     {
         // relasi jurusan dan kelas terhadap mahasiswa 
         Schema::table('mahasiswa', function (Blueprint $table) {
-            $table->foreign('jurusan_id')->references('id')->on('jurusan')->onDelete('cascade');
+            // $table->foreign('jurusan_id')->references('id')->on('jurusan')->onDelete('cascade');
             $table->foreign('kelas_id')->references('id')->on('kelas')->onDelete('cascade');
             
         });

@@ -1,6 +1,7 @@
 <?php
 
-use App\Http\Controllers\MahasiswaProfileController;
+use App\Http\Controllers\ProfileMahasiswaController;
+use App\Http\Controllers\PengumumanController;
 use App\Http\Controllers\TugasController;
 use \routes\auth;
 use App\Http\Controllers\ProfileController;
@@ -20,7 +21,12 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
+Route::get('/profile-mahasiswa', [ProfileMahasiswaController::class, 'edit'])->middleware('auth')->name('profile.mahasiswa');
+Route::put('/profile-mahasiswa', [ProfileMahasiswaController::class, 'update'])->middleware('auth')->name('profile.mahasiswa');
+
+Route::get('/pengumuman', [PengumumanController::class, 'index'])->middleware('auth')->name('pengumuman.index');
+
+
 Route::get('/tugas', [TugasController::class, 'index'])->name('tugas');
-Route::get('/profileMahasiswa', [MahasiswaProfileController::class, 'index'])->name('profil');
 
 require __DIR__.'/auth.php';
