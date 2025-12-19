@@ -3,6 +3,7 @@
 use App\Http\Controllers\ProfileMahasiswaController;
 use App\Http\Controllers\PengumumanController;
 use App\Http\Controllers\TugasController;
+use App\Http\Controllers\SubmissionController;
 use \routes\auth;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
@@ -28,5 +29,8 @@ Route::get('/pengumuman', [PengumumanController::class, 'index'])->middleware('a
 
 
 Route::get('/tugas', [TugasController::class, 'index'])->name('tugas');
+Route::get('/tugas/{tugas}', [TugasController::class, 'show'])->name('tugas.show');
+
+Route::post('/submission', [SubmissionController::class, 'store'])->name('submission.store');
 
 require __DIR__.'/auth.php';

@@ -11,8 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('kelas', function (Blueprint $table) {
-            $table->unique('kode_kelas');
+        Schema::table('matakuliah', function (Blueprint $table) {
+            $table->integer('semester')->after('nama_mk');
         });
     }
 
@@ -21,7 +21,7 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('kode_kelas_on_kelas', function (Blueprint $table) {
+        Schema::table('matakuliah', function (Blueprint $table) {
             //
         });
     }
