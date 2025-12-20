@@ -13,19 +13,19 @@ return new class extends Migration
     {
         Schema::create('mahasiswa', function (Blueprint $table) {
             $table->id();
-            $table->integer('nipd')->unique();
-            $table->string('nama');
-            $table->enum('jenis_kelamin', ['Laki-laki', 'Perempuan']);
-            $table->string('tempat_lahir');
-            $table->date('tgl_lahir');
-            $table->string('kelas');
-            $table->string('jurusan');
-            $table->string('email');
+            $table->string('nipd')-> unique();
+            $table->string('nama_mhs');
             $table->string('alamat');
+            $table->string('tempat_lahir');
+            $table->date('tanggal_lahir');
             $table->string('agama');
-            $table->integer('no_tlp');
-            $table->string('foto');
+            $table->string('email')->nullable();
+            $table->string('no_telp')->nullable();
+            $table->string('foto')->nullable();
+            $table->enum('jenis_kelamin', ['Laki-laki', 'Perempuan']);
             $table->enum('status', ['Aktif', 'Tidak Aktif']);
+            $table->unsignedBigInteger('jurusan_id');
+            $table->unsignedBigInteger('kelas_id');
             $table->timestamps();
         });
     }

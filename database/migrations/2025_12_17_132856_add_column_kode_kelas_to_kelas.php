@@ -11,9 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('calon_mahasiswa', function (Blueprint $table) {
-            $table->id();
-            $table->timestamps();
+        Schema::table('kelas', function (Blueprint $table) {
+            $table->string('kode_kelas')->unique()->after('id');
         });
     }
 
@@ -22,6 +21,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('calon_mahasiswa');
+        Schema::table('kelas', function (Blueprint $table) {
+            $table->dropColumn('kode_kelas');
+        });
     }
 };
