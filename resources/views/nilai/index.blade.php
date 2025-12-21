@@ -1,30 +1,13 @@
-<!DOCTYPE html>
-<html lang="id">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>E-Student | Transkrip Nilai</title>
-    <!-- Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Alpine.js untuk interaksi klik -->
-    <script src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <style>
-        body { font-family: 'Inter', sans-serif; }
-        .bg-primary { background-color: #2563eb; }
-        .text-primary { color: #2563eb; }
-        .bg-secondary { background-color: #0d9488; }
-        .text-secondary { color: #0d9488; }
-        .border-secondary { border-color: #0d9488; }
-        .accent-gradient { background: linear-gradient(135deg, #2563eb 0%, #0d9488 100%); }
-    </style>
-</head>
+
+@extends('layouts.app')
+
+@section('content')
 <body class="bg-gray-50 min-h-screen p-4 md:p-8">
 
     <div class="max-w-6xl mx-auto" x-data="{ openSemester: null }">
         <!-- Header Section -->
         <div class="mb-10 text-center md:text-left">
-            <h1 class="text-3xl font-bold text-gray-800">Transkrip Nilai Mahasiswa</h1>
+            <h1 class="text-3xl font-bold text-gray-800">Nilai Mahasiswa</h1>
             <p class="text-gray-500 mt-1">Pilih semester untuk melihat rincian nilai akademik kamu.</p>
         </div>
 
@@ -155,19 +138,9 @@
 
         <!-- Final Footer Information -->
         <div class="mt-16 pt-8 border-t border-gray-200 flex flex-col md:flex-row justify-between items-center gap-6 pb-12">
-            <div class="flex items-center gap-4 bg-white p-4 rounded-2xl shadow-sm border border-gray-100">
-                <div class="p-3 bg-primary/10 rounded-full">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                    </svg>
-                </div>
-                <div>
-                    <p class="text-sm font-bold text-gray-800">Data Terverifikasi</p>
-                    <p class="text-xs text-gray-400">Terakhir diperbarui: {{ date('d/m/Y H:i') }}</p>
-                </div>
-            </div>
             
-            <button class="group bg-primary hover:bg-blue-700 text-white px-8 py-4 rounded-2xl font-bold transition shadow-lg flex items-center gap-3">
+            
+            <button class="group bg-blue-500 hover:bg-blue-700 text-white px-8 py-4 rounded-2xl font-bold transition shadow-lg flex items-center gap-3">
                 <span>Cetak Transkrip Lengkap</span>
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
@@ -177,4 +150,4 @@
     </div>
 
 </body>
-</html>
+@endsection

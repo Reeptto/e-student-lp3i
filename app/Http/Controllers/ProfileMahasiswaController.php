@@ -2,31 +2,33 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Mahasiswa;
 use Illuminate\Http\Request;
 
 class ProfileMahasiswaController extends Controller
 {
-public function edit()
-{
-    $user = auth()->user();
-    $mahasiswa = $user->mahasiswa; // relasi 1–1
 
-    return view('profile.mahasiswa', compact('user', 'mahasiswa'));
-}
+    public function edit()
+    {
+        $user = auth()->user();
+        $mahasiswa = $user->mahasiswa; // relasi 1–1
 
-public function update(Request $request)
-{
-    $request->validate([
-        'alamat' => 'required|string|max:255',
-    ]);
+        return view('profile.mahasiswa', compact('user', 'mahasiswa'));
+    }
 
-    $mahasiswa = auth()->user()->mahasiswa;
+    public function update(Request $request)
+    {
+        $request->validate([
+            'Domisili' => 'required|string|max:255',
+        ]);
 
-    $mahasiswa->update([
-        'Alamat' => $request->alamat,
-    ]);
+        $mahasiswa = auth()->user()->mahasiswa;
 
-    return back()->with('success', 'Domisili berhasil diperbarui');
-}
+        $mahasiswa->update([
+            'Domisili' => $request->Domisili,
+        ]);
+
+        return back()->with('success', 'Domisili berhasil diperbarui');
+    }
 
 }

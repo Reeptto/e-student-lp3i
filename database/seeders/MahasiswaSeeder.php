@@ -71,7 +71,7 @@ class MahasiswaSeeder extends Seeder
                 'Domisili' => 'Johar',
                 'tempat_lahir' => 'Karawang',
                 'tanggal_lahir' => '2005-05-06',
-                'Agama' => 'Islam',
+                'agama' => 'Islam',
                 'email' => $user3->email,
                 'no_telp' => '085887375719',
                 'jenis_kelamin' => 'Perempuan',

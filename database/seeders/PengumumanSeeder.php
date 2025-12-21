@@ -26,3 +26,4 @@ class PengumumanSeeder extends Seeder
         ]);
     }
 }
+ 

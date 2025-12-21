@@ -11,9 +11,9 @@
             </div>
         @endif
 
-        <form method="POST" action="{{ url('/profile-mahasiswa') }}" class="space-y-4">
+        <form method="POST" action="{{ route('profile.updates') }}" class="space-y-4">
             @csrf
-            @method('PUT')
+            @method('PATCH')
 
             {{-- NIM --}}
             <div>
@@ -82,10 +82,10 @@
             {{-- DOMISILI (EDITABLE) --}}
             <div>
                 <label class="text-sm text-gray-600">Domisili</label>
-                <input type="text" name="alamat"
-                       value="{{ old('domisili', $mahasiswa->Domisili) }}"
+                <input type="text" name="Domisili"
+                       value="{{ old('Domisili', $mahasiswa->Domisili) }}"
                        class="w-full border rounded px-3 py-2 focus:ring focus:ring-blue-300">
-                @error('alamat')
+                @error('Domisili')
                     <small class="text-red-500">{{ $message }}</small>
                 @enderror
             </div>
