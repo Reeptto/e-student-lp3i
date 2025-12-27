@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\MaterialController;
 use App\Http\Controllers\ProfileMahasiswaController;
 use App\Http\Controllers\PengumumanController;
 use App\Http\Controllers\TugasController;
@@ -48,6 +49,8 @@ Route::get('/infopembayaran', function () {
 
 Route::get('/krs', [KrsController::class, 'index'])->name('krs.index');
 
+Route::get('/material', [MaterialController::class, 'index'])->name('material.index');
+Route::get('/materi/{materi}/download', [MaterialController::class, 'download'])->name('materi.download');
 
 Route::post('/submission', [SubmissionController::class, 'store'])->name('submission.store');
 

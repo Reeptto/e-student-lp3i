@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Material;
 use Illuminate\Database\Eloquent\Model;
 
 class MataKuliah extends Model
@@ -16,5 +17,10 @@ class MataKuliah extends Model
     public function tugas()
     {
         return $this->hasMany(Tugas::class, 'mk_id');
+    }
+
+    public function materi()
+    {
+        return $this->hasMany(Material::class, 'mk_id');
     }
 }

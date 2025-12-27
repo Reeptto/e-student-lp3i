@@ -113,14 +113,14 @@
                         @if ($report['id'] == 'summary')
                             <div class="semester-row flex justify-between items-center py-4 border-b border-gray-100 last:border-b-0">
                                 <span>Academic Scores Profile Data</span>
-                                <a href="{{ route('score.index'], ['type' => 'academic-profile']) }}" class="{{ $report['button_class'] }} text-sm">Detail</a>
+                                <a href="{{ route(['score.index'], ['type' => 'academic-profile']) }}" class="{{ $report['button_class'] }} text-sm">Detail</a>
                             </div>
                         @else
                             @foreach ($semesters as $semester)
                                 <div class="semester-row flex justify-between items-center py-4 border-b border-gray-100 last:border-b-0">
                                     <span>{{ $semester }}</span>
                                     {{-- Mengarahkan ke route detail dengan parameter semester --}}
-                                    <a href="{{ route('score.index'], ['semester' => explode(' ', $semester)[0]]) }}" class="{{ $report['button_class'] }} text-sm">Detail</a>
+                                    <a href="{{ route(['score.index'], ['semester' => explode(' ', $semester)[0]]) }}" class="{{ $report['button_class'] }} text-sm">Detail</a>
                                 </div>
                             @endforeach
                         @endif

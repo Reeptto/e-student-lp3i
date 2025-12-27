@@ -2,7 +2,6 @@
     
 
 @section('content')
-@end
 {{-- Slot Header Breeze untuk Judul Halaman --}}
     <x-slot name="header">
        
