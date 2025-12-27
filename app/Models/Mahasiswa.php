@@ -39,4 +39,9 @@ class Mahasiswa extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    public function nilai()
+    {
+        return $this->belongsTo(Nilai::class);
+    }
 }

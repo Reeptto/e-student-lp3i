@@ -19,6 +19,11 @@ class MataKuliah extends Model
         return $this->hasMany(Tugas::class, 'mk_id');
     }
 
+    public function nilai()
+    {
+        return $this->hasMany(Nilai::class, 'mk_id');
+    }
+
     public function materi()
     {
         return $this->hasMany(Material::class, 'mk_id');

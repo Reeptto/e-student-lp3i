@@ -8,10 +8,17 @@ use Illuminate\Http\Request;
 class ProfileMahasiswaController extends Controller
 {
 
+     public function index()
+    {
+        $mahasiswa = Mahasiswa::all();
+
+        return view('dashboard', compact('mhs'));
+    }
+
     public function edit()
     {
         $user = auth()->user();
-        $mahasiswa = $user->mahasiswa; // relasi 1–1
+        $mahasiswa = $user->mahasiswa;
 
         return view('profile.mahasiswa', compact('user', 'mahasiswa'));
     }
