@@ -3,14 +3,12 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Matakuliah; // Import Model Matakuliah
-use App\Models\Krs;     // Import Model Materi
+use App\Models\Matakuliah;
+use App\Models\Krs;
 
 class KrsController extends Controller
 {
-    /**
-     * Menampilkan halaman Pustaka Materi
-     */
+    
    public function index()
 {
     $subjects = Matakuliah::with('krs')->get();

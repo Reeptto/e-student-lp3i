@@ -25,11 +25,19 @@
     <script src="https://cdn.jsdelivr.net/npm/@alpinejs/collapse@3.x.x/dist/cdn.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap" rel="stylesheet"> 
     <style>
         .custom-scrollbar::-webkit-scrollbar { width: 4px; }
         .custom-scrollbar::-webkit-scrollbar-track { background: #003354; }
         .custom-scrollbar::-webkit-scrollbar-thumb { background: #009DA5; border-radius: 2px; }
         [x-cloak] { display: none !important; }
+
+        
+        body {
+            font-family: 'Poppins' sans-serif !important;
+        }
     </style>
 </head>
 <body class="font-sans text-gray-800 bg-bgGray overflow-hidden" 
@@ -86,18 +94,11 @@
                         </div>
                         
                         <div x-show="open" x-collapse class="bg-[#003354]">
-                            <a href="#" class="block pl-10 pr-6 py-2 text-sm text-gray-400 hover:text-white hover:bg-[#004269]">KRS (Study Plan)</a>
-                            <div x-data="{ subOpen: false }">
-                                <div @click="subOpen = !subOpen" class="pl-10 pr-6 py-2 flex justify-between items-center text-sm text-gray-400 hover:text-white cursor-pointer hover:bg-[#004269]">
-                                    <span>Scores / Grades</span>
-                                    <i data-lucide="chevron-down" class="w-3 h-3" :class="subOpen ? 'rotate-180' : ''"></i>
-                                </div>
-                                <div x-show="subOpen" x-collapse class="bg-[#002840]">
-                                    <a href="#" class="block pl-14 py-2 text-xs text-gray-400 hover:text-white">Semester 1</a>
-                                    <a href="#" class="block pl-14 py-2 text-xs text-gray-400 hover:text-white">Semester 2</a>
-                                </div>
-                            </div>
-                            <a href="#" class="block pl-10 pr-6 py-2 text-sm text-gray-400 hover:text-white hover:bg-[#004269]">Exam Card</a>
+                            <a href="{{route('krs.index')}}" class="block pl-10 pr-6 py-2 text-sm text-gray-400 hover:text-white hover:bg-[#004269]">KRS (Study Plan)</a>
+                            <a href="{{ route('nilai') }}" class="block pl-10 pr-6 py-2 text-sm text-gray-400 hover:text-white hover:bg-[#004269]">Score (KHS)</a>
+                            <a href="{{ route('material.index') }}" class="block pl-10 pr-6 py-2 text-sm text-gray-400 hover:text-white hover:bg-[#004269]">Material</a>
+                            
+                            <!-- <a href="#" class="block pl-10 pr-6 py-2 text-sm text-gray-400 hover:text-white hover:bg-[#004269]">Exam Card</a> -->
                         </div>
                     </div>
 

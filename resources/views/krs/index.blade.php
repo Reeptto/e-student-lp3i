@@ -12,7 +12,6 @@
             <div class="flex items-center bg-[#009da5] p-4 sm:rounded shadow-md relative overflow-hidden">
                 {{-- Dekorasi Header --}}
                 <div class="absolute top-0 right-0 -mr-4 -mt-4 w-24 h-24 rounded-full bg-white opacity-10"></div>
-                <div class="absolute bottom-0 left-10 w-16 h-1 bg-white opacity-20 rotate-45"></div>
 
                 <h1 class="text-2xl font-extrabold text-white leading-tight relative z-10">
                     {{ __('Menu KRS (Kartu Rencana Studi)') }}
@@ -70,12 +69,6 @@
 
                             {{-- Ikon Bintang --}}
                             <div class="absolute top-4 right-4 bg-yellow-300 rounded-full w-8 h-8 flex items-center justify-center shadow-md group-hover:animate-bounce text-black z-10">
-                                ⭐
-                            </div>
-                            
-                            {{-- Nomor Semester --}}
-                            <div class="relative z-10 text-6xl font-extrabold mb-1 drop-shadow-lg font-mono">{{ $sem['num'] }}</div>
-                            <div class="relative z-10 text-lg tracking-[0.2em] font-bold uppercase">{{ __('Semester') }}</div>
                         </a>
                     @endforeach
 
@@ -86,12 +79,13 @@
     
     @push('styles')
     <style>
-        /* Background body disesuaikan */
+        /* Gaya latar belakang kustom */
         body {
-            background: linear-gradient(135deg, #f0f9fa, #e0f2fe) !important;
+            background: linear-gradient(135deg, #f9fafb, #e0f2fe) !important;
             font-family: 'Poppins', sans-serif !important;
         }
 
+        /* Animasi halus fade-zoom */
         .fade-zoom {
             opacity: 0;
             transform: scale(0.95);

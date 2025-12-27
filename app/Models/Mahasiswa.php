@@ -18,6 +18,7 @@ class Mahasiswa extends Model
         'tanggal_lahir',
         'agama',
         'email',
+        'Domisili',
         'no_telp',
         'foto',
         'jenis_kelamin',

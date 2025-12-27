@@ -11,8 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('kelas', function (Blueprint $table) {
-            $table->unique('kode_kelas');
+        Schema::table('mahasiswa', function (Blueprint $table) {
+            $table->string('jurusan')->after('tanggal_lahir');
+            $table->string('angkatan')->after('jurusan');
+            $table->string('periode')->after('angkatan');
         });
     }
 
@@ -21,7 +23,7 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('kode_kelas_on_kelas', function (Blueprint $table) {
+        Schema::table('mahasiswa', function (Blueprint $table) {
             //
         });
     }

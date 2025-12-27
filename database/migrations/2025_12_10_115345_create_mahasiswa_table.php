@@ -24,7 +24,6 @@ return new class extends Migration
             $table->string('foto')->nullable();
             $table->enum('jenis_kelamin', ['Laki-laki', 'Perempuan']);
             $table->enum('status', ['Aktif', 'Tidak Aktif']);
-            $table->unsignedBigInteger('jurusan_id');
             $table->unsignedBigInteger('kelas_id');
             $table->timestamps();
         });
