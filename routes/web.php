@@ -4,8 +4,12 @@ use App\Http\Controllers\MaterialController;
 use App\Http\Controllers\ProfileMahasiswaController;
 use App\Http\Controllers\PengumumanController;
 use App\Http\Controllers\TugasController;
-use App\Http\Controllers\NilaiController;
 use App\Http\Controllers\KrsController;
+use App\Http\Controllers\JadwalController;
+
+
+use App\Http\Controllers\NilaiController;
+
 use App\Http\Controllers\SubmissionController;
 use \routes\auth;
 use App\Http\Controllers\ProfileController;
@@ -15,9 +19,7 @@ Route::get('/', function () {
     return view('auth.login');
 })->name('auth.login');
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+Route::get('/dashboard', [JadwalController::class,'index'])->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -45,9 +47,13 @@ Route::get('/jadwal_guru', function () {
 
 Route::get('/infopembayaran', function () {
     return view('infopembayaran.index');
-});
+})->name('infopembayaran.index');
+
 
 Route::get('/krs', [KrsController::class, 'index'])->name('krs.index');
+
+// Menampilkan detail KHS per semester (dipanggil AJAX/modal)
+Route::get('/krs/{semester}', [KrsController::class, 'show'])->name('krs.show');
 
 Route::get('/material', [MaterialController::class, 'index'])->name('material.index');
 Route::get('/materi/{materi}/download', [MaterialController::class, 'download'])->name('materi.download');

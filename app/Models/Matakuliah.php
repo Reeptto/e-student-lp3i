@@ -12,6 +12,7 @@ class MataKuliah extends Model
         'kode_mk',
         'nama_mk',
         'deskripsi',
+        'semester'
     ];
 
     public function tugas()

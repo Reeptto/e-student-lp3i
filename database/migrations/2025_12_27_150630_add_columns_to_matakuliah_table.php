@@ -1,0 +1,30 @@
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    /**
+     * Run the migrations.
+     */
+   public function up(): void
+{
+    Schema::table('matakuliah', function (Blueprint $table) {
+        // HANYA buat jika kolom 'semester' BELUM ada di database
+        if (!Schema::hasColumn('matakuliah', 'semester')) {
+            $table->integer('semester')->after('deskripsi')->default(1);
+        }
+    });
+}
+
+public function down(): void
+{
+    Schema::table('matakuliah', function (Blueprint $table) {
+        if (Schema::hasColumn('matakuliah', 'semester')) {
+            $table->dropColumn('semester');
+        }
+    });
+}
+};

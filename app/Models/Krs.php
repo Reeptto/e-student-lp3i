@@ -2,25 +2,51 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Krs extends Model
 {
+    use HasFactory;
+
     protected $table = 'krs';
-    
-    // Sesuaikan fillable dengan nama kolom baru
-    protected $fillable = ['nipd', 'kode_mk', 'semester', 'tahun_ajaran'];
+
+    protected $fillable = [
+        'nipd',
+        'kode_mk',
+        'dosen_id',
+        'kelas_id',
+        'jurusan',
+        'sks', // SKS milik KRS
+    ];
 
     // Relasi ke Mahasiswa
     public function mahasiswa()
     {
-        // Parameter: (ModelTujuan, Foreign Key di tabel ini, Primary Key di tabel tujuan)
-        return $this->belongsTo(Mahasiswa::class, 'nipd');
+        return $this->belongsTo(Mahasiswa::class, 'nipd', 'nipd');
     }
 
-    // Relasi ke Matakuliah
-    public function matakuliah()
+    // Relasi ke Mata Kuliah
+    public function mataKuliah()
     {
-        return $this->belongsTo(Matakuliah::class);
+        return $this->belongsTo(MataKuliah::class, 'kode_mk', 'kode_mk');
+    }
+
+    // Relasi ke Dosen
+    public function dosen()
+    {
+        return $this->belongsTo(Dosen::class);
+    }
+
+    // Relasi ke Kelas
+    public function kelas()
+    {
+        return $this->belongsTo(Kelas::class);
+    }
+
+    // Helper: ambil semester dari relasi matakuliah
+    public function getSemesterAttribute()
+    {
+        return $this->mataKuliah->semester ?? null;
     }
 }
