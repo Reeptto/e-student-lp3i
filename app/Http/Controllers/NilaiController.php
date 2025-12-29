@@ -2,20 +2,26 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\MataKuliah;
 use Illuminate\Http\Request;
-use App\Models\Nilai; // Pastikan model Nilai sudah ada
+use App\Models\Nilai;
+
+
 
 class NilaiController extends Controller
 {
-public function index(Request $request)
+    public function index(Request $request)
 {
+    $semester = $request->semester;
+
     $nilai = Nilai::with('matkul')
-        ->when($request->semester, function ($q) use ($request) {
-            $q->where('semester', $request->semester);
+        ->where('mhs_id', auth()->user()->mahasiswa->id)
+        ->when($semester, function ($q) use ($semester) {
+            $q->whereHas('matkul', function ($mq) use ($semester) {
+                $mq->where('semester', $semester);
+            });
         })
         ->get();
 
-    return view('nilai.index', compact('nilai'));
+    return view('nilai.index', compact('nilai', 'semester'));
 }
 }

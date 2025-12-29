@@ -349,9 +349,7 @@
             </div>
 
             <div class="px-8 pb-6 mt-auto">
-                 <footer class="text-center">
-                    <p class="text-xs text-gray-500 font-bold">&copy; {{ date('Y') }} Politeknik LP3I. Crafted with <span class="text-red-500"><i class="fas fa-heart"></i></span> by IT Division.</p>
-                </footer>
+                   <x-app-footer /> 
             </div>
         </main>
     </div>

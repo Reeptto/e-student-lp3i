@@ -1,28 +1,20 @@
 <?php
-
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
-    /**
-     * Run the migrations.
-     */
+return new class extends Migration {
     public function up(): void
     {
         Schema::table('nilai', function (Blueprint $table) {
-            $table->float('kehadiran')->after('nilai_uas');
+            $table->decimal('nilai_akhir', 5, 2)->after('nilai_uas');
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
         Schema::table('nilai', function (Blueprint $table) {
-            //
+            $table->dropColumn('nilai_akhir');
         });
     }
 };

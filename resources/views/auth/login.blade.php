@@ -20,10 +20,10 @@
                 <form method="POST" action="{{ route('login') }}" class="space-y-6">
                     @csrf
                     
-                    <div>
-                        <x-input-label for="email" :value="__('NIPD')" class="text-base font-semibold text-gray-700 mb-1" />
-                        <x-text-input id="email" class="input-style block mt-1 w-full" type="number" name="nipd" :value="old('nipd')" required autofocus autocomplete="username" placeholder="Masukkan NIPD Anda" />
-                        <x-input-error :messages="$errors->get('email')" class="mt-2" />
+                    <div class="mt-4">
+                        <x-input-label for="nipd" :value="__('NIPD')" class="text-base font-semibold text-gray-700 mb-1" />
+                        <x-text-input id="nipd" class="input-style block mt-1 w-full" type="text" name="nipd" required autocomplete="current-nipd" placeholder="Masukkan nipd Anda" />
+                        <x-input-error :messages="$errors->get('nipd')" class="mt-2" />
                     </div>
 
                     <div class="mt-4">

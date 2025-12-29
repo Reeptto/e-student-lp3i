@@ -113,7 +113,12 @@
     .document-scroll-wrapper { width: 100%; overflow-x: auto; padding: 10px; background: #525659; border: 2px solid var(--black); }
     .formal-sheet { background: white; width: 100%; min-width: 700px; max-width: 800px; margin: 0 auto; padding: 30px 40px; font-family: 'Times New Roman', Times, serif; color: #000; box-shadow: 0 4px 10px rgba(0,0,0,0.3); }
     .kop-container { display: flex; align-items: center; border-bottom: 4px double #000; padding-bottom: 15px; margin-bottom: 20px; }
-    .kop-logo { width: 70px; height: 70px; display: flex; align-items: center; justify-content: center; border: 1px solid #000; margin-right: 20px; font-weight: bold; }
+    .kop-logo { width: 150px; height: 150px; display: flex; align-items: center; justify-content: center; margin-right: 20px; font-weight: bold; }
+    .kop-logo img {
+        width: 100%;
+        height: 100%;
+        object-fit: contain; /* Gambar pas di dalam kotak tanpa terpotong */
+    }
     .kop-text { flex: 1; text-align: center; }
     .kop-text h1 { font-size: 16pt; font-weight: bold; margin: 0; text-transform: uppercase; line-height: 1.2; }
     .table-formal { width: 100%; border-collapse: collapse; margin-top: 15px; font-size: 10pt; }
@@ -125,7 +130,7 @@
     <div class="max-w-7xl mx-auto">
         <header class="comic-header">
             <div class="absolute -top-3 -left-3 bg-[#ff0000] text-white border-2 border-black px-3 py-1 font-black transform -rotate-2 text-xs md:text-sm shadow-[3px_3px_0px_#000]">
-                ACADEMIC DASHBOARD
+                Antarmuka KRS
             </div>
             <div class="w-full">
                 <h3 class="text-4xl md:text-7xl font-black uppercase italic tracking-tighter text-black" style="-webkit-text-stroke: 1px black;">
@@ -138,7 +143,7 @@
             </div>
             <div class="mt-4 md:mt-0 self-start md:self-end">
                 <div class="bg-[#f15b67] border-4 border-black p-3 md:p-4 shadow-[4px_4px_0px_#000] text-white transform rotate-1 md:rotate-2">
-                    <span class="block text-[10px] md:text-xs font-black uppercase text-black">Total Kredit</span>
+                    <span class="block text-[10px] md:text-xs font-black uppercase text-black">Total:</span>
                     @php $grandTotalSks = 0; foreach($krsBySemester as $list) { $grandTotalSks += $list->sum('sks'); } @endphp
                     <span class="text-4xl md:text-6xl font-black italic leading-none" style="text-shadow: 2px 2px 0px #000;">{{ $grandTotalSks }}</span>
                     <span class="text-sm font-bold text-black">SKS</span>
@@ -213,11 +218,13 @@
         <div class="document-scroll-wrapper flex-1">
             <div id="printableArea" class="formal-sheet">
                 <div class="kop-container">
-                    <div class="kop-logo">LOGO</div>
+                    <div class="kop-logo">
+                        <img src="{{ asset('/img/2.webp') }}" class="w-[170px]">
+                    </div>
                     <div class="kop-text">
                         <h1>LP3I COLLEGE KARAWANG</h1>
-                        <p>Jl. Tarumanegara Blok B No.4-6, Karawang</p>
-                        <p>Telp: (0267) 123456 | Email: info@lp3i.ac.id</p>
+                        <p>Jalan Tarumanegara Blok B No.4-6, Kelurahan Purwadana, Kecamatan Teluk Jambe Timur, Kabupaten Karawang.</p>
+                        <p>Email: education.karawang@lp3i.id</p>
                     </div>
                 </div>
                 <div class="text-center mb-4">
@@ -264,6 +271,14 @@
 </div>
 
 <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const modal = document.getElementById('detailModal');
+        // Pindahkan modal ke elemen body agar tidak tertutup sidebar/navbar
+        if (modal) {
+            document.body.appendChild(modal);
+        }
+    });
+
     const semesterData = {
         @foreach($krsBySemester as $semId => $krsList)
             {{ $semId }}: {
@@ -294,10 +309,51 @@
         }
     }
     function closeModal() { document.getElementById('detailModal').classList.add('hidden'); }
-    function downloadPDF() {
+   function downloadPDF() {
+        // 1. Ambil elemen asli
         const element = document.getElementById('printableArea');
-        var opt = { margin: 0, filename: 'KRS_{{ $mahasiswa->nipd }}.pdf', image: { type: 'jpeg', quality: 0.98 }, html2canvas: { scale: 2 }, jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' } };
-        html2pdf().set(opt).from(element).save();
+
+        // 2. Clone (duplikat) elemen tersebut
+        const clone = element.cloneNode(true);
+
+        // 3. Buat container sementara agar style clone tidak terpengaruh CSS modal
+        const container = document.createElement('div');
+        
+        // Style container agar tersembunyi tapi tetap dianggap "renderable" oleh browser
+        // Kita taruh di luar layar (off-screen)
+        container.style.position = 'fixed';
+        container.style.top = '-9999px';
+        container.style.left = '0';
+        container.style.zIndex = '-1';
+        container.style.width = '100%'; // Biarkan lebar penuh atau sesuaikan (misal 800px)
+        
+        // Hapus class pembatas dari clone jika ada (opsional, tapi aman dilakukan)
+        clone.style.margin = '0 auto';
+        clone.style.width = '800px'; // Paksa lebar agar pas A4
+        clone.style.maxWidth = 'none';
+        
+        // Masukkan clone ke container, dan container ke body
+        container.appendChild(clone);
+        document.body.appendChild(container);
+
+        // 4. Konfigurasi html2pdf
+        var opt = {
+            margin:       [10, 10, 10, 10], // Atas, Kiri, Bawah, Kanan (mm)
+            filename:     'KRS_{{ $mahasiswa->nipd }}.pdf',
+            image:        { type: 'jpeg', quality: 0.98 },
+            html2canvas:  { 
+                scale: 2, 
+                scrollY: 0, // Penting: Reset posisi scroll ke 0
+                useCORS: true // Penting jika ada gambar dari url eksternal
+            },
+            jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
+        };
+
+        // 5. Generate PDF dari CLONE (bukan elemen asli di modal)
+        html2pdf().set(opt).from(clone).save().then(function(){
+            // 6. Hapus container setelah download selesai agar tidak memberatkan DOM
+            document.body.removeChild(container);
+        });
     }
 </script>
 @endsection

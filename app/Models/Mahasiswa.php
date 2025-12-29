@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Kelas;
 use App\Models\User;
+// use Carbon\Carbon;
 class Mahasiswa extends Model
 {
     protected $table = 'mahasiswa';
@@ -52,4 +53,20 @@ class Mahasiswa extends Model
         return $this->belongsTo(Nilai::class);
     }
 
+//     public function getSemesterAktifAttribute()
+//     {
+//         $tahunMasuk = $this->angkatan;
+//         $now = Carbon::now();
+
+//         // selisih tahun
+//         $tahunBerjalan = $now->year - $tahunMasuk;
+
+//         // aturan semester:
+//         // Agustus–Desember = Ganjil
+//         // Januari–Juli = Genap
+//         $semester = ($tahunBerjalan * 2) + ($now->month >= 8 ? 1 : 2);
+
+//         return max(1, $semester);
+//     }
+// }
 }

@@ -17,11 +17,10 @@ return new class extends Migration
             $table->float('nilai_formative');
             $table->float('nilai_uts');
             $table->float('nilai_uas');
-            $table->float('nilai_kumulatif');
-            $table->string('huruf_mutu');
+       
             $table->unsignedBigInteger('mhs_id');
             $table->unsignedBigInteger('mk_id');
-            $table->string('semester');
+          
             $table->timestamps();
         });
     }

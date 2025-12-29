@@ -27,6 +27,8 @@ class DatabaseSeeder extends Seeder
         DosenSeeder::class,
         TugasSeeder::class,
         KrsSeeder::class,
+        NilaiSeeder::class,
+
 
     ]);
 }

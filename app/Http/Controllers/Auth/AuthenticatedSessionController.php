@@ -3,11 +3,12 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Auth\LoginRequest;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
+use Illuminate\Support\Facades\Hash;
+use App\Models\Mahasiswa;
 
 class AuthenticatedSessionController extends Controller
 {
@@ -22,13 +23,37 @@ class AuthenticatedSessionController extends Controller
     /**
      * Handle an incoming authentication request.
      */
-    public function store(LoginRequest $request): RedirectResponse
+    public function store(Request $request)
     {
-        $request->authenticate();
+        $request->validate([
+            'nipd' => ['required'],
+            'password' => ['required'],
+        ]);
 
+        // 1. Cari mahasiswa berdasarkan NIPD
+        $mahasiswa = Mahasiswa::where('nipd', $request->nipd)->first();
+
+        if (!$mahasiswa) {
+            return back()->withErrors([
+                'nipd' => 'NIPD tidak terdaftar',
+            ]);
+        }
+
+        // 2. Ambil user dari relasi
+        $user = $mahasiswa->user;
+
+        // 3. Cek password
+        if (!Hash::check($request->password, $user->password)) {
+            return back()->withErrors([
+                'password' => 'Password salah',
+            ]);
+        }
+
+        // 4. Login
+        Auth::login($user);
         $request->session()->regenerate();
 
-        return redirect()->intended(route('dashboard', absolute: false));
+        return redirect()->intended('/dashboard');
     }
 
     /**
@@ -36,12 +61,11 @@ class AuthenticatedSessionController extends Controller
      */
     public function destroy(Request $request): RedirectResponse
     {
-        Auth::guard('web')->logout();
+        Auth::logout();
 
         $request->session()->invalidate();
-
         $request->session()->regenerateToken();
 
-        return redirect('login');
+        return redirect('/login');
     }
 }

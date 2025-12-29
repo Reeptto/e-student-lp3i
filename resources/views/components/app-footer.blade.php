@@ -1,58 +1,138 @@
-@php
-    // Warna yang diinspirasi dari gambar Lower Third (Biru Tua & Biru Muda/Cyan)
-    $darkBlue = '#004269'; // Biru Tua (Primary Color)
-    $lightBlue = '#009DA5'; // Teal/Cyan (Accent Color)
-    $white = '#FFFFFF'; 
-@endphp
+<style>
+    /* === TECH GEOMETRIC FOOTER (FIXED) === */
+    .tech-footer {
+        background-color: transparent; /* Transparan agar menyatu */
+        margin-top: auto;
+        font-family: 'Poppins', sans-serif;
+        padding-bottom: 20px;
+    }
 
-{{-- 
-Wrapper Utama: Menggunakan Flex untuk menampung Logo (kiri) dan Info (kanan).
-Shadow yang kuat untuk meniru tampilan "mengambang".
---}}
-<footer class="mt-6 w-full max-w-6xl mx-auto shadow-2xl relative">
-    <div class="flex items-stretch h-20">
+    /* --- HEADER BAR STYLE --- */
+    .tech-bar-container {
+        display: flex;
+        height: 60px;
+        margin-bottom: 10px; /* Dikurangi karena tidak ada konten bawah */
+        position: relative;
+        filter: drop-shadow(0 4px 2px rgba(0,0,0,0.1));
+    }
 
-        {{-- 1. BAGIAN LOGO (Wadah KIRI - Putih) --}}
-        <div class="relative w-48 flex-shrink-0 z-20">
-            {{-- SVG Background untuk Shape Logo Putih --}}
-            <svg class="absolute inset-0 w-full h-full" viewBox="0 0 100 100" preserveAspectRatio="none">
-                <polygon points="0 0, 95 0, 100 50, 95 100, 0 100" fill="{{ $white }}"/>
-                <polyline points="0 0, 95 0, 100 50, 95 100, 0 100" stroke="#E0E0E0" stroke-width="0.5" fill="none"/>
-            </svg>
+    /* 1. Kotak Logo Hitam (Kiri) */
+    .tech-logo-box {
+        background-color: #004269;
+        color: white;
+        padding: 0 40px;
+        display: flex;
+        align-items: center;
+        font-weight: 800;
+        font-size: 1.2rem;
+        position: relative;
+        z-index: 2;
+    }
+    .tech-logo-box::after {
+        content: '';
+        position: absolute;
+        top: 0; right: -15px;
+        width: 30px; height: 100%;
+        background-color: #02304bff;
+        transform: skewX(-30deg);
+        z-index: -1;
+    }
+
+    /* 2. Konektor Teal */
+    .tech-connector {
+        width: 15px;
+        height: 100%;
+        background-color: #0e7490;
+        transform: skewX(-30deg);
+        margin-left: 5px;
+        position: relative;
+        z-index: 1;
+    }
+
+    /* 3. Bar Utama (Tengah - Tempat Copyright) */
+    .tech-main-bar {
+        flex: 1;
+        position: relative;
+        display: flex;
+        align-items: center;
+        padding-left: 30px;
+        background: white;
+        font-size: 0.9rem; /* Ukuran font disesuaikan untuk copyright */
+        font-weight: 600;
+        color: #333;
+    }
+    
+    .tech-main-bar::before {
+        content: ''; position: absolute; top: 0; left: 0; right: 0;
+        height: 4px; background-color: #009da5;
+    }
+    
+    .tech-main-bar::after {
+        content: ''; position: absolute; bottom: 0; left: -10px; right: 15%;
+        height: 8px; background-color: #009da5; z-index: 0;
+    }
+
+    /* 4. Dekorasi Kanan (WAJIB ADA BIAR SESUAI GAMBAR) */
+    .tech-right-decor {
+        position: absolute; bottom: 0; right: 0;
+        width: 15%; height: 100%; overflow: visible;
+    }
+    
+    .tech-end-block {
+        position: absolute; bottom: 0; right: 0;
+        width: 100%; height: 20px;
+        background-color: #009da5;
+        clip-path: polygon(15% 0%, 100% 0, 100% 100%, 0% 100%);
+    }
+
+    .tech-elbow {
+        position: absolute; bottom: 8px; left: 0;
+        width: 30px; height: 15px;
+        background-color: #009da5;
+        clip-path: polygon(0 100%, 100% 100%, 70% 0, 30% 0);
+    }
+
+    .tech-dashed {
+        position: absolute; bottom: 0; left: -120px;
+        width: 100px; height: 4px;
+        background-image: linear-gradient(to right, #009da5 60%, transparent 40%);
+        background-size: 10px 100%;
+        transform: skewX(-30deg);
+    }
+
+    /* Mobile Responsive */
+    @media (max-width: 640px) {
+        .tech-bar-container { height: auto; flex-direction: column; }
+        .tech-logo-box { width: 100%; justify-content: center; padding: 10px; }
+        .tech-logo-box::after, .tech-connector, .tech-right-decor, .tech-main-bar::after, .tech-main-bar::before { display: none; }
+        .tech-main-bar { width: 100%; justify-content: center; padding: 15px; border-bottom: 5px solid #009da5; text-align: center; }
+    }
+</style>
+
+<footer class="tech-footer">
+    <div class="max-w-7xl mx-auto pt-10 px-4">
+        
+        <div class="tech-bar-container">
             
-            {{-- Konten Logo (E-Student) --}}
-            <div class="absolute inset-0 p-4 flex items-center justify-center">
-                <h2 class="text-xl font-extrabold text-{{ $darkBlue }} tracking-tighter">
-                    <span class="text-3xl">E</span>-Student
-                </h2>
+            <div class="tech-logo-box">
+                E-STUDENT
             </div>
+            
+            <div class="tech-connector"></div>
+
+            <div class="tech-main-bar">
+                <span class="uppercase tracking-wide">
+                    &copy; {{ date('Y') }} E-STUDENT System| Created By Ase10| Rev.v1.2.
+                </span>
+            </div>
+
+            <div class="tech-right-decor">
+                <div class="tech-dashed"></div>
+                <div class="tech-elbow"></div>
+                <div class="tech-end-block"></div>
+            </div>
+
         </div>
 
-        {{-- 2. BAGIAN INFO (Wadah KANAN - Biru Tua) --}}
-        <div class="relative flex-grow min-w-0 z-10 -ml-1">
-            
-            {{-- SVG Background untuk Shape Info Biru Tua (Bentuk Poligon Utama) --}}
-            <svg class="absolute inset-0 w-full h-full" viewBox="0 0 100 100" preserveAspectRatio="none">
-                {{-- Area Biru Tua Utama --}}
-                <polygon points="0 0, 100 0, 100 100, 0 100" fill="{{ $darkBlue }}"/>
-
-                {{-- Bentuk Tajam Biru Muda di Atas --}}
-                <polygon points="0 0, 100 0, 90 20, 10 20" fill="{{ $lightBlue }}"/>
-                
-                {{-- Bentuk Tajam Biru Tua di Bawah --}}
-                <polygon points="0 100, 100 100, 90 80, 10 80" fill="{{ $darkBlue }}" style="filter: brightness(80%);"/>
-            </svg>
-            
-            {{-- Konten Info --}}
-            <div class="absolute inset-0 p-3 pl-8 flex flex-col justify-center text-white">
-                <p class="text-xs font-semibold uppercase text-gray-200">
-                    Developed by 
-                    <span class="text-{{ $lightBlue }} font-bold">LP3I College Karawang</span>
-                </p>
-                <p class="text-sm font-light text-gray-400 mt-0">
-                    Copyright © 2025 | Version 4.0
-                </p>
-            </div>
-        </div>
     </div>
 </footer>

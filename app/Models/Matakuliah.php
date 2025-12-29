@@ -12,12 +12,16 @@ class MataKuliah extends Model
         'kode_mk',
         'nama_mk',
         'deskripsi',
-        'semester'
     ];
 
     public function tugas()
     {
         return $this->hasMany(Tugas::class, 'mk_id');
+    }
+
+    public function nilai()
+    {
+        return $this->hasMany(Nilai::class, 'mk_id');
     }
 
     public function materi()

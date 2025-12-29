@@ -69,7 +69,7 @@
                 </div>
 
                 <div class="absolute bottom-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity transform translate-x-2 group-hover:translate-x-0 duration-200">
-                    <button class="bg-black text-white text-xs font-bold px-3 py-1 hover:bg-[#ff0000] transition-colors">
+                    <button class="bg-[#004269] text-white text-xs font-bold px-3 py-1 hover:bg-[#ff0000] transition-colors">
                         MARK AS READ
                     </button>
                 </div>
