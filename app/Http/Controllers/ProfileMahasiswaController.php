@@ -8,10 +8,22 @@ use App\Models\Mahasiswa;
 
 class ProfileMahasiswaController extends Controller
 {
+
+  
+
+     public function index()
+    {
+        $mahasiswa = Mahasiswa::all();
+
+        return view('dashboard', compact('mhs'));
+    }
+
     public function edit()
     {
-        $mahasiswa = auth()->user()->mahasiswa;
-        return view('profile.mahasiswa', compact('mahasiswa'));
+        $user = auth()->user();
+        $mahasiswa = $user->mahasiswa;
+
+        return view('profile.mahasiswa', compact('user', 'mahasiswa'));
     }
 
     public function update(Request $request)
