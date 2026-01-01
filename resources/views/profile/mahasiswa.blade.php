@@ -2,7 +2,6 @@
 
 @section('content')
 
-    {{-- 1. SETUP STYLE & ANIMASI --}}
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
         body { font-family: 'Plus Jakarta Sans', sans-serif; }
@@ -18,7 +17,6 @@
         [x-cloak] { display: none !important; }
     </style>
 
-    {{-- 2. BACKGROUND DECORATIVE (Sama seperti referensi) --}}
     <div class="fixed inset-0 -z-10 bg-[#F8FAFC] overflow-hidden">
         <div class="absolute top-0 left-0 w-full h-[400px] bg-[#004269] relative overflow-hidden rounded-b-[3rem]">
             
@@ -33,16 +31,13 @@
                 </svg>
             </div>
 
-            {{-- Gradient Overlay --}}
             <div class="absolute bottom-0 left-0 w-full h-full bg-gradient-to-t from-[#004269] via-transparent to-transparent"></div>
             <div class="absolute inset-0 opacity-10" style="background-image: radial-gradient(#fff 1px, transparent 1px); background-size: 24px 24px;"></div>
         </div>
     </div>
 
-    {{-- 3. MAIN CONTENT WRAPPER --}}
     <div class="py-10 px-4 sm:px-6 lg:px-8 relative font-sans" x-data="{ isEditing: false, activeTab: 'akademik' }">
         
-        {{-- Flash Message --}}
         @if(session('success'))
         <div class="max-w-6xl mx-auto mb-6 bg-emerald-500 text-white p-4 rounded-xl shadow-lg fade-in flex justify-between items-center" x-data="{ show: true }" x-show="show">
             <div class="flex items-center gap-3">
@@ -56,9 +51,6 @@
         {{-- Grid Layout --}}
         <div class="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-8">
 
-            {{-- ========================================== --}}
-            {{-- KOLOM KIRI: KARTU PROFIL UTAMA --}}
-            {{-- ========================================== --}}
             <div class="lg:col-span-4 space-y-6">
                 <div class="bg-white rounded-[2rem] shadow-2xl overflow-hidden relative border border-slate-100 sticky top-6">
                     
@@ -88,9 +80,8 @@
                                             />
                             </div>
                         </div>
-
                         <h2 class="text-xl font-bold text-[#004269]">{{ $mahasiswa->nama_mhs }}</h2>
-                        <p class="text-[#009DA5] text-sm font-semibold mt-1">{{ $mahasiswa->kelas->jurusan->nama_jurusan }}</p>
+                        <p class="text-[#009DA5] text-sm font-semibold mt-1">{{ $mahasiswa->kelas->program_studi->nama_program_studi }}</p>
                         
                         <div class="mt-4 flex justify-center gap-2">
                             <span class="px-4 py-1.5 rounded-full bg-slate-100 text-slate-600 text-xs font-bold border border-slate-200">
@@ -98,7 +89,6 @@
                             </span>
                         </div>
 
-                        {{-- Tombol Edit/View Switcher --}}
                         <div class="mt-8">
                             <button type="button" @click="isEditing = !isEditing" 
                                     class="w-full py-3 rounded-xl font-semibold text-sm shadow-lg transition transform hover:-translate-y-1 flex items-center justify-center gap-2"
@@ -111,9 +101,7 @@
                 </div>
             </div>
 
-            {{-- ========================================== --}}
-            {{-- KOLOM KANAN: DETAIL & FORM EDIT --}}
-            {{-- ========================================== --}}
+
             <div class="lg:col-span-8">
 
                 {{-- MODE VIEW (TABS) --}}
@@ -145,7 +133,7 @@
                                 </div>
                                 <div class="md:col-span-2 p-4 bg-slate-50 rounded-2xl border border-slate-100">
                                     <span class="text-xs font-bold text-slate-400 uppercase">Program Studi</span>
-                                    <p class="text-lg font-bold text-[#004269] mt-1">{{ $mahasiswa->kelas->jurusan->nama_jurusan }}</p>
+                                    <p class="text-lg font-bold text-[#004269] mt-1">{{ $mahasiswa->kelas->program_studi->nama_jurusan }}</p>
                                 </div>
                             </div>
                         </div>
@@ -207,7 +195,7 @@
 
                         <div class="space-y-6">
                             <div class="bg-yellow-50 p-4 rounded-xl border border-yellow-100 mb-6">
-                                <p class="text-xs text-yellow-700"><strong>Catatan:</strong> Data Nama, NIPD, dan Jurusan tidak dapat diubah di sini. Hubungi admin untuk perubahan data akademik.</p>
+                                <p class="text-xs text-yellow-700"><strong>Catatan:</strong> Data Nama, NIPD, dan Program Studi tidak dapat diubah di sini. Hubungi admin untuk perubahan data akademik.</p>
                             </div>
 
                             <div>
@@ -224,7 +212,7 @@
                                 <label class="block text-sm font-bold text-[#004269] mb-2">Foto Profil</label>
                                 <div class="flex items-center gap-4">
                                     <!-- Preview Foto Lama / Default -->
-                                    <img id="previewImg" src="{{ $mahasiswa->foto ? asset('storage/image/' . $mahasiswa->foto) : 'https://ui-avatars.com/api/?name=Guest' }}" 
+                                    <img id="previewImg" src="{{ $mahasiswa->foto ? asset('storage/app/public/image/' . $mahasiswa->foto) : 'https://ui-avatars.com/api/?name=Guest' }}" 
                                         class="w-20 h-20 rounded-full object-cover border border-slate-200 shadow" />
 
                                     <!-- Custom File Upload Button -->

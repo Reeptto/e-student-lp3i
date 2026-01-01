@@ -122,7 +122,7 @@
 
             <div class="tech-main-bar">
                 <span class="uppercase tracking-wide">
-                    &copy; {{ date('Y') }} E-STUDENT System| Created By Ase10| Rev.v1.2.
+                    &copy; {{ date('Y') }} E-STUDENT System | Created By ASE-10 | Rev.2 v1.0
                 </span>
             </div>
 

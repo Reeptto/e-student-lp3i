@@ -27,7 +27,7 @@ class TugasController extends Controller
         $tugas->load('matkul');
 
         // contoh: ambil submission mahasiswa login
-        $submission = $tugas->submissions()
+        $submission = $tugas->submissionByAuth()
             ->where('mhs_id', auth()->user()->id)
             ->first();
 

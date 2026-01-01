@@ -61,7 +61,7 @@
             <div>
                 <div class="bg-white rounded-lg p-2 w-[170px] inline-block shadow-md border border-gray-50">
                     <a href="{{ url('#') }}" class="text-2xl font-bold text-gray-900">
-                        <span class="text-[#009da5]">e</span>Student
+                        <span class="text-red-500">E</span>-Student
                     </a>
                     <span class="block text-sm text-gray-500 font-medium mt-2">Information System</span>
                 </div>

@@ -10,12 +10,12 @@ class Kelas extends Model
     protected $table = 'kelas';
     protected $fillable = [
         'nama_kelas',
-        'jurusan_id'
+        'prodi_id'
     ];
 
-    public function jurusan()
+    public function program_studi()
     {
-        return $this->belongsTo(Jurusan::class);
+        return $this->belongsTo(Jurusan::class, 'prodi_id');
     }
 
     public function mahasiswa()

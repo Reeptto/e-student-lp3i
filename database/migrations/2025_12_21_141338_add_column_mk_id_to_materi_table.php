@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('materi', function (Blueprint $table) {
-            $table->unsignedBigInteger('mk_id')->after('id');
+            $table->unsignedBigInteger('mk_id')->after('id')->nullable();
             $table->foreign('mk_id')->references('id')->on('matakuliah')->onDelete('cascade');
         });
     }

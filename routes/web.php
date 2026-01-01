@@ -6,14 +6,15 @@ use App\Http\Controllers\PengumumanController;
 use App\Http\Controllers\TugasController;
 use App\Http\Controllers\KrsController;
 use App\Http\Controllers\JadwalController;
-
-
+use App\Http\Controllers\MatkulController;
+use App\Models\MataKuliah;
 use App\Http\Controllers\NilaiController;
 
 use App\Http\Controllers\SubmissionController;
 use \routes\auth;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Http\Request;
 
 Route::get('/', function () {
     return view('auth.login');
@@ -25,10 +26,13 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+    Route::get('/ajax/matkul', [MatkulController::class, 'bySemester'])->name('ajax.matkul');
 });
 
-Route::get('/profile-mahasiswa', [ProfileMahasiswaController::class, 'edit'])->middleware('auth')->name('profile.mahasiswa');
-Route::patch('/profile-mahasiswa', [ProfileMahasiswaController::class, 'update'])->name('profile.updates');
+Route::get('/profile/mahasiswa', [ProfileMahasiswaController::class, 'edit'])->middleware('auth')->name('profile.mahasiswa');
+Route::patch('/profile/mahasiswa', [ProfileMahasiswaController::class, 'update'])->name('profile.updates');
+
+
 
 
 Route::get('/pengumuman', [PengumumanController::class, 'index'])->middleware('auth')->name('pengumuman.index');

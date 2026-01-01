@@ -13,28 +13,23 @@ class KrsSeeder extends Seeder
 {
     public function run(): void
     {
-        // Ambil mahasiswa
         $ari  = Mahasiswa::where('nipd', '2407810040004')->firstOrFail();
         $esa  = Mahasiswa::where('nipd', '2407810070044')->firstOrFail();
         $novi = Mahasiswa::where('nipd', '2407810030002')->firstOrFail();
 
-        // Ambil dosen
         $budi = Dosen::where('nama_dsn', 'Budi Santoso')->firstOrFail();
         $siti = Dosen::where('nama_dsn', 'Siti Aminah')->firstOrFail();
 
-        // Ambil kelas
         $kelasAse = Kelas::where('kode_kelas', 'ASE-10')->firstOrFail();
         $kelasOaa = Kelas::where('kode_kelas', 'OAA-13')->firstOrFail();
         $kelasAis = Kelas::where('kode_kelas', 'AIS-12')->firstOrFail();
 
-        // Ambil matakuliah
         $abp  = MataKuliah::where('kode_mk', 'ABP-01')->firstOrFail();
         $egc  = MataKuliah::where('kode_mk', 'EGC-01')->firstOrFail();
         $wd   = MataKuliah::where('kode_mk', 'WD-01')->firstOrFail();
         $cfo2 = MataKuliah::where('kode_mk', 'CFO2-01')->firstOrFail();
         $cfo1 = MataKuliah::where('kode_mk', 'CFO1-01')->firstOrFail();
 
-        // ====== Semester 1 Ari ======
         Krs::create([
             'nipd' => $ari->nipd,
             'kode_mk' => $abp->kode_mk,
@@ -53,7 +48,6 @@ class KrsSeeder extends Seeder
             'sks' => 2,
         ]);
 
-        // ====== Semester 2 Esa ======
         Krs::create([
             'nipd' => $esa->nipd,
             'kode_mk' => $wd->kode_mk,
@@ -72,7 +66,6 @@ class KrsSeeder extends Seeder
             'sks' => 2,
         ]);
 
-        // ====== Semester 3 Novi ======
         Krs::create([
             'nipd' => $novi->nipd,
             'kode_mk' => $cfo1->kode_mk,

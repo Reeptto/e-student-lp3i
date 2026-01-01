@@ -1,18 +1,17 @@
 @extends('layouts.app')
 
 @section('content')
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<!-- <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&display=swap" rel="stylesheet"> -->
 
 <style>
     body { font-family: 'Poppins', sans-serif; background-color: #f8f9fa; }
     
-    /* === COLORFUL MECHA FRAME STYLE === */
     .mecha-wrapper {
         position: relative;
         margin-bottom: 2.5rem;
         z-index: 1;
         transition: transform 0.2s;
-        /* Default Variables (akan ditimpa inline di HTML) */
+
         --dark-theme: #444; 
         --light-theme: #eee;
     }
@@ -20,10 +19,9 @@
     .mecha-wrapper:hover { transform: translate(-4px, -4px); }
     .mecha-wrapper:hover .mecha-shadow { transform: translate(8px, 8px); }
 
-    /* 1. Border Utama (Sekarang berwarna, bukan hitam) */
     .mecha-border {
         position: relative;
-        border: 3px solid var(--dark-theme); /* Pakai warna tema gelap */
+        border: 3px solid var(--dark-theme);
         background: white;
         z-index: 10;
         clip-path: polygon(
@@ -33,13 +31,12 @@
         );
     }
 
-    /* 2. Bayangan (Sekarang berwarna, bukan hitam) */
     .mecha-shadow {
         position: absolute;
         top: 0; left: 0;
         width: 100%; height: 100%;
-        background: var(--dark-theme); /* Shadow mengikuti warna border */
-        opacity: 0.3; /* Dibuat agak transparan biar ga terlalu gelap */
+        background: var(--dark-theme);
+        opacity: 0.3;
         z-index: 0;
         transform: translate(4px, 4px);
         transition: transform 0.2s;
@@ -50,7 +47,6 @@
         );
     }
 
-    /* 3. Dekorasi Siku */
     .mecha-deco-tl {
         position: absolute; top: -6px; left: -6px; width: 30px; height: 30px;
         border-top: 4px solid var(--dark-theme);
@@ -64,7 +60,6 @@
         z-index: 20;
     }
 
-    /* 4. Titik Baut */
     .mecha-dot {
         position: absolute; width: 8px; height: 8px;
         background: white;
@@ -74,7 +69,6 @@
     .dot-tl { top: -4px; left: -4px; }
     .dot-br { bottom: -4px; right: -4px; }
 
-    /* 5. Garis Arsir */
     .mecha-stripes {
         position: absolute; width: 6px; height: 50px;
         background: repeating-linear-gradient(
@@ -89,7 +83,6 @@
     .stripes-right { top: 40px; right: -6px; border: 1px solid var(--dark-theme); background-color: white; }
     .stripes-left { bottom: 40px; left: -6px; border: 1px solid var(--dark-theme); background-color: white; }
 
-    /* Scrollbar berwarna */
     .custom-scroll::-webkit-scrollbar { height: 8px; }
     .custom-scroll::-webkit-scrollbar-track { background: #f1f1f1; border-radius: 4px; }
     .custom-scroll::-webkit-scrollbar-thumb { background: #ccc; border-radius: 4px; }
@@ -179,18 +172,18 @@
                                             {{ $jadwalDaftar->jam_mulai }} - {{$jadwalDaftar->jam_selesai}}
                                         </span>
                                     </td>
-                                    <td class="px-6 py-4 border-r border-pink-100 text-lg text-gray-800">{{ $jadwalDaftar->nama_mk }}</td>
+                                    <td class="px-6 py-4 border-r border-pink-100 text-lg text-gray-800">{{ $jadwalDaftar->matkul->nama_mk }}</td>
                                     <td class="px-6 py-4 border-r border-pink-100">
                                         <span class="border border-gray-300 px-2 py-1 bg-gray-50 text-xs rounded text-gray-500">
-                                            {{ $jadwalDaftar->nama_ruangan }}
+                                            {{ $jadwalDaftar->ruangan->nama_ruangan }}
                                         </span>
                                     </td>
                                     <td class="px-6 py-4">
                                         <div class="flex items-center gap-2">
                                             <div class="w-8 h-8 bg-pink-600 rounded-full flex items-center justify-center text-white text-xs shadow-sm">
-                                                {{ substr($jadwalDaftar->nama_dosen, 0, 1) }}
+                                                {{ substr($jadwalDaftar->dosen->nama_dsn, 0, 1) }}
                                             </div>
-                                            <span>{{ $jadwalDaftar->nama_dosen }}</span>
+                                            <span>{{ $jadwalDaftar->dosen->nama_dsn }}</span>
                                         </div>
                                     </td>
                                 </tr>

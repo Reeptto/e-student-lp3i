@@ -47,25 +47,22 @@
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"> -->
 
     <style>
         body {
             font-family: 'Poppins', sans-serif;
             background-color: #f0f4f8;
-            /* Pola background grid halus ala buku tulis/komik */
             background-image: radial-gradient(#cbd5e1 1px, transparent 1px);
             background-size: 20px 20px;
         }
 
-        /* Scrollbar styling agar sesuai tema */
         .sidebar-scroll::-webkit-scrollbar { width: 6px; }
         .sidebar-scroll::-webkit-scrollbar-track { background: transparent; }
         .sidebar-scroll::-webkit-scrollbar-thumb { background: #002845; border: 1px solid white; border-radius: 10px; }
 
         [x-cloak] { display: none !important; }
 
-        /* Efek klik tombol komik */
         .btn-comic:active {
             transform: translate(2px, 2px);
             box-shadow: 2px 2px 0px 0px rgba(0,0,0,1);
@@ -111,7 +108,7 @@
                             
                             <div class="flex flex-col min-w-0">
                                 <span class="text-lg font-black tracking-wide leading-none text-white truncate" style="text-shadow: 2px 2px 0px #000;">E-Student</span>
-                                <span class="text-[10px] font-bold uppercase tracking-wider mt-1 text-accent">Portal</span>
+                                <span class="text-[10px] font-bold uppercase tracking-wider mt-1 text-accent">Information System</span>
                             </div>
                         </div>
                     </a>
@@ -235,11 +232,10 @@
                     </a>
                 </nav>
                 
-                {{-- Logout section (Fixed Style) --}}
                 <div class="p-4 border-t-4 border-black bg-secondary">
                     <form method="POST" action="{{ route('logout') }}">
                         @csrf
-                        <button type="submit" class="w-full flex items-center justify-center gap-2 px-4 py-3 text-sm font-bold text-white bg-primary border-2 border-black shadow-comic hover:shadow-none hover:translate-x-[4px] hover:translate-y-[4px] active:translate-x-[2px] active:translate-y-[2px] active:shadow-comic-sm rounded-lg transition-all duration-100">
+                        <button type="submit" class="w-full flex items-center justify-center gap-2 px-4 py-3 text-sm font-bold text-white bg-primary border-2 border-black shadow-comic hover:shadow-none hover:translate-x-[4px] hover:translate-y-[4px] hover:bg-red-600 active:translate-x-[2px] active:translate-y-[2px] active:shadow-comic-sm rounded-lg transition-all duration-100">
                             <i class="fas fa-sign-out-alt"></i>
                             <span>SIGN OUT</span>
                         </button>
@@ -248,10 +244,8 @@
             </div>
         </aside>
 
-        {{-- 2. MAIN CONTENT (Comic Style) --}}
         <main class="flex-1 flex flex-col min-w-0 overflow-hidden relative">
             
-            <!-- Header -->
             <header class="sticky top-0 z-30 px-4 py-4">
                 <div class="bg-white border-2 border-black shadow-comic rounded-xl p-3 px-4 lg:px-5 flex items-center justify-between transition-all duration-300">
                     <div class="flex items-center gap-3">
@@ -265,12 +259,7 @@
                         </div>
                     </div>
 
-                    <div class="flex items-center gap-2 sm:gap-4" x-data="{ profileOpen: false }">
-                        <!-- Notification Button (Comic Style) -->
-                        <button class="w-8 h-8 sm:w-10 sm:h-10 rounded-lg bg-[#f15b67] border-2 border-black shadow-comic-sm hover:shadow-none hover:translate-x-[2px] hover:translate-y-[2px] transition-all flex items-center justify-center relative shrink-0">
-                            <!-- <i class="far fa-bell text-black font-bold text-xs sm:text-sm"></i> -->
-                            <span class="absolute -top-1 -right-1 w-2.5 h-2.5 bg-red-500 rounded-full border-2 border-black"></span>
-                        </button>
+                    <div class="flex items-center gap-2 sm:gap-4" x-data="{ profileOpen: false }">                    
 
                         <div class="h-6 sm:h-8 w-1 bg-black mx-1 rounded-full opacity-20"></div>
 
@@ -315,6 +304,7 @@
                                 <div class="px-5 py-4 border-b-2 border-black bg-yellow-50">
                                     <p class="text-xs text-gray-500 font-bold uppercase mb-1">Signed in as</p>
                                     <p class="text-sm font-black text-primary truncate">{{ auth()->user()?->mahasiswa?->nama_mhs ?? 'Guest' }}</p>
+                                    <p class="text-sm font-black text-primary truncate">{{ auth()->user()?->mahasiswa?->nipd ?? 'Guest' }}</p>
                                 </div>
 
                                 <div class="p-2 space-y-1">
@@ -322,7 +312,7 @@
                                         <i class="far fa-user w-5 mr-2"></i> My Profile
                                     </a>
                                     <a href="{{ route('profile.edit') }}" class="flex items-center px-4 py-2.5 text-sm font-bold text-gray-700 hover:bg-primary hover:text-white border-2 border-transparent hover:border-black rounded-lg transition-all">
-                                        <i data-lucide="user" class="w-4 h-4"></i> My Account
+                                        <i data-lucide="user" class="w-4 h-4"></i>  My Account
                                     </a>
                                 </div>
                                 

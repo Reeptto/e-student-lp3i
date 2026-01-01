@@ -16,8 +16,8 @@ return new class extends Migration
             $table->string('judul_tugas');
             $table->string('file_materi');
             $table->string('deskripsi');
-            $table->time('time_start');
-            $table->time('time_end');
+            $table->dateTime('time_start');
+            $table->dateTime('time_end');
             $table->enum('status', ['Belum Selesai', 'Selesai', 'Terlambat Selesai'])->default('Belum Selesai');
             $table->unsignedBigInteger('dsn_id');
             $table->unsignedBigInteger('mk_id');

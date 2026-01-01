@@ -38,14 +38,12 @@ class NilaiSeeder extends Seeder
                         'mk_id'  => $mk->id,
                     ],
                     [
-                        // ⬇️ NILAI MENTAH SAJA
                         'kehadiran'  => rand(70, 100),
                         'attitude'       => rand(70, 100),
                         'nilai_tugas'    => rand(70, 95),
                         'nilai_formative' => rand(70, 95),
                         'nilai_uts'      => rand(65, 90),
                         'nilai_uas'      => rand(65, 95),
-                        // ⛔ nilai_akhir & huruf_mutu JANGAN DIISI
                     ]
                 );
             }

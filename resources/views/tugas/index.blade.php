@@ -51,7 +51,7 @@
                             Daftar<span class="text-[#f15b67]">.Tugas</span>
                         </h1>
                         <p class="mt-3 font-medium text-gray-600 max-w-sm text-sm md:text-base">
-                            Yuk,Mulai Tugasnya. <br>
+                            Yuk, Mulai Tugasnya. <br>
                             <span class="bg-[#f15b67] text-white px-1">Selesaikan satu per satu.</span>
                         </p>
                     </div>
@@ -89,18 +89,39 @@
 
                         <div class="flex-grow relative group">
                             <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                <svg class="w-5 h-5 text-gray-400 group-focus-within:text-[#f15b67]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M22 10v6M2 10l10-5 10 5-10 5-10-5z M6 10v6a8 8 0 0012 0v-6"></path>
+                                </svg>
+                            </div>
+                            
+                            <select name="semester" id="semester" class="appearance-none block w-full pl-10 pr-10 py-3 border-2 border-black rounded bg-gray-50 focus:bg-white focus:ring-0 focus:border-[#f15b67] focus:shadow-[2px_2px_0px_0px_#f15b67] transition-all font-bold text-sm cursor-pointer text-gray-800">
+                                <option value="">Pilih Semester</option>
+                                @for ($i = 1; $i <= 4; $i++)
+                                    <option value="{{ $i }}"
+                                        {{ request('semester') == $i ? 'selected' : '' }}>
+                                        Semester {{ $i }}
+                                    </option>
+
+                                @endfor
+                            </select>
+                            
+        
+
+                            <div class="absolute inset-y-0 right-0 pr-4 flex items-center pointer-events-none">
+                                <svg class="w-4 h-4 text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M19 9l-7 7-7-7"></path></svg>
+                            </div>
+                        </div>
+
+                        <div class="flex-grow relative group">
+                            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                                 <svg class="w-5 h-5 text-gray-400 group-focus-within:text-[#f15b67]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path></svg>
                             </div>
                             
-                            {{-- onchange="this.form.submit()" : Otomatis submit saat ganti pilihan --}}
-                            <select name="matkul" onchange="this.form.submit()" class="appearance-none block w-full pl-10 pr-10 py-3 border-2 border-black rounded bg-gray-50 focus:bg-white focus:ring-0 focus:border-[#f15b67] focus:shadow-[2px_2px_0px_0px_#f15b67] transition-all font-bold text-sm cursor-pointer text-gray-800">
-                                <option value="">Tampilkan Semua Mata Kuliah</option>
-                                @foreach($matkul as $mk)
-                                    <option value="{{ $mk->id }}" {{ request('matkul') == $mk->id ? 'selected' : '' }}>
-                                        {{ $mk->nama_mk }}
-                                    </option>
-                                @endforeach
+                            <select name="matkul" id="matkul" onchange="this.form.submit()" class="appearance-none block w-full pl-10 pr-10 py-3 border-2 border-black rounded bg-gray-50 focus:bg-white focus:ring-0 focus:border-[#f15b67] focus:shadow-[2px_2px_0px_0px_#f15b67] transition-all font-bold text-sm cursor-pointer text-gray-800">
+                                <option value="">Pilih Mata Kuliah</option>
+                                
                             </select>
+                            
 
                             <div class="absolute inset-y-0 right-0 pr-4 flex items-center pointer-events-none">
                                 <svg class="w-4 h-4 text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M19 9l-7 7-7-7"></path></svg>
@@ -123,14 +144,18 @@
             <div class="flex flex-col gap-5">
                 @forelse($tugas as $item)
                     @php
-                        $date = \Carbon\Carbon::parse($item->time_end);
-                        $isUrgent = $date->diffInDays(now()) < 2;
+                        $deadline = \Carbon\Carbon::parse($item->time_end);
+                        $submission = $item->submissionByAuth;
+                        $isLate     = now()->isAfter($item->time_end);
                     @endphp
 
                     <div class="relative group">
                         <div class="absolute top-1 left-1 w-full h-full bg-black rounded-lg border-2 border-black transition-transform duration-200 group-hover:translate-x-1 group-hover:translate-y-1"></div>
 
-                        <a href="{{ route('tugas.show', $item->id) }}" class="relative block bg-white border-2 border-black rounded-lg p-0 overflow-hidden hover:-translate-y-1 hover:-translate-x-1 transition-transform duration-200">
+                        <a href="{{ route('tugas.show', $item->id) }}"
+                        class="relative block border-2 border-black rounded-lg p-0 overflow-hidden transition-transform duration-200
+            
+                        {{ $isLate ? 'bg-gray-200' : 'bg-white hover:-translate-y-1 hover:-translate-x-1' }}">
                             
                             <div class="flex h-full min-h-[110px]">
                                 
@@ -142,12 +167,24 @@
                                         <div class="hole"></div>
                                     </div>
                                     
-                                    <div class="pl-3 text-center z-20">
-                                        <span class="block text-[10px] font-extrabold text-gray-400 uppercase tracking-widest">{{ $date->format('M') }}</span>
-                                        <span class="block text-3xl font-black {{ $isUrgent ? 'text-[#f15b67]' : 'text-black' }} leading-none my-1">
-                                            {{ $date->format('d') }}
+                                    <div class="pl-4 z-20 flex flex-col items-center justify-center pt-1">
+                                        <span class="text-[20px] font-black uppercase tracking-widest {{ $isLate ? 'text-red-500' : 'text-gray-400' }}">
+                                            {{ $deadline->translatedFormat('M') }}
                                         </span>
-                                        <span class="block text-[10px] font-bold text-gray-400">{{ $date->format('D') }}</span>
+                                        <span class="text-[20px] font-black uppercase tracking-widest {{ $isLate ? 'text-red-500' : 'text-gray-400' }}">
+                                            {{ $deadline->translatedFormat('d') }}
+                                        </span>
+                                        <div class="mt-1">
+                                            @if($submission)
+                                                <span class="px-1.5 py-0.5 bg-red-100 text-red-600 border border-red-200 rounded text-[9px] font-bold uppercase tracking-tighter">
+                                                    HARI INI
+                                                </span>
+                                            @else
+                                                <span class="text-[15px] font-bold {{ $isLate ? 'text-red-400 line-through' : 'text-gray-500' }}">
+                                                    {{ $deadline->format('H:i') }}
+                                                </span>
+                                            @endif
+                                        </div>
                                     </div>
                                 </div>
 
@@ -157,10 +194,16 @@
                                         <span class="inline-block px-2 py-0.5 border border-black text-[10px] font-bold uppercase tracking-wider rounded bg-gray-100 text-gray-700">
                                             {{ $item->matkul->nama_mk }}
                                         </span>
-                                        @if($isUrgent)
-                                            <span class="inline-block px-2 py-0.5 bg-[#f15b67] text-white text-[10px] font-bold uppercase tracking-wider rounded border border-black animate-pulse">
-                                                Cepat, Kerjakan!!
+                                        @if($submission)
+                                            <span class="inline-block px-2 py-0.5 bg-green-500 text-white text-[10px] font-bold uppercase tracking-wider rounded border border-black animate-pulse">
+                                                Terkirim
                                             </span>
+                                        @elseif($isLate)
+                                            <span class="inline-block px-2 py-0.5 bg-red-500 text-white text-[10px] font-bold uppercase tracking-wider rounded border border-black animate-pulse">
+                                                Terlambat
+                                            </span>
+                                        @else
+                                             <span class="inline-block px-2 py-0.5 bg-blue-500 text-white text-[10px] font-bold uppercase tracking-wider rounded border border-black animate-pulse">Belum Dikirim</span>
                                         @endif
                                     </div>
 
@@ -169,8 +212,7 @@
                                     </h3>
                                     
                                     <div class="mt-2 flex items-center gap-2 text-xs font-medium text-gray-500">
-                                        <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                                        {{ $date->format('H:i') }} WIB
+                                        
                                     </div>
                                 </div>
 
@@ -206,4 +248,52 @@
 
         </div>
     </div>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    const semesterSelect = document.getElementById('semester')
+    const matkulSelect   = document.getElementById('matkul')
+
+    function loadMatkul(semester = null, selectedMatkul = null) {
+        matkulSelect.innerHTML = '<option>Loading...</option>'
+
+        let url = '/ajax/matkul'
+        if (semester) {
+            url += `?semester=${semester}`
+        }
+
+        fetch(url)
+            .then(res => res.json())
+            .then(data => {
+                matkulSelect.innerHTML = '<option value="">Pilih Mata Kuliah</option>'
+
+                if (data.length === 0) {
+                    matkulSelect.innerHTML += '<option disabled>Tidak ada mata kuliah</option>'
+                    return
+                }
+
+                data.forEach(mk => {
+                    const selected = selectedMatkul == mk.id ? 'selected' : ''
+                    matkulSelect.innerHTML +=
+                        `<option value="${mk.id}" ${selected}>${mk.nama_mk}</option>`
+                })
+            })
+            .catch(() => {
+                matkulSelect.innerHTML = '<option>Gagal load</option>'
+            })
+    }
+
+    semesterSelect.addEventListener('change', function () {
+        loadMatkul(this.value)
+    })
+
+    const selectedSemester = semesterSelect.value
+    const selectedMatkul   = "{{ request('matkul') }}"
+
+    loadMatkul(selectedSemester, selectedMatkul)
+})
+</script>
+
+
+
 @endsection

@@ -8,21 +8,18 @@
 <style>
     body { font-family: 'Poppins', sans-serif; background-color: #f8f9fa; }
 
-    /* === VARIABLES === */
     :root {
         --navy: #004269;
         --teal: #009DA5;
         --red: #f15b67;
     }
 
-    /* === MECHA STYLES === */
     .mecha-wrapper { position: relative; margin-bottom: 2rem; z-index: 1; --theme-color: #333; }
     .mecha-border { position: relative; border: 3px solid var(--theme-color); background: white; z-index: 10; border-radius: 12px; }
     .mecha-shadow { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: var(--theme-color); opacity: 0.25; z-index: 0; transform: translate(4px, 4px); border-radius: 12px; }
     .mecha-deco-tl { position: absolute; top: -6px; left: -6px; width: 24px; height: 24px; border-top: 4px solid var(--theme-color); border-left: 4px solid var(--theme-color); z-index: 20; border-radius: 4px 0 0 0; }
     .mecha-deco-br { position: absolute; bottom: -6px; right: -6px; width: 24px; height: 24px; border-bottom: 4px solid var(--theme-color); border-right: 4px solid var(--theme-color); z-index: 20; border-radius: 0 0 4px 0; }
 
-    /* --- TECH TABS --- */
     .tech-tabs-container { display: flex; gap: 0.5rem; border-bottom: 3px solid var(--navy); padding-left: 1rem; }
     .tech-tab { position: relative; padding: 12px 24px; font-weight: 800; font-size: 0.875rem; text-transform: uppercase; letter-spacing: 0.05em; border-radius: 12px 12px 0 0; border: 3px solid transparent; border-bottom: none; transition: all 0.3s; overflow: hidden; }
     .tech-tab.active { background: white; color: var(--navy); border-color: var(--navy); margin-bottom: -3px; padding-bottom: 15px; z-index: 10; box-shadow: 0 -5px 15px -5px rgba(0, 157, 165, 0.3); }
@@ -30,7 +27,6 @@
     .tech-tab.inactive { background: #e5e7eb; color: #6b7280; top: 3px; }
     .tech-tab.inactive:hover { background: #d1d5db; color: var(--navy); top: 1px; }
 
-    /* --- CARD & FILTER --- */
     .card-item-border { border: 2px solid #e5e7eb; border-radius: 12px; transition: all 0.3s ease; background: linear-gradient(to bottom right, #ffffff, #f8fafc); }
     .card-item-border:hover { border-color: var(--teal); transform: translateY(-3px); box-shadow: 0 10px 20px -5px rgba(0, 157, 165, 0.15); }
     

@@ -7,14 +7,14 @@ return new class extends Migration {
     public function up(): void
     {
         Schema::table('nilai', function (Blueprint $table) {
-            $table->decimal('nilai_akhir', 5, 2)->after('nilai_uas');
+            // $table->decimal('nilai_akhir', 5, 2)->after('nilai_uas');
         });
     }
 
     public function down(): void
     {
         Schema::table('nilai', function (Blueprint $table) {
-            $table->dropColumn('nilai_akhir');
+            // $table->dropColumn('nilai_akhir');
         });
     }
 };

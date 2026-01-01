@@ -20,17 +20,17 @@ class KelasSeeder extends Seeder
 
         Kelas::insert([
             [
-                'jurusan_id' => $ase->id,
+                'prodi_id' => $ase->id,
                 'nama_kelas' => 'ASE',
                 'kode_kelas' => 'ASE-10'
             ],
             [
-                'jurusan_id' => $ais->id,
+                'prodi_id' => $ais->id,
                 'nama_kelas' => 'AIS',
                 'kode_kelas' => 'AIS-12'
             ],
             [
-                'jurusan_id' => $oaa->id,
+                'prodi_id' => $oaa->id,
                 'nama_kelas' => 'OAA',
                 'kode_kelas' => 'OAA-13'
             ]

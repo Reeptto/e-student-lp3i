@@ -11,12 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('kelas', function (Blueprint $table) {
-            $table->id();
-            $table->string('kode_kelas');
-            $table->string('nama_kelas');
-            $table->unsignedBigInteger('prodi_id');
-            $table->timestamps();
+        Schema::table('jadwal', function (Blueprint $table) {
+            $table->unsignedBigInteger('kelas_id')->after('ruangan_id');
+            $table->foreign('kelas_id')->references('id')->on('kelas')->onDelete('cascade');
         });
     }
 
@@ -25,6 +22,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('kelas');
+        Schema::table('jadwal', function (Blueprint $table) {
+            //
+        });
     }
 };

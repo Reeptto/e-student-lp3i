@@ -9,8 +9,8 @@ class Dosen extends Model
 {
     use HasFactory;
 
-    protected $table = 'dosen'; // pastikan sama dengan tabel di migrasi
-    protected $primaryKey = 'id'; // sesuai kolom id
+    protected $table = 'dosen';
+    protected $primaryKey = 'id';
     protected $fillable = [
         'nidn',
         'nama_dsn',
@@ -22,5 +22,5 @@ class Dosen extends Model
         'status',
     ];
 
-    public $timestamps = true; // karena tabel dosen ada created_at dan updated_at
+    public $timestamps = true;
 }

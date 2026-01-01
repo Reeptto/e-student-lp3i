@@ -23,9 +23,9 @@ class Tugas extends Model
         return $this->belongsTo(MataKuliah::class, 'mk_id');
     }
 
-    public function submissions()
+    public function submissionByAuth()
     {
-        return $this->hasMany(Submission::class);
+        return $this->hasOne(Submission::class)->where('mhs_id', auth()->id());
     }
 
 

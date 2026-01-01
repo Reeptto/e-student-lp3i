@@ -10,13 +10,12 @@ class SubmissionController extends Controller
 {
     public function store(Request $request)
     {
-        // dd($request->method(), 'MASUK STORE');
         $request->validate([
             'tugas_id' => 'required|exists:tugas,id',
             'file_tugas_mhs' => 'required|file|mimes:pdf,docx,zip|max:5120'
         ]);
 
-        $tugas = Tugas::findOrFail($request->tugas_id);
+        $tugas = Tugas::with(['matkul', 'submissionByAuth'])->orderBy('created_at', 'desc')->get();
 
         $existing = Submission::where('tugas_id', $tugas->id)->where('mhs_id', auth()->user()->id)->first();
 
