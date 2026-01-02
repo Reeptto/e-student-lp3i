@@ -3,7 +3,7 @@
 namespace App\Models;
 
 use App\Models\Mahasiswa;
-use App\Models\Jurusan;
+use App\Models\BidangKeahlian;
 use App\Models\Kelas;
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -54,9 +54,9 @@ class User extends Authenticatable
         return $this->hasOne(Mahasiswa::class);
     }
 
-    public function prodi()
+    public function bidang_keahlian()
     {
-        return $this->belongsTo(Jurusan::class, 'prodi_id');
+        return $this->belongsTo(BidangKeahlian::class, 'bidang_keahlian_id');
     }
 
     public function kelas()

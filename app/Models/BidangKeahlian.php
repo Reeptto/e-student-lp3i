@@ -5,12 +5,12 @@ namespace App\Models;
 use App\Models\Kelas;
 use Illuminate\Database\Eloquent\Model;
 
-class Jurusan extends Model
+class BidangKeahlian extends Model
 {
-    protected $table = 'program_studi';
+    protected $table = 'bidang_keahlian';
     protected $fillable = [
-        'nama_jurusan',
-        'kode_jurusan'
+        'nama_bidang_keahlian',
+        'kode_bidang_keahlian'
     ];
 
     public function kelas()

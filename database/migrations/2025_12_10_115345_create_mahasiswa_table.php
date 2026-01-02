@@ -22,6 +22,7 @@ return new class extends Migration
             $table->string('email')->nullable();
             $table->string('no_telp')->nullable();
             $table->string('foto')->nullable();
+            $table->Integer('semester_aktif')->nullable();
             $table->enum('jenis_kelamin', ['Laki-laki', 'Perempuan']);
             $table->enum('status', ['Aktif', 'Tidak Aktif']);
             $table->unsignedBigInteger('kelas_id');

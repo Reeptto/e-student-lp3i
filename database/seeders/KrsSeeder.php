@@ -35,7 +35,11 @@ class KrsSeeder extends Seeder
             'kode_mk' => $abp->kode_mk,
             'dosen_id' => $budi->id,
             'kelas_id' => $kelasAse->id,
-            'jurusan' => $ari->jurusan,
+            'bidang_keahlian_id' => $ari->bidang_keahlian_id,
+            'semester'=>$ari->semester_aktif,
+            'status'=>'normal',
+            // 'mk_id'=>$matakuliah->semester,
+            // $krs->mataKuliah->semester
             'sks' => 3,
         ]);
 
@@ -44,7 +48,9 @@ class KrsSeeder extends Seeder
             'kode_mk' => $egc->kode_mk,
             'dosen_id' => $siti->id,
             'kelas_id' => $kelasAse->id,
-            'jurusan' => $ari->jurusan,
+            'bidang_keahlian_id' => $ari->bidang_keahlian_id,
+            'semester'=>$ari->semester_aktif,
+            'status'=>'normal',
             'sks' => 2,
         ]);
 
@@ -53,7 +59,9 @@ class KrsSeeder extends Seeder
             'kode_mk' => $wd->kode_mk,
             'dosen_id' => $budi->id,
             'kelas_id' => $kelasOaa->id,
-            'jurusan' => $esa->jurusan,
+            'bidang_keahlian_id' => $esa->bidang_keahlian_id,
+            'semester'=>$esa->semester_aktif,
+            'status'=>'normal',
             'sks' => 3,
         ]);
 
@@ -62,7 +70,9 @@ class KrsSeeder extends Seeder
             'kode_mk' => $cfo2->kode_mk,
             'dosen_id' => $siti->id,
             'kelas_id' => $kelasOaa->id,
-            'jurusan' => $esa->jurusan,
+            'bidang_keahlian_id' => $esa->bidang_keahlian_id,
+             'semester'=>$esa->semester_aktif,
+            'status'=>'normal',
             'sks' => 2,
         ]);
 
@@ -71,7 +81,9 @@ class KrsSeeder extends Seeder
             'kode_mk' => $cfo1->kode_mk,
             'dosen_id' => $budi->id,
             'kelas_id' => $kelasAis->id,
-            'jurusan' => $novi->jurusan,
+            'bidang_keahlian_id' => $novi->bidang_keahlian_id,
+             'semester'=>$novi->semester_aktif,
+            'status'=>'normal',
             'sks' => 3,
         ]);
     }

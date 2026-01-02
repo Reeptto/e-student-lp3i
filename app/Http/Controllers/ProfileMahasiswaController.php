@@ -13,6 +13,10 @@ class ProfileMahasiswaController extends Controller
 
      public function index()
     {
+
+        $user = auth()->user();
+        if (!$user) abort(403);
+        
         $mahasiswa = Mahasiswa::all();
 
         return view('dashboard', compact('mhs'));

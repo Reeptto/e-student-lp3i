@@ -94,4 +94,19 @@ class Nilai extends Model
             ? $this->bobot * $this->matkul->sks
             : 0;
     }
+
+    /* ================= ipk ================= */
+     public function ipkPerSemester($semester)
+{
+    $nilai = $this->nilai()->whereHas('matkul', fn($q) => $q->where('semester', $semester))->get();
+
+    if ($nilai->isEmpty()) {
+        return 0;
+    }
+
+    $totalBobotSks = $nilai->sum(fn($n) => $n->nilai_kumulatif);
+    $totalSks = $nilai->sum(fn($n) => $n->matkul->sks);
+
+    return $totalSks > 0 ? round($totalBobotSks / $totalSks, 2) : 0;
+}
 }

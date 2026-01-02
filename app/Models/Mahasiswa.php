@@ -5,14 +5,17 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Kelas;
 use App\Models\User;
-// use Carbon\Carbon;
+use App\Models\BidangKeahlian;
+
 class Mahasiswa extends Model
 {
     protected $table = 'mahasiswa';
+
     protected $fillable = [
         'nipd',
         'user_id',
         'kelas_id',
+        'bidang_keahlian_id', // jangan lupa ditambah kalau kolomnya ada
         'nama_mhs',
         'alamat',
         'tempat_lahir',
@@ -21,52 +24,30 @@ class Mahasiswa extends Model
         'email',
         'Domisili',
         'no_telp',
+        'semester_aktif',
         'foto',
         'jenis_kelamin',
         'status',
     ];
 
+    // RELASI
     public function kelas()
     {
-        return $this->belongsTo(Kelas::class);  
+        return $this->belongsTo(Kelas::class);
     }
 
-    public function jurusan()
+    public function bidangKeahlian()
     {
-        return $this->kelas->jurusan();
+        return $this->belongsTo(BidangKeahlian::class, 'bidang_keahlian_id');
     }
 
     public function user()
     {
         return $this->belongsTo(User::class);
     }
-// <<<<<<< HEAD
-//     public function getNamaAttribute()
-// {
-//     return $this->nama_mhs;
-// }
-
-// =======
 
     public function nilai()
     {
         return $this->belongsTo(Nilai::class);
     }
-
-//     public function getSemesterAktifAttribute()
-//     {
-//         $tahunMasuk = $this->angkatan;
-//         $now = Carbon::now();
-
-//         // selisih tahun
-//         $tahunBerjalan = $now->year - $tahunMasuk;
-
-//         // aturan semester:
-//         // Agustus–Desember = Ganjil
-//         // Januari–Juli = Genap
-//         $semester = ($tahunBerjalan * 2) + ($now->month >= 8 ? 1 : 2);
-
-//         return max(1, $semester);
-//     }
-// }
 }

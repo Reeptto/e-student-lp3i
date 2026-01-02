@@ -10,6 +10,11 @@ class TugasController extends Controller
 {
     public function index(Request $request)
     {
+
+        $user = auth()->user();
+        if (!$user) abort(403);
+
+        
         $matkul = Matakuliah::orderBy('nama_mk')->get();
 
         $tugas = Tugas::with('matkul')

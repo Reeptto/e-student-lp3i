@@ -108,7 +108,7 @@
                             
                             <div class="flex flex-col min-w-0">
                                 <span class="text-lg font-black tracking-wide leading-none text-white truncate" style="text-shadow: 2px 2px 0px #000;">E-Student</span>
-                                <span class="text-[10px] font-bold uppercase tracking-wider mt-1 text-accent">Information System</span>
+                                <span class="text-[10px] font-bold uppercase tracking-wider mt-1 text-accent">Informasi sistem</span>
                             </div>
                         </div>
                     </a>
@@ -134,7 +134,7 @@
                     @endphp
                     
                     <div class="bg-black text-white text-[10px] font-bold px-2 py-1 inline-block transform -skew-x-12 border border-white/20 mb-1">
-                        MAIN MENU
+                        Menu Utama
                     </div>
 
                     {{-- Dashboard --}}
@@ -142,7 +142,7 @@
                         class="{{ $baseClass }} {{ $currentRoute == 'dashboard' ? $activeClass : $hoverClass }}"
                         @click="activeDropdown = null; isMobileSidebarOpen = false">
                         <i class="fas fa-th-large w-6 text-center mr-2"></i> 
-                        Dashboard
+                        Halaman Utama
                     </a>
 
                     {{-- Academic Dropdown --}}
@@ -151,7 +151,7 @@
                             @click.prevent="activeDropdown = (activeDropdown === 'academicDropdown' ? null : 'academicDropdown')" 
                             class="{{ $baseClass }} w-full text-left focus:outline-none {{ $isAcademicActive ? $activeClass : $hoverClass }}">
                             <i class="fas fa-graduation-cap w-6 text-center mr-2"></i>
-                            Academic
+                            Akademik
                             <i class="fas fa-chevron-right text-[10px] ml-auto border-2 border-current rounded-full p-0.5 w-4 h-4 flex items-center justify-center transition-transform duration-200"
                                 :class="{ 'rotate-90': activeDropdown === 'academicDropdown' }"></i>
                         </button>
@@ -167,13 +167,13 @@
                             <a href="{{ route('krs.index') }}" 
                                 class="block px-4 py-2.5 text-sm text-gray-200 hover:text-white hover:bg-primary border-b border-black/20"
                                 @click="isMobileSidebarOpen = false">
-                                <i class="fas fa-caret-right mr-2"></i> KRS (Study Plan)
+                                <i class="fas fa-caret-right mr-2"></i> KRS (Kartu Rencana Study)
                             </a>
 
                             <a href="{{ route('nilai') }}" 
                                 class="block px-4 py-2.5 text-sm text-gray-200 hover:text-white hover:bg-primary"
                                 @click="isMobileSidebarOpen = false">
-                                <i class="fas fa-caret-right mr-2"></i> Score (KHS)
+                                <i class="fas fa-caret-right mr-2"></i> Nilai (KHS)
                             </a>
                         </div>
                     </div>
@@ -184,7 +184,7 @@
                             @click.prevent="activeDropdown = (activeDropdown === 'learningDropdown' ? null : 'learningDropdown')" 
                             class="{{ $baseClass }} w-full text-left focus:outline-none {{ $isLearningActive ? $activeClass : $hoverClass }}">
                             <i class="fas fa-book-open w-6 text-center mr-2"></i>
-                            Learning
+                            Pembelajaran
                             <i class="fas fa-chevron-right text-[10px] ml-auto border-2 border-current rounded-full p-0.5 w-4 h-4 flex items-center justify-center transition-transform duration-200"
                                 :class="{ 'rotate-90': activeDropdown === 'learningDropdown' }"></i>
                         </button>
@@ -200,19 +200,19 @@
                             <a href="{{ route('tugas') }}"
                                 class="block px-4 py-2.5 text-sm text-gray-200 hover:text-white hover:bg-primary border-b border-black/20"
                                 @click="isMobileSidebarOpen = false">
-                                <i class="fas fa-caret-right mr-2"></i> Assignments
+                                <i class="fas fa-caret-right mr-2"></i> Tugas-tugas
                             </a>
 
                             <a href="{{ route('material.index') }}" 
                                 class="block px-4 py-2.5 text-sm text-gray-200 hover:text-white hover:bg-primary"
                                 @click="isMobileSidebarOpen = false">
-                                <i class="fas fa-caret-right mr-2"></i> Materials
+                                <i class="fas fa-caret-right mr-2"></i> Materi-materi
                             </a>
                         </div>
                     </div>
 
                     <div class="bg-black text-white text-[10px] font-bold px-2 py-1 inline-block transform -skew-x-12 border border-white/20 mb-1 mt-4">
-                        GENERAL
+                        Umum
                     </div>
 
                     {{-- Finance --}}
@@ -220,7 +220,7 @@
                         class="{{ $baseClass }} {{ $currentRoute == 'infopembayaran.index' ? $activeClass : $hoverClass }}"
                         @click="activeDropdown = null; isMobileSidebarOpen = false">
                         <i class="fas fa-wallet w-6 text-center mr-2"></i>
-                        Finance
+                        Pembayaran
                     </a>
 
                     {{-- Announcement --}}
@@ -228,7 +228,7 @@
                         class="{{ $baseClass }} {{ $currentRoute == 'pengumuman.index' ? $activeClass : $hoverClass }}"
                         @click="activeDropdown = null; isMobileSidebarOpen = false">
                         <i class="fas fa-bullhorn w-6 text-center mr-2"></i>
-                        Announcements
+                        Pengumuman
                     </a>
                 </nav>
                 
@@ -237,7 +237,7 @@
                         @csrf
                         <button type="submit" class="w-full flex items-center justify-center gap-2 px-4 py-3 text-sm font-bold text-white bg-primary border-2 border-black shadow-comic hover:shadow-none hover:translate-x-[4px] hover:translate-y-[4px] hover:bg-red-600 active:translate-x-[2px] active:translate-y-[2px] active:shadow-comic-sm rounded-lg transition-all duration-100">
                             <i class="fas fa-sign-out-alt"></i>
-                            <span>SIGN OUT</span>
+                            <span>KELUAR</span>
                         </button>
                     </form>
                 </div>
@@ -302,17 +302,17 @@
                                 </div> -->
                                 
                                 <div class="px-5 py-4 border-b-2 border-black bg-yellow-50">
-                                    <p class="text-xs text-gray-500 font-bold uppercase mb-1">Signed in as</p>
+                                    <p class="text-xs text-gray-500 font-bold uppercase mb-1">Mendaftar Sebagai </p>
                                     <p class="text-sm font-black text-primary truncate">{{ auth()->user()?->mahasiswa?->nama_mhs ?? 'Guest' }}</p>
                                     <p class="text-sm font-black text-primary truncate">{{ auth()->user()?->mahasiswa?->nipd ?? 'Guest' }}</p>
                                 </div>
 
                                 <div class="p-2 space-y-1">
                                     <a href="{{ route('profile.mahasiswa') }}" class="flex items-center px-4 py-2.5 text-sm font-bold text-gray-700 hover:bg-primary hover:text-white border-2 border-transparent hover:border-black rounded-lg transition-all">
-                                        <i class="far fa-user w-5 mr-2"></i> My Profile
+                                        <i class="far fa-user w-5 mr-2"></i> Biografiku
                                     </a>
                                     <a href="{{ route('profile.edit') }}" class="flex items-center px-4 py-2.5 text-sm font-bold text-gray-700 hover:bg-primary hover:text-white border-2 border-transparent hover:border-black rounded-lg transition-all">
-                                        <i data-lucide="user" class="w-4 h-4"></i>  My Account
+                                        <i data-lucide="user" class="w-4 h-4"></i>  Akunku
                                     </a>
                                 </div>
                                 

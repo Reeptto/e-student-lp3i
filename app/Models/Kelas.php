@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use App\Models\Jurusan;
+use App\Models\BidangKeahlian;
 use Illuminate\Database\Eloquent\Model;
 
 class Kelas extends Model
@@ -10,12 +10,12 @@ class Kelas extends Model
     protected $table = 'kelas';
     protected $fillable = [
         'nama_kelas',
-        'prodi_id'
+        'bidang_keahlian_id'
     ];
 
     public function program_studi()
     {
-        return $this->belongsTo(Jurusan::class, 'prodi_id');
+        return $this->belongsTo(BidangKeahlian::class, 'bidang_keahlian_id');
     }
 
     public function mahasiswa()

@@ -11,16 +11,16 @@ return new class extends Migration
      */
     public function up(): void
     {
-        // relasi jurusan dan kelas terhadap mahasiswa 
+        // relasi bidang_keahlian dan kelas terhadap mahasiswa 
         Schema::table('mahasiswa', function (Blueprint $table) {
-            // $table->foreign('jurusan_id')->references('id')->on('jurusan')->onDelete('cascade');
+            // $table->foreign('bidang_keahlian_id')->references('id')->on('bidang_keahlian')->onDelete('cascade');
             $table->foreign('kelas_id')->references('id')->on('kelas')->onDelete('cascade');
             
         });
 
-        // relasi jurusan terhadap kelas
+        // relasi bidang_keahlian terhadap kelas
         Schema::table('kelas', function (Blueprint $table) {
-            $table->foreign('jurusan_id')->references('id')->on('jurusan')->onDelete('cascade');
+            $table->foreign('bidang_keahlian_id')->references('id')->on('bidang_keahlian')->onDelete('cascade');
         });
 
         // relasi mk, dsn, ruangan untuk create jadwal
@@ -57,20 +57,20 @@ return new class extends Migration
 {
     // mahasiswa
     Schema::table('mahasiswa', function (Blueprint $table) {
-        $table->dropForeign(['jurusan_id']);
+        $table->dropForeign(['bidang_keahlian_id']);
         $table->dropForeign(['kelas_id']);
     });
 
     // kelas
     Schema::table('kelas', function (Blueprint $table) {
-        $table->dropForeign(['jurusan_id']);
+        $table->dropForeign(['bidang_keahlian_id']);
     });
 
     // jadwal
     Schema::table('jadwal', function (Blueprint $table) {
         $table->dropForeign(['mk_id']);
         $table->dropForeign(['dsn_id']);
-        $table->dropForeign(['ruang_id']);
+        $table->dropForeign(['ruangan_id']);
     });
 
     // tugas

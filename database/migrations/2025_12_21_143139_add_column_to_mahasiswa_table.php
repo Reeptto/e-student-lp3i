@@ -12,8 +12,11 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('mahasiswa', function (Blueprint $table) {
-            $table->string('jurusan')->after('tanggal_lahir');
-            $table->string('angkatan')->after('jurusan');
+            
+        $table->foreignId('bidang_keahlian_id')
+      ->constrained('bidang_keahlian')->after('tanggal_lahir');
+
+            $table->string('angkatan')->after('bidang_keahlian_id');
             $table->string('periode')->after('angkatan');
         });
     }
