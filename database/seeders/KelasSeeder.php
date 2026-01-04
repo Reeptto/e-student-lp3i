@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\Models\Jurusan;
+use App\Models\BidangKeahlian;
 use App\Models\Kelas;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -14,23 +14,23 @@ class KelasSeeder extends Seeder
      */
     public function run(): void
     {
-        $ase = Jurusan::where('kode_jurusan', '004')->first();
-        $oaa = Jurusan::where('kode_jurusan', '007')->first();
-        $ais = Jurusan::where('kode_jurusan', '003')->first();
+        $ase = BidangKeahlian::where('kode_bidang_keahlian', '004')->first();
+        $oaa = BidangKeahlian::where('kode_bidang_keahlian', '007')->first();
+        $ais = BidangKeahlian::where('kode_bidang_keahlian', '003')->first();
 
         Kelas::insert([
             [
-                'prodi_id' => $ase->id,
+                'bidang_keahlian_id' => $ase->id,
                 'nama_kelas' => 'ASE',
                 'kode_kelas' => 'ASE-10'
             ],
             [
-                'prodi_id' => $ais->id,
+                'bidang_keahlian_id' => $ais->id,
                 'nama_kelas' => 'AIS',
                 'kode_kelas' => 'AIS-12'
             ],
             [
-                'prodi_id' => $oaa->id,
+                'bidang_keahlian_id' => $oaa->id,
                 'nama_kelas' => 'OAA',
                 'kode_kelas' => 'OAA-13'
             ]

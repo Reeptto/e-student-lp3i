@@ -108,7 +108,7 @@
                             
                             <div class="flex flex-col min-w-0">
                                 <span class="text-lg font-black tracking-wide leading-none text-white truncate" style="text-shadow: 2px 2px 0px #000;">E-Student</span>
-                                <span class="text-[10px] font-bold uppercase tracking-wider mt-1 text-accent">Information System</span>
+                                <span class="text-[10px] font-bold uppercase tracking-wider mt-1 text-accent">Informasi sistem</span>
                             </div>
                         </div>
                     </a>
@@ -142,7 +142,7 @@
                         class="{{ $baseClass }} {{ $currentRoute == 'dashboard' ? $activeClass : $hoverClass }}"
                         @click="activeDropdown = null; isMobileSidebarOpen = false">
                         <i class="fas fa-th-large w-6 text-center mr-2"></i> 
-                        Dashboard
+                        Halaman Utama
                     </a>
 
                     {{-- Academic Dropdown --}}

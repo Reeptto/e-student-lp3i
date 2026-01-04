@@ -17,7 +17,7 @@ class MatkulController extends Controller
         }
 
         $semester = $request->semester;
-        $prodiId  = $user->prodi_id;
+        $bidang_keahlianId  = $user->bidang_keahlian_id;
 
         if (!$semester) {
             return response()->json([]);
@@ -26,9 +26,9 @@ class MatkulController extends Controller
         try {
             $matkul = MataKuliah::query()
                 ->where('semester', $semester)
-                ->where(function ($q) use ($prodiId) {
-                    $q->where('prodi_id', $prodiId)
-                      ->orWhereNull('prodi_id');
+                ->where(function ($q) use ($bidang_keahlianId) {
+                    $q->where('bidang_keahlian_id', $bidang_keahlianId)
+                      ->orWhereNull('bidang_keahlian_id');
                 })
                 ->orderBy('nama_mk')
                 ->get();

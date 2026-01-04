@@ -11,6 +11,10 @@ class MaterialController extends Controller
 {
  public function index(Request $request)
 {
+
+    $user = auth()->user();
+        if (!$user) abort(403);
+        
     $mataKuliah = MataKuliah::orderBy('nama_mk')->get();
 
     $materi = Material::with('matkul')

@@ -18,6 +18,7 @@ class MatkulSeeder extends Seeder
             'nama_mk' => 'Algorithm and Basic Programming',
             'semester' => '2',
             'sks' => '4',
+            'bidang_keahlian_id'=>1,
             'deskripsi' => 'Mata Kuliah yang mempelajari tentang pemrograman web.'
         ]);
 
@@ -26,6 +27,7 @@ class MatkulSeeder extends Seeder
             'nama_mk' => 'English General Communication 1',
             'semester' => '2',
             'sks' => '2',
+            'bidang_keahlian_id'=>1,
             'deskripsi' => 'Mata Kuliah yang mempelajari grammar, vocab, bahasa inggris.'
         ]);
 
@@ -34,6 +36,7 @@ class MatkulSeeder extends Seeder
             'nama_mk' => 'Web Design',
             'semester' => '2',
             'sks' => '4',
+            'bidang_keahlian_id'=>1,
             'deskripsi' => 'Mata Kuliah yang mempelajari tentang desain web.'
         ]);
 
@@ -42,6 +45,7 @@ class MatkulSeeder extends Seeder
              'nama_mk' => 'Computer for Office 2',
              'semester' => '1',
             'sks' => '4',
+            'bidang_keahlian_id'=>1,
              'deskripsi' => 'Mata Kuliah yang mempelajari tentang desain web.'
         ]);
 
@@ -50,6 +54,7 @@ class MatkulSeeder extends Seeder
              'nama_mk' => 'Computer fot Office 1',
              'semester' => '1',
             'sks' => '2',
+            'bidang_keahlian_id'=>1,
              'deskripsi' => 'Mata Kuliah yang mempelajari tentang desain web.'
         ]);
     }

@@ -9,6 +9,10 @@ class PengumumanController extends Controller
 {
         public function index()
     {
+
+        $user = auth()->user();
+        if (!$user) abort(403);
+        
         $pengumuman = Pengumuman::orderBy('tanggal_terbit', 'desc')->get();
 
         return view('pengumuman.index', compact('pengumuman'));

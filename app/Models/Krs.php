@@ -16,36 +16,42 @@ class Krs extends Model
         'kode_mk',
         'dosen_id',
         'kelas_id',
-        'jurusan',
-        'sks', // SKS milik KRS
+        'bidang_keahlian',
+        'sks',
+        'semester', // semester pengambilan
+        'status',   // normal | ngulang | cuti
     ];
 
-    // Relasi ke Mahasiswa
+    // =====================
+    // RELATIONS
+    // =====================
+
     public function mahasiswa()
     {
         return $this->belongsTo(Mahasiswa::class, 'nipd', 'nipd');
     }
 
-    // Relasi ke Mata Kuliah
     public function mataKuliah()
     {
         return $this->belongsTo(MataKuliah::class, 'kode_mk', 'kode_mk');
     }
 
-    // Relasi ke Dosen
     public function dosen()
     {
         return $this->belongsTo(Dosen::class);
     }
 
-    // Relasi ke Kelas
     public function kelas()
     {
         return $this->belongsTo(Kelas::class);
     }
 
-    // Helper: ambil semester dari relasi matakuliah
-    public function getSemesterAttribute()
+    // =====================
+    // HELPERS (AMAN)
+    // =====================
+
+    // Semester kurikulum MK (beda dengan semester KRS)
+    public function getSemesterMkAttribute()
     {
         return $this->mataKuliah->semester ?? null;
     }

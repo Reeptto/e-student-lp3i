@@ -11,11 +11,14 @@ class JadwalController extends Controller
 {
     public function index()
     {
+$user = auth()->user();
+        if (!$user) abort(403);
+        
+        $kelas = Auth::user()->mahasiswa->kelas_id;
 
-        $kelas = Auth::user()->kelas_id;
-
-        $jadwal = Jadwal::with(['matkul', 'dosen', 'ruangan'])->where('kelas_id', $kelas)
-                ->get();
+        $jadwal = Jadwal::with(['matkul', 'dosen', 'ruangan'])->where('kelas_id', $kelas)->
+        orderBy('jam_mulai')
+                ->get()->groupBy('hari');
         return view('dashboard', compact('jadwal'));
     }
 }

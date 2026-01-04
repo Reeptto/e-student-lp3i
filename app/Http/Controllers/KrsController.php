@@ -4,112 +4,105 @@ namespace App\Http\Controllers;
 
 use App\Models\Krs;
 use App\Models\Mahasiswa;
+use App\Models\MataKuliah;
 use Illuminate\Http\Request;
 
 class KrsController extends Controller
 {
     // ===============================
-    // INDEX
+    // INDEX (LIST SEMUA SEMESTER KRS)
     // ===============================
     public function index()
     {
         $user = auth()->user();
-        if (!$user) abort(403, 'Belum login');
+        if (!$user) abort(403);
 
-        $mahasiswa = Mahasiswa::where('user_id', $user->id)->first();
-        if (!$mahasiswa) abort(403, 'Akun ini bukan mahasiswa');
+        $mahasiswa = Mahasiswa::where('user_id', $user->id)->firstOrFail();
 
-        // Ambil KRS dengan relasi lengkap
-        $krsList = Krs::with(['mataKuliah', 'dosen', 'kelas', 'mahasiswa'])
+        $krsList = Krs::with(['mataKuliah', 'dosen', 'kelas'])
             ->where('nipd', $mahasiswa->nipd)
-            ->get()
-            ->map(function ($item) {
-                $item->semester = $item->mataKuliah->semester ?? null;
-                return $item;
-            });
+            ->orderBy('semester')
+            ->get();
 
-        // Grouping per semester
-        $semesters = $krsList
-            ->groupBy('semester')
-            ->map(function ($items, $semester) {
-                return (object)[
-                    'id' => $semester,
-                    'nama' => $semester,
-                    'periode' => "2025/2026 Ganjil", // contoh, bisa dinamis
-                    'total_sks' => $items->sum('sks'),
-                ];
-            })
-            ->values();
+        // group KRS berdasarkan semester pengambilan
+        $krsBySemester = $krsList->groupBy('semester');
 
-        // Amanin selectedSemester supaya tidak null
-        $selectedSemester = $semesters->first() ?? (object)[
-            'id' => null,
-            'nama' => null,
-            'periode' => null,
-            'total_sks' => 0,
-        ];
+        // data header semester
+        $semesters = $krsBySemester->map(function ($items, $semester) {
+            return (object) [
+                'id' => $semester,
+                'nama' => "Semester $semester",
+                'total_sks' => $items->sum(fn ($i) => $i->mataKuliah->sks),
+            ];
+        })->values();
 
-        return view('krs.index', [
-            'semesters' => $semesters,
-            'krsBySemester' => $krsList->groupBy('semester'),
-            'mahasiswa' => $mahasiswa,
-            'selectedSemester' => $selectedSemester,
-        ]);
+        return view('krs.index', compact(
+            'mahasiswa',
+            'krsBySemester',
+            'semesters'
+        ));
     }
 
-    // ===============================
-    // STORE
-    // ===============================
-    public function store(Request $request)
+   
+    // GENERATE KRS (AUTO PAKET)
+ 
+    public function generate()
     {
         $user = auth()->user();
         if (!$user) abort(403);
 
-        $mahasiswa = Mahasiswa::where('user_id', $user->id)->first();
-        if (!$mahasiswa) abort(403);
+        $mahasiswa = Mahasiswa::where('user_id', $user->id)->firstOrFail();
 
-        $request->validate([
-            'kode_mk' => 'required|exists:matakuliah,kode_mk',
-            'dosen_id' => 'required|exists:dosen,id',
-            'kelas_id' => 'required|exists:kelas,id',
-            'sks' => 'required|integer|min:1',
-        ]);
+        $semesterAktif = $mahasiswa->semester_aktif;
+        if (!$semesterAktif) {
+            return back()->with('error', 'Semester belum aktif');
+        }
 
-        Krs::create([
-            'nipd' => $mahasiswa->nipd,
-            'kode_mk' => $request->kode_mk,
-            'dosen_id' => $request->dosen_id,
-            'kelas_id' => $request->kelas_id,
-            'jurusan' => $mahasiswa->jurusan,
-            'sks' => $request->sks,
-        ]);
+        // ambil MK paket semester aktif
+        $matkulPaket = MataKuliah::where('semester', $semesterAktif)->get();
 
-        return redirect()->back()->with('success', 'KRS berhasil ditambahkan.');
+        foreach ($matkulPaket as $mk) {
+
+            // CEK: MK sudah pernah diambil?
+            $sudahAmbil = Krs::where('nipd', $mahasiswa->nipd)
+                ->where('mk_id', $mk->id)
+                ->exists();
+
+            if ($sudahAmbil) {
+                continue; // skip MK lama
+            }
+
+            Krs::create([
+                'nipd'       => $mahasiswa->nipd,
+                'mk_id'      => $mk->id,
+                'kelas_id'   => $mahasiswa->kelas_id,
+                'semester'   => $semesterAktif, 
+                'status'     => 'normal',
+            ]);
+        }
+
+        return back()->with('success', 'KRS semester ' . $semesterAktif . ' berhasil digenerate');
     }
 
-    // ===============================
-    // SHOW
-    // ===============================
+    
+    // DETAIL KRS PER SEMESTER
+   
     public function show($semester)
     {
         $user = auth()->user();
         if (!$user) abort(403);
 
-        $mahasiswa = Mahasiswa::where('user_id', $user->id)->first();
-        if (!$mahasiswa) abort(403);
+        $mahasiswa = Mahasiswa::where('user_id', $user->id)->firstOrFail();
 
-        $krsList = Krs::with(['mataKuliah', 'dosen', 'kelas', 'mahasiswa'])
+        $krsList = Krs::with(['mataKuliah', 'dosen', 'kelas'])
             ->where('nipd', $mahasiswa->nipd)
-            ->get()
-            ->filter(function ($item) use ($semester) {
-                return ($item->mataKuliah->semester ?? null) == $semester;
-            });
+            ->where('semester', $semester)
+            ->get();
 
         return view('krs.detail', [
-            'krsList' => $krsList,
-            'mahasiswa' => $mahasiswa,
-            'semester' => $semester,
-            'totalSks' => $krsList->sum('sks'),
+            'krsList'   => $krsList,
+            'semester'  => $semester,
+            'totalSks'  => $krsList->sum(fn ($i) => $i->mataKuliah->sks),
         ]);
     }
 }

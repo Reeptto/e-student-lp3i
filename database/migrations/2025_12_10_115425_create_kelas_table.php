@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('kode_kelas');
             $table->string('nama_kelas');
-            $table->unsignedBigInteger('prodi_id');
+            $table->unsignedBigInteger('bidang_keahlian_id');
             $table->timestamps();
         });
     }
