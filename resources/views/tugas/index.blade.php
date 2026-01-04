@@ -48,7 +48,7 @@
                     <div>
                         <h4 class="text-sm font-bold text-gray-500 tracking-widest uppercase mb-1">E-Student</h4>
                         <h1 class="text-4xl md:text-5xl font-black text-black uppercase leading-none">
-                            Daftar<span class="text-[#f15b67]">.Tugas</span>
+                            Daftar<span class="text-[#f15b67]"> Tugas</span>
                         </h1>
                         <p class="mt-3 font-medium text-gray-600 max-w-sm text-sm md:text-base">
                             Yuk, Mulai Tugasnya. <br>
@@ -94,15 +94,14 @@
                                 </svg>
                             </div>
                             
-                            <select name="semester" id="semester" class="appearance-none block w-full pl-10 pr-10 py-3 border-2 border-black rounded bg-gray-50 focus:bg-white focus:ring-0 focus:border-[#f15b67] focus:shadow-[2px_2px_0px_0px_#f15b67] transition-all font-bold text-sm cursor-pointer text-gray-800">
+                            <select name="semester" id="semester" onchange="this.form.submit()" class="appearance-none block w-full pl-10 pr-10 py-3 border-2 border-black rounded bg-gray-50 focus:bg-white focus:ring-0 focus:border-[#f15b67] focus:shadow-[2px_2px_0px_0px_#f15b67] transition-all font-bold text-sm cursor-pointer text-gray-800">
                                 <option value="">Pilih Semester</option>
-                                @for ($i = 1; $i <= 4; $i++)
-                                    <option value="{{ $i }}"
-                                        {{ request('semester') == $i ? 'selected' : '' }}>
-                                        Semester {{ $i }}
+                                @foreach ($semesters as $s)
+                                    <option value="{{ $s }}" {{ request('semester') == $s ? 'selected' : '' }}>
+                                        Semester {{ $s }}                                     
                                     </option>
 
-                                @endfor
+                                @endforeach
                             </select>
                             
         
@@ -118,8 +117,12 @@
                             </div>
                             
                             <select name="matkul" id="matkul" onchange="this.form.submit()" class="appearance-none block w-full pl-10 pr-10 py-3 border-2 border-black rounded bg-gray-50 focus:bg-white focus:ring-0 focus:border-[#f15b67] focus:shadow-[2px_2px_0px_0px_#f15b67] transition-all font-bold text-sm cursor-pointer text-gray-800">
-                                <option value="">Pilih Mata Kuliah</option>
-                                
+                                <option value="">Pilih Materi Ajar</option>
+                                @foreach($matkul as $mk)
+                                    <option value="{{ $mk->id }}" {{ request('matkul') == $mk->id ? 'selected' : '' }}>
+                                        {{ $mk->nama_mk }}
+                                    </option>
+                                @endforeach
                             </select>
                             
 
@@ -141,7 +144,7 @@
             {{-- ========================================== --}}
             {{-- 3. LIST TUGAS (BINDER STYLE)               --}}
             {{-- ========================================== --}}
-            <div class="flex flex-col gap-5">
+            <div class="flex flex-col gap-5" id="list-tugas">
                 @forelse($tugas as $item)
                     @php
                         $deadline = \Carbon\Carbon::parse($item->time_end);
@@ -248,51 +251,6 @@
 
         </div>
     </div>
-
-<script>
-document.addEventListener('DOMContentLoaded', () => {
-    const semesterSelect = document.getElementById('semester')
-    const matkulSelect   = document.getElementById('matkul')
-
-    function loadMatkul(semester = null, selectedMatkul = null) {
-        matkulSelect.innerHTML = '<option>Loading...</option>'
-
-        let url = '/ajax/matkul'
-        if (semester) {
-            url += `?semester=${semester}`
-        }
-
-        fetch(url)
-            .then(res => res.json())
-            .then(data => {
-                matkulSelect.innerHTML = '<option value="">Pilih Mata Kuliah</option>'
-
-                if (data.length === 0) {
-                    matkulSelect.innerHTML += '<option disabled>Tidak ada mata kuliah</option>'
-                    return
-                }
-
-                data.forEach(mk => {
-                    const selected = selectedMatkul == mk.id ? 'selected' : ''
-                    matkulSelect.innerHTML +=
-                        `<option value="${mk.id}" ${selected}>${mk.nama_mk}</option>`
-                })
-            })
-            .catch(() => {
-                matkulSelect.innerHTML = '<option>Gagal load</option>'
-            })
-    }
-
-    semesterSelect.addEventListener('change', function () {
-        loadMatkul(this.value)
-    })
-
-    const selectedSemester = semesterSelect.value
-    const selectedMatkul   = "{{ request('matkul') }}"
-
-    loadMatkul(selectedSemester, selectedMatkul)
-})
-</script>
 
 
 

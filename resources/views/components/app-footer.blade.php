@@ -121,8 +121,8 @@
             <div class="tech-connector"></div>
 
             <div class="tech-main-bar">
-                <span class="uppercase tracking-wide">
-                    &copy; {{ date('Y') }} E-STUDENT System | Created By ASE-10 | Rev.2 v1.0
+                <span class="uppercase tracking-wide text-blue-700">
+                    &copy; {{ date('Y') }} E-STUDENT Information System <b>|</b> Created By ASE-10 <b>|</b> Rev.02 <b>|</b> v1.0
                 </span>
             </div>
 

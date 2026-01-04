@@ -117,7 +117,7 @@
                         </div>
                         <div>
                             <h4 class="font-black text-2xl text-gray-800 uppercase mb-2">
-                                WELCOME BACK, <span class="text-[#dc2626] border-b-4 border-red-200">{{ auth()->user()->mahasiswa->nama_mhs }}</span>!
+                                SELAMAT DATANG KEMBALI, <span class="text-[#dc2626] border-b-4 border-red-200">{{ auth()->user()->mahasiswa->nama_mhs }}</span>!
                             </h4>
                             <p class="text-gray-600 font-bold border-l-4 border-red-700 pl-4">
                                 Fasilitas khusus mahasiswa <span class="text-white bg-red-700 px-1 rounded">LP3I</span>. 

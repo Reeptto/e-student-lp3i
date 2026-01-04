@@ -81,7 +81,7 @@
                             </div>
                         </div>
                         <h2 class="text-xl font-bold text-[#004269]">{{ $mahasiswa->nama_mhs }}</h2>
-                        <p class="text-[#009DA5] text-sm font-semibold mt-1">{{ $mahasiswa->kelas->program_studi->nama_program_studi }}</p>
+                        <p class="text-[#009DA5] text-sm font-semibold mt-1">{{ $mahasiswa->program_studi}}</p>
                         
                         <div class="mt-4 flex justify-center gap-2">
                             <span class="px-4 py-1.5 rounded-full bg-slate-100 text-slate-600 text-xs font-bold border border-slate-200">
@@ -124,16 +124,16 @@
                             </h3>
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                                 <div class="p-4 bg-slate-50 rounded-2xl border border-slate-100">
-                                    <span class="text-xs font-bold text-slate-400 uppercase">NIPD / NIM</span>
+                                    <span class="text-xs font-bold text-slate-400 uppercase">NIPD</span>
                                     <p class="text-lg font-bold text-[#004269] mt-1">{{ $mahasiswa->nipd }}</p>
                                 </div>
                                 <div class="p-4 bg-slate-50 rounded-2xl border border-slate-100">
-                                    <span class="text-xs font-bold text-slate-400 uppercase">Kelas Saat Ini</span>
+                                    <span class="text-xs font-bold text-slate-400 uppercase">Kelas</span>
                                     <p class="text-lg font-bold text-[#004269] mt-1">{{ $mahasiswa->kelas->kode_kelas }}</p>
                                 </div>
                                 <div class="md:col-span-2 p-4 bg-slate-50 rounded-2xl border border-slate-100">
-                                    <span class="text-xs font-bold text-slate-400 uppercase">Program Studi</span>
-                                    <p class="text-lg font-bold text-[#004269] mt-1">{{ $mahasiswa->kelas->program_studi->nama_jurusan }}</p>
+                                    <span class="text-xs font-bold text-slate-400 uppercase">Bidang Keahlian</span>
+                                    <p class="text-lg font-bold text-[#004269] mt-1">{{ $mahasiswa->program_studi }}</p>
                                 </div>
                             </div>
                         </div>

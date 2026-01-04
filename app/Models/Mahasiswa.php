@@ -33,7 +33,7 @@ class Mahasiswa extends Model
 
     public function jurusan()
     {
-        return $this->kelas->jurusan();
+        return $this->kelas->program_studi();
     }
 
     public function user()

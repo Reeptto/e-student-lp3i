@@ -110,7 +110,7 @@
                         class="flex-1 border-2 border-slate-800 bg-slate-50 rounded-lg
                             text-sm font-bold text-slate-700 focus:ring-0
                             focus:border-[#009da5] cursor-pointer py-2 px-4">
-                        <option value="">📂 Pilih Mata Kuliah</option>
+                        <option value="">📂 Pilih Matteri Ajar</option>
                         @if(isset($mataKuliah))
                             @foreach ($mataKuliah as $mk)
                                 <option value="{{ $mk->id }}" {{ request('mk_id') == $mk->id ? 'selected' : '' }}>
@@ -200,7 +200,7 @@ document.addEventListener('DOMContentLoaded', () => {
         fetch(url, { credentials: 'same-origin' })
             .then(res => res.json())
             .then(data => {
-                matkulSelect.innerHTML = '<option value="">📂 Pilih Mata Kuliah</option>'
+                matkulSelect.innerHTML = '<option value="">📂 Pilih Materi Ajar</option>'
 
                 if (data.length === 0) {
                     matkulSelect.innerHTML += '<option disabled>Tidak ada matkul</option>'

@@ -138,7 +138,7 @@
                 </h3>
                 <div class="mt-4 flex flex-wrap gap-2">
                     <span class="bg-black text-white border-2 border-black px-3 py-1 text-xs md:text-sm font-bold uppercase">{{ $mahasiswa->nama_mhs }}</span>
-                    <span class="bg-white text-black border-2 border-black px-3 py-1 text-xs md:text-sm font-bold uppercase">{{ $mahasiswa->jurusan }}</span>
+                    <span class="bg-white text-black border-2 border-black px-3 py-1 text-xs md:text-sm font-bold uppercase">{{ $mahasiswa->program_studi }}</span>
                 </div>
             </div>
             <div class="mt-4 md:mt-0 self-start md:self-end">
@@ -215,51 +215,178 @@
             </h3>
             <button onclick="closeModal()" class="text-red-600 font-black hover:bg-red-100 px-3 py-1 rounded transition">CLOSE [X]</button>
         </div>
+
+        <style>
+            .formal-sheet {
+                font-family: "Times New Roman", Times, serif;
+                color: #000;
+                
+                width: 100%;
+                max-width: 210mm; 
+                margin: 0 auto;  
+                padding: 10mm 20mm;
+                box-sizing: border-box;
+                background-color: white;
+            }
+
+            .kop-header {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                border-bottom: 4px double #000;
+                padding-bottom: 15px;
+                margin-bottom: 25px;
+                position: relative;
+            }
+
+            .kop-logo {
+                flex: 0 0 100px;
+                text-align: left;
+            }
+
+            .kop-text {
+                flex: 1;
+                text-align: center;
+                padding-right: 100px; /
+            }
+
+            @media (max-width: 640px) {
+                .formal-sheet { padding: 10px; }
+                .kop-text { padding-right: 0; }
+                .kop-logo img { width: 60px !important; }
+            }
+
+            .kop-text h1 {
+                font-size: 18pt;
+                font-weight: 900;
+                margin: 0;
+                text-transform: uppercase;
+                line-height: 1.2;
+                letter-spacing: 1px;
+            }
+
+            .kop-text p {
+                font-size: 10pt;
+                margin: 2px 0;
+                line-height: 1.3;
+            }
+
+            /* TABLE */
+            .table-formal {
+                width: 100%;
+                border-collapse: collapse;
+                margin-top: 15px;
+                font-size: 10pt;
+            }
+
+            .table-formal th, .table-formal td {
+                border: 1px solid #000;
+                padding: 8px 10px; 
+            }
+
+            .table-formal th {
+                background-color: #f0f0f0;
+                font-weight: bold;
+                text-align: center;
+            }
+
+           
+            .signature-container {
+                margin-top: 50px; 
+                display: flex;
+                justify-content: space-between;
+                padding: 0 10px;
+            }
+
+          
+            @media print {
+                @page {
+                    size: A4;
+                    margin: 2cm;
+                }
+                body {
+                    background: none;
+                    -webkit-print-color-adjust: exact;
+                }
+                .formal-sheet {
+                    padding: 0; 
+                    max-width: none;
+                    width: 100%;
+                    margin: 0;
+                }
+                nav, header, footer, button {
+                    display: none !important;
+                }
+            }
+        </style>
+
         <div class="document-scroll-wrapper flex-1">
             <div id="printableArea" class="formal-sheet">
-                <div class="kop-container">
+                
+                <div class="kop-header">
                     <div class="kop-logo">
-                        <img src="{{ asset('/img/2.webp') }}" class="w-[170px]">
+                        <img src="{{ asset('/img/lp3i-kotak.png') }}" style="width: 80px; height: auto; display: block;">
                     </div>
                     <div class="kop-text">
                         <h1>LP3I COLLEGE KARAWANG</h1>
-                        <p>Jalan Tarumanegara Blok B No.4-6, Kelurahan Purwadana, Kecamatan Teluk Jambe Timur, Kabupaten Karawang.</p>
+                        <p>Jalan Tarumanegara Blok B No.4-6, Kelurahan Purwadana,<br>Kecamatan Teluk Jambe Timur, Kabupaten Karawang.</p>
                         <p>Email: education.karawang@lp3i.id</p>
                     </div>
                 </div>
-                <div class="text-center mb-4">
-                    <h3 style="font-size: 12pt; font-weight: bold; text-decoration: underline;">KARTU RENCANA STUDI (KRS)</h3>
-                    <p style="font-size: 10pt;">Tahun Akademik {{ date('Y') }}/{{ date('Y')+1 }}</p>
+
+                <div class="text-center mb-6">
+                    <h3 style="font-size: 14pt; font-weight: bold; text-decoration: underline; margin-bottom: 5px;">KARTU RENCANA STUDI (KRS)</h3>
+                    <p style="font-size: 11pt;">Tahun Akademik {{ date('Y') }}/{{ date('Y')+1 }}</p>
                 </div>
-                <table style="width: 100%; font-size: 10pt; margin-bottom: 15px;">
+
+                <table style="width: 100%; font-size: 11pt; margin-bottom: 20px;">
                     <tr>
-                        <td width="100"><strong>Nama</strong></td><td width="10">:</td><td>{{ $mahasiswa->nama_mhs }}</td>
-                        <td width="80"><strong>Semester</strong></td><td width="10">:</td><td id="formalSemester"></td>
+                        <td width="15%"><strong>Nama</strong></td>
+                        <td width="2%">:</td>
+                        <td width="33%">{{ $mahasiswa->nama_mhs }}</td>
+                        
+                        <td width="15%"><strong>Semester</strong></td>
+                        <td width="2%">:</td>
+                        <td id="formalSemester"></td>
                     </tr>
                     <tr>
-                        <td><strong>NIM</strong></td><td>:</td><td>{{ $mahasiswa->nipd }}</td>
-                        <td><strong>Prodi</strong></td><td>:</td><td>{{ $mahasiswa->jurusan }}</td>
+                        <td><strong>NIPD</strong></td>
+                        <td>:</td>
+                        <td>{{ $mahasiswa->nipd }}</td>
+                        
+                        <td><strong>Bidang Keahlian</strong></td>
+                        <td>:</td>
+                        <td>{{ $mahasiswa->program_studi }}</td>
                     </tr>
                 </table>
+
                 <table class="table-formal">
                     <thead>
-                        <tr><th width="5%">NO</th><th style="text-align: left;">MATA KULIAH</th><th style="text-align: left;">DOSEN</th><th width="10%">SKS</th></tr>
+                        <tr>
+                            <th width="5%">NO</th>
+                            <th style="text-align: left;">MATA KULIAH</th>
+                            <th style="text-align: left;">DOSEN</th>
+                            <th width="10%">SKS</th>
+                        </tr>
                     </thead>
-                    <tbody id="courseTableBody"></tbody>
+                    <tbody id="courseTableBody">
+                        </tbody>
                 </table>
-                <div class="mt-10 flex justify-between px-4">
-                    <div class="text-center" style="width: 220px;">
-                        <p style="font-size: 10pt;">Mahasiswa Ybs,</p>
-                        <div style="height: 70px;"></div>
-                        <p style="font-weight: bold; text-decoration: underline; font-size: 10pt; text-transform: uppercase;">{{ $mahasiswa->nama_mhs }}</p>
-                        <p style="font-size: 10pt;">NIPD. {{ $mahasiswa->nipd }}</p>
+
+                <div class="signature-container">
+                    <div class="text-center" style="width: 250px;">
+                        <p style="font-size: 11pt;">Mahasiswa Ybs,</p>
+                        <div style="height: 80px;"></div>
+                        <p style="font-weight: bold; text-decoration: underline; font-size: 11pt; text-transform: uppercase;">{{ $mahasiswa->nama_mhs }}</p>
+                        <p style="font-size: 11pt;">NIPD. {{ $mahasiswa->nipd }}</p>
                     </div>
-                    <div class="text-center" style="width: 220px;">
-                        <p style="font-size: 10pt;">Karawang, {{ date('d F Y') }}</p>
-                        <p style="font-size: 10pt;">Bagian Akademik,</p>
-                        <div style="height: 70px;"></div>
-                        <p style="font-weight: bold; text-decoration: underline; font-size: 10pt;">( Administrator )</p>
-                        <p style="font-size: 10pt;">NIDN. -</p>
+
+                    <div class="text-center" style="width: 250px;">
+                        <p style="font-size: 11pt;">Karawang, {{ date('d F Y') }}</p>
+                        <p style="font-size: 11pt;">Bagian Akademik,</p>
+                        <div style="height: 80px;"></div>
+                        <p style="font-weight: bold; text-decoration: underline; font-size: 11pt;">( Administrator )</p>
+                        <p style="font-size: 11pt;">NIDN. -</p>
                     </div>
                 </div>
             </div>

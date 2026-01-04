@@ -205,7 +205,7 @@
                                 <div class="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-2 text-sm text-[#004269]">
                                     <div class="flex gap-2"><span class="w-24 font-bold uppercase opacity-70">Nama</span>: <span class="font-bold">{{ auth()->user()->mahasiswa->nama_mhs }}</span></div>
                                     <div class="flex gap-2"><span class="w-24 font-bold uppercase opacity-70">NIM</span>: <span class="font-bold font-mono">{{ auth()->user()->mahasiswa->nipd }}</span></div>
-                                    <div class="flex gap-2"><span class="w-24 font-bold uppercase opacity-70">Prodi</span>: <span class="font-bold">{{ auth()->user()->mahasiswa->jurusan }}</span></div>
+                                    <div class="flex gap-2"><span class="w-24 font-bold uppercase opacity-70">Bidang Keahlian</span>: <span class="font-bold">{{ auth()->user()->mahasiswa->program_studi }}</span></div>
                                     <div class="flex gap-2 items-center"><span class="w-24 font-bold uppercase opacity-70">T.A</span>: <span class="font-bold bg-[#009DA5] text-white px-2 rounded-md text-xs py-0.5 shadow-sm">2024/2025 Ganjil</span></div>
                                 </div>
                             </div>

@@ -63,6 +63,9 @@ Route::get('/material', [MaterialController::class, 'index'])->name('material.in
 Route::get('/materi/{materi}/download', [MaterialController::class, 'download'])->name('materi.download');
 
 Route::post('/submission', [SubmissionController::class, 'store'])->name('submission.store');
+Route::get('/submission', function () {
+    abort(404);
+});
 
 Route::get('/nilai', [NilaiController::class, 'index'])->name('nilai');
 
