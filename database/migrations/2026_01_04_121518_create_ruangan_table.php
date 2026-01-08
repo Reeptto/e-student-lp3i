@@ -11,18 +11,19 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('matakuliah', function (Blueprint $table) {
-            $table->integer('sks')->after('semester');
+        Schema::create('ruangan', function (Blueprint $table) {
+            $table->id('id_ruangan');
+            $table->string('nama_ruangan');
+            $table->integer('kapasitas');
+            $table->timestamps();
         });
     }
-
+ 
     /**
      * Reverse the migrations.
      */
     public function down(): void
     {
-        Schema::table('matakuliah', function (Blueprint $table) {
-            //
-        });
+        Schema::dropIfExists('ruangan');
     }
 };

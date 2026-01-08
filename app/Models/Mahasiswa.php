@@ -10,7 +10,9 @@ use App\Models\BidangKeahlian;
 class Mahasiswa extends Model
 {
     protected $table = 'mahasiswa';
-
+    protected $primaryKey = 'id_mahasiswa';
+    public $incrementing = true;
+    protected $keyType = 'int';
     protected $fillable = [
         'nipd',
         'user_id',
@@ -33,21 +35,26 @@ class Mahasiswa extends Model
     // RELASI
     public function kelas()
     {
-        return $this->belongsTo(Kelas::class);
+        return $this->belongsTo(Kelas::class, 'id_kelas', 'id_kelas');
     }
 
     public function bidangKeahlian()
     {
-        return $this->belongsTo(BidangKeahlian::class, 'bidang_keahlian_id');
+        return $this->belongsTo(BidangKeahlian::class, 'id_bidang_keahlian', 'id_bidang_keahlian');
     }
 
     public function user()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'id_user', 'id_user');
     }
 
     public function nilai()
     {
         return $this->belongsTo(Nilai::class);
+    }
+
+    public function khs()
+    {
+        return $this->hasMany(Khs::class, 'id_mahasiswa', 'id_mahasiswa');
     }
 }

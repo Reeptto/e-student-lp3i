@@ -1,546 +1,222 @@
 @extends('layouts.app')
 
 @section('content')
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-{{-- Menggunakan versi html2pdf yang lebih stabil --}}
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+<div class="max-w-6xl mx-auto">
+    {{-- JUDUL HALAMAN (Tidak dicetak) --}}
+    <h1 class="text-2xl font-bold mb-6 text-gray-800 no-print">Kartu Rencana Studi</h1>
 
-<style>
-    /* === GLOBAL VARIABLES === */
-    :root {
-        --c-navy: #004269;
-        --c-teal: #009DA5;
-        --c-bg: #F0F4F8;
-    }
-
-    body { 
-        font-family: 'Poppins', sans-serif !important; 
-        background-color: var(--c-bg);
-        background-image: radial-gradient(#cbd5e1 1px, transparent 1px);
-        background-size: 20px 20px;
-        overflow-x: hidden; /* Mencegah scroll horizontal body */
-    }
-
-    [x-cloak] { display: none !important; }
-
-    /* === HEADER BACKGROUND === */
-    .tech-header {
-        position: fixed; top: 0; left: 0; right: 0; 
-        height: 400px; 
-        background-color: var(--c-navy);
-        border-bottom: 6px solid var(--c-teal);
-        border-radius: 0 0 60px 60px;
-        z-index: -10; overflow: hidden;
-        box-shadow: 0 10px 0 rgba(0, 157, 165, 0.2);
-        transition: height 0.3s ease;
-    }
-
-    .pattern-tech-grid {
-        position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-        background-image: 
-            linear-gradient(45deg, rgba(255, 255, 255, 0.05) 1px, transparent 1px),
-            linear-gradient(-45deg, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
-        background-size: 40px 40px;
-    }
-
-    /* Dekorasi dibuat responsif */
-    .deco-diamond {
-        position: absolute;
-        width: 500px; height: 500px;
-        border: 30px solid rgba(0, 157, 165, 0.15);
-        top: -250px; left: -150px;
-        transform: rotate(45deg);
-    }
-
-    .deco-block {
-        position: absolute;
-        width: 600px; height: 300px;
-        background: linear-gradient(to right, rgba(0, 30, 50, 0.5), rgba(0, 66, 105, 0.8));
-        bottom: -100px; right: -200px;
-        transform: rotate(-20deg);
-        border-top: 4px solid rgba(0, 157, 165, 0.3);
-    }
-
-    .deco-tech-lines {
-        position: absolute; top: 120px; right: 5%;
-        width: 250px; height: 40px;
-        background: repeating-linear-gradient(-45deg, rgba(0, 157, 165, 0.2), rgba(0, 157, 165, 0.2) 10px, transparent 10px, transparent 20px);
-    }
-
-    /* === RESPONSIVE MEDIA QUERIES === */
-    @media (max-width: 768px) {
-        .tech-header {
-            height: 280px; /* Header lebih pendek di HP */
-            border-radius: 0 0 30px 30px;
-        }
-        
-        /* Kecilkan elemen dekorasi agar tidak menutupi layar */
-        .deco-diamond { width: 250px; height: 250px; top: -100px; left: -80px; border-width: 15px; }
-        .deco-block { width: 300px; height: 150px; bottom: -50px; right: -100px; }
-        .deco-tech-lines { display: none; } /* Hilangkan garis detail di HP */
-
-        /* Judul responsive */
-        h1 { font-size: 2rem !important; }
-        
-        /* Modal di HP */
-        .formal-paper {
-            padding: 20px 15px !important; /* Padding lebih tipis */
-            width: 100% !important;
-        }
-        
-        .kop-container {
-            flex-direction: column;
-            text-align: center;
-        }
-        .kop-logo { margin-right: 0 !important; margin-bottom: 10px; }
-        
-        /* Agar tabel bisa di-scroll horizontal di HP tanpa merusak layout kertas */
-        .table-responsive-wrapper {
-            overflow-x: auto;
-            -webkit-overflow-scrolling: touch;
-        }
-        
-        /* Tombol print floating disesuaikan */
-        .modal-floating-actions {
-            top: 10px; right: 10px;
-            flex-direction: column; /* Stack tombol ke bawah biar rapi */
-        }
-        .btn-action span { display: none; } /* Sembunyikan teks di tombol jika perlu */
-        .btn-action { padding: 8px 12px; }
-    }
-
-    /* === CARD STYLE === */
-    .pop-card {
-        background: #ffffff;
-        border: 4px solid var(--c-navy);
-        border-radius: 30px;
-        box-shadow: 0px 10px 0px var(--c-navy);
-        padding: 12px;
-        position: relative;
-        transition: transform 0.2s;
-    }
-    .pop-card.hoverable:hover { transform: translateY(-5px); box-shadow: 0px 15px 0px var(--c-navy); }
-
-    .pop-inner {
-        background: #F1F8FA;
-        border: 3px dashed var(--c-teal);
-        border-radius: 20px;
-        height: 100%; position: relative; overflow: hidden;
-        display: flex; flex-direction: column; padding: 1.5rem;
-    }
-
-    .pop-pill {
-        display: inline-block; background: var(--c-teal); color: white;
-        border: 3px solid var(--c-navy); padding: 6px 20px;
-        border-radius: 50px; font-weight: 800; font-size: 0.9rem; text-transform: uppercase;
-        box-shadow: 0 4px 0 rgba(0,0,0,0.2);
-        white-space: nowrap; /* Mencegah teks turun */
-    }
-
-    .pop-btn {
-        width: 100%; background: var(--c-navy); color: white;
-        border: 3px solid var(--c-navy); border-radius: 12px; padding: 10px;
-        font-weight: 800; text-transform: uppercase;
-        box-shadow: 0 5px 0 #002840; cursor: pointer; transition: all 0.1s;
-    }
-    .pop-btn:hover { background-color: #005689; box-shadow: 0 7px 0 #002840; transform: translateY(-2px); }
-    .pop-btn:active { top: 5px; box-shadow: 0 0 0 #002840; transform: translateY(0); }
-
-    .card-locked .pop-inner { background: #e2e8f0; border-color: #94a3b8; opacity: 0.8; }
-    .card-locked .pop-pill { background: #64748b; border-color: #334155; }
-
-
-    /* === MODAL STYLE === */
-    .formal-backdrop {
-        background-color: rgba(26, 32, 44, 0.95);
-        backdrop-filter: blur(5px);
-        padding: 1rem; /* Tambah padding agar tidak mepet layar HP */
-    }
-    
-    .formal-paper {
-        background: white; 
-        width: 100%; max-width: 800px; 
-        margin: 0 auto; 
-        padding: 40px 50px;
-        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7); 
-        font-family: 'Poppins', sans-serif !important; 
-        color: #000; position: relative;
-        border-radius: 8px;
-        /* Penting untuk responsif */
-        box-sizing: border-box; 
-    }
-
-    .kop-container { display: flex; align-items: center; border-bottom: 4px double #000; padding-bottom: 15px; margin-bottom: 25px; }
-    .kop-logo { width: 120px; height: 100px; display: flex; align-items: center; justify-content: center; margin-right: 20px; flex-shrink: 0; }
-    .kop-logo img { width: 100%; height: 100%; object-fit: contain; }
-    .kop-text { flex: 1; text-align: center; }
-    .kop-text h1 { font-size: 18pt; font-weight: 800; margin: 0; text-transform: uppercase; line-height: 1.2; letter-spacing: 1px; }
-    .kop-text p { margin: 2px 0; font-size: 10pt; font-weight: 500; }
-    
-    .doc-title { text-align: center; margin-bottom: 20px; }
-    .doc-title h2 { font-size: 14pt; font-weight: 700; text-decoration: underline; margin: 0; text-transform: uppercase; }
-    .doc-title p { font-size: 11pt; margin: 5px 0; font-weight: 500; }
-    
-    .formal-table { width: 100%; border-collapse: collapse; margin-top: 15px; font-size: 10pt; }
-    .formal-table th { border: 1px solid #000; padding: 10px; background-color: #f0f0f0; text-align: center; font-weight: 700; }
-    .formal-table td { border: 1px solid #000; padding: 8px; vertical-align: middle; }
-    .formal-table tr:nth-child(even) { background-color: #fff; }
-    
-    .modal-floating-actions { 
-        position: fixed; /* Ubah ke fixed agar selalu terlihat saat scroll */
-        top: 20px; 
-        right: 20px; 
-        display: flex; 
-        gap: 10px; 
-        z-index: 100000;
-    }
-    
-    .btn-action { 
-        padding: 8px 20px; border-radius: 50px; font-weight: 600; font-size: 0.9rem;
-        font-family: 'Poppins', sans-serif; box-shadow: 0 4px 6px rgba(0,0,0,0.3); 
-        transition: transform 0.2s; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center;
-    }
-    .btn-close { background: #e53e3e; color: white; }
-    .btn-print { background: #004269; color: white; }
-    .btn-action:hover { transform: translateY(-2px); filter: brightness(1.1); }
-</style>
-
-<div class="tech-header">
-    <div class="pattern-tech-grid"></div> <div class="deco-diamond"></div> <div class="deco-block"></div> <div class="deco-tech-lines"></div> 
-</div>
-
-<div class="py-12 px-4 sm:px-6 lg:px-8 relative pt-24 md:pt-12"> {{-- Tambah padding top di HP agar tidak ketutup header --}}
-    <div class="max-w-7xl mx-auto">
-        
-        {{-- Header Section: Stack Column di HP, Row di Desktop --}}
-        <div class="flex flex-col md:flex-row justify-between items-end mb-12 gap-6 mt-8 md:mt-0">
-            <div class="text-white relative z-10 w-full md:w-auto">
-                <div class="inline-block bg-white text-navy px-3 py-1 font-bold text-xs uppercase tracking-widest mb-2 border-2 border-teal rounded-md transform -rotate-2">
-                    Academic Portal
+    {{-- CARD SEMESTER (Tampilan Simple & Modern) --}}
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 no-print">
+        @foreach ($semesters as $s)
+            <div onclick="openKrs({{ $s['semester'] }})"
+                 class="group cursor-pointer bg-white rounded-xl border border-gray-200 p-6 shadow-sm hover:shadow-lg hover:border-blue-400 hover:-translate-y-1 transition-all duration-300">
+                
+                {{-- Header Card --}}
+                <div class="flex justify-between items-start mb-2">
+                    <p class="text-xs font-bold text-gray-400 uppercase tracking-wider">Semester</p>
+                    {{-- Icon Panah Kecil --}}
+                    <div class="bg-gray-50 text-gray-400 rounded-full p-1 group-hover:bg-blue-500 group-hover:text-white transition-colors">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                        </svg>
+                    </div>
                 </div>
-                <h1 class="text-3xl md:text-4xl lg:text-6xl font-black uppercase italic leading-none drop-shadow-md">
-                    Kartu Rencana <br><span class="text-[#009DA5] text-stroke-white">Studi (KRS)</span>
-                </h1>
-                <div class="mt-4 flex flex-wrap gap-3">
-                    <span class="bg-[#004269] border-2 border-[#009DA5] px-4 py-1 rounded-full font-bold text-xs md:text-sm">{{ $mahasiswa->nama_mhs }}</span>
-                    <span class="bg-white text-[#004269] px-4 py-1 rounded-full font-bold text-xs md:text-sm border-2 border-white">{{ $mahasiswa->bidang_keahlian }}</span>
+
+                {{-- Angka Semester --}}
+                <p class="text-4xl font-extrabold text-gray-800 mb-4 group-hover:text-blue-600 transition-colors">
+                    {{ $s['semester'] }}
+                </p>
+
+                {{-- Footer Card (SKS) --}}
+                <div class="pt-4 border-t border-gray-100 flex items-center justify-between">
+                    <span class="text-sm text-gray-500 font-medium">Total SKS Diambil</span>
+                    <span class="text-lg font-bold text-gray-900 bg-gray-100 px-2 py-0.5 rounded-md group-hover:bg-blue-50 group-hover:text-blue-700 transition-colors">
+                        {{ $s['total_sks'] }}
+                    </span>
                 </div>
             </div>
-
-            <div class="pop-card bg-white relative z-10 transform rotate-2 hover:rotate-0 transition duration-300 w-full md:w-auto">
-                <div class="pop-inner p-4 text-center min-w-[200px]">
-                    <span class="text-xs font-black text-slate-400 uppercase tracking-widest block mb-1">TOTAL KREDIT</span>
-                    @php $grandTotalSks = 0; foreach($krsBySemester as $list) { $grandTotalSks += $list->sum('sks'); } @endphp
-                    <span class="text-4xl md:text-5xl font-black text-[#004269] block leading-none">{{ $grandTotalSks }}</span>
-                    <span class="text-sm font-bold text-[#009DA5] bg-white px-2 -mt-2 relative z-10">SKS DIAMBIL</span>
-                </div>
-            </div>
-        </div>
-
-        {{-- Grid System yang sudah Responsive --}}
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 pb-10">
-            @foreach([1,2,3,4,5,6] as $semester)
-                @php
-                    $hasData = isset($krsBySemester[$semester]) && count($krsBySemester[$semester]) > 0;
-                    $totalSksSemester = $hasData ? $krsBySemester[$semester]->sum('sks') : 0;
-                @endphp
-
-                @if($hasData)
-                    <div onclick="openDetail({{ $semester }})" class="pop-card hoverable cursor-pointer group">
-                        <div class="absolute -top-4 left-1/2 transform -translate-x-1/2 z-20">
-                            <span class="pop-pill">SEMESTER {{ $semester }}</span>
-                        </div>
-                        <div class="pop-inner bg-white">
-                            <div class="mt-4 text-center">
-                                <p class="text-xs font-bold text-slate-400 uppercase tracking-widest">Beban Studi</p>
-                                <h2 class="text-5xl font-black text-[#004269] my-2 group-hover:scale-110 transition-transform duration-200">
-                                    {{ $totalSksSemester }}
-                                </h2>
-                                <span class="text-sm font-bold text-[#009DA5]">SKS</span>
-                            </div>
-                            <div class="mt-auto pt-6 space-y-3">
-                                <div class="flex justify-center">
-                                    <span class="px-3 py-1 bg-emerald-100 text-emerald-700 text-xs font-black rounded border border-emerald-300 uppercase">
-                                        Status: Aktif
-                                    </span>
-                                </div>
-                                <button class="pop-btn">Lihat Detail</button>
-                            </div>
-                        </div>
-                    </div>
-                @else
-                    <div class="pop-card card-locked cursor-not-allowed">
-                        <div class="absolute -top-4 left-1/2 transform -translate-x-1/2 z-20">
-                            <span class="pop-pill" style="background: #64748b; border-color: #334155;">SEMESTER {{ $semester }}</span>
-                        </div>
-                        <div class="pop-inner flex flex-col items-center justify-center text-center">
-                            <div class="w-16 h-16 bg-slate-300 rounded-full flex items-center justify-center text-slate-500 text-2xl mb-3 border-4 border-slate-200">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" /></svg>
-                            </div>
-                            <h3 class="text-xl font-black text-slate-500 uppercase">TERKUNCI</h3>
-                            <p class="text-xs font-bold text-slate-400 mt-1">Belum ada data</p>
-                        </div>
-                    </div>
-                @endif
-            @endforeach
-        </div>
+        @endforeach
     </div>
 </div>
 
-{{-- MODAL AREA --}}
-<div id="detailModal" class="hidden fixed inset-0 z-[99999] overflow-y-auto formal-backdrop">
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
     
-    {{-- Container Modal --}}
-    <div class="flex items-start md:items-center justify-center min-h-screen p-2 md:p-4">
+    .font-poppins { font-family: 'Poppins', sans-serif; }
+
+    .paper-preview {
+        width: 210mm;
+        min-height: 297mm;
+        background: white;
+        margin: 0 auto;
+        padding: 15mm;
+        box-shadow: 0 0 15px rgba(0,0,0,0.1); 
+    }
+
+    @media print {
+        @page { 
+            size: A4; 
+            margin: 10mm 15mm; 
+        }
         
-        {{-- Tombol Action --}}
-        <div class="modal-floating-actions">
-            <button onclick="downloadPDF()" class="btn-action btn-print">
-                <i class="fas fa-download mr-0 md:mr-2"></i> <span class="hidden md:inline">PDF</span>
-            </button>
-            <button onclick="closeModal()" class="btn-action btn-close">
-                <i class="fas fa-times mr-0 md:mr-2"></i> <span class="hidden md:inline">Close</span>
-            </button>
-        </div>
+        body { 
+            visibility: hidden; 
+            background: white !important;
+            -webkit-print-color-adjust: exact;
+        }
+        
+        .no-print { display: none !important; }
+        
+        #krsModal {
+            position: static;
+            background: none !important;
+            display: block !important;
+            width: 100%;
+            height: auto;
+            overflow: visible;
+            z-index: auto;
+        }
 
-        <style>
-            .formal-sheet {
-                font-family: "Times New Roman", Times, serif;
-                color: #000;
-                
-                width: 100%;
-                max-width: 210mm; 
-                margin: 0 auto;  
-                padding: 10mm 20mm;
-                box-sizing: border-box;
-                background-color: white;
-            }
+        #printArea {
+            visibility: visible;
+            position: absolute;
+            left: 0; top: 0;
+            width: 100%;
+            margin: 0; padding: 0;
+            box-shadow: none !important;
+            border: none !important;
+        }
 
-            .kop-header {
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                border-bottom: 4px double #000;
-                padding-bottom: 15px;
-                margin-bottom: 25px;
-                position: relative;
-            }
+        * { color: black !important; }
+    }
+</style>
 
-            .kop-logo {
-                flex: 0 0 100px;
-                text-align: left;
-            }
-
-            .kop-text {
-                flex: 1;
-                text-align: center;
-                padding-right: 100px; /
-            }
-
-            @media (max-width: 640px) {
-                .formal-sheet { padding: 10px; }
-                .kop-text { padding-right: 0; }
-                .kop-logo img { width: 60px !important; }
-            }
-
-            .kop-text h1 {
-                font-size: 18pt;
-                font-weight: 900;
-                margin: 0;
-                text-transform: uppercase;
-                line-height: 1.2;
-                letter-spacing: 1px;
-            }
-
-            .kop-text p {
-                font-size: 10pt;
-                margin: 2px 0;
-                line-height: 1.3;
-            }
-
-            /* TABLE */
-            .table-formal {
-                width: 100%;
-                border-collapse: collapse;
-                margin-top: 15px;
-                font-size: 10pt;
-            }
-
-            .table-formal th, .table-formal td {
-                border: 1px solid #000;
-                padding: 8px 10px; 
-            }
-
-            .table-formal th {
-                background-color: #f0f0f0;
-                font-weight: bold;
-                text-align: center;
-            }
-
-           
-            .signature-container {
-                margin-top: 50px; 
-                display: flex;
-                justify-content: space-between;
-                padding: 0 10px;
-            }
-
-          
-            @media print {
-                @page {
-                    size: A4;
-                    margin: 2cm;
-                }
-                body {
-                    background: none;
-                    -webkit-print-color-adjust: exact;
-                }
-                .formal-sheet {
-                    padding: 0; 
-                    max-width: none;
-                    width: 100%;
-                    margin: 0;
-                }
-                nav, header, footer, button {
-                    display: none !important;
-                }
-            }
-        </style>
-
-        <div class="document-scroll-wrapper flex-1">
-            <div id="printableArea" class="formal-sheet">
-                
-                <div class="kop-header">
-                    <div class="kop-logo">
-                        <img src="{{ asset('/img/lp3i-kotak.png') }}" style="width: 80px; height: auto; display: block;">
-                    </div>
-                    <div class="kop-text">
-                        <h1>LP3I COLLEGE KARAWANG</h1>
-                        <p>Jalan Tarumanegara Blok B No.4-6, Kelurahan Purwadana,<br>Kecamatan Teluk Jambe Timur, Kabupaten Karawang.</p>
-                        <p>Email: education.karawang@lp3i.id</p>
-                    </div>
-                </div>
-
-                <div class="text-center mb-6">
-                    <h3 style="font-size: 14pt; font-weight: bold; text-decoration: underline; margin-bottom: 5px;">KARTU RENCANA STUDI (KRS)</h3>
-                    <p style="font-size: 11pt;">Tahun Akademik {{ date('Y') }}/{{ date('Y')+1 }}</p>
-                </div>
-
-                <table style="width: 100%; font-size: 11pt; margin-bottom: 20px;">
-                    <tr>
-                        <td width="15%"><strong>Nama</strong></td>
-                        <td width="2%">:</td>
-                        <td width="33%">{{ $mahasiswa->nama_mhs }}</td>
-                        
-                        <td width="15%"><strong>Semester</strong></td>
-                        <td width="2%">:</td>
-                        <td id="formalSemester"></td>
-                    </tr>
-                    <tr>
-                        <td><strong>NIPD</strong></td>
-                        <td>:</td>
-                        <td>{{ $mahasiswa->nipd }}</td>
-                        
-                        <td><strong>Bidang Keahlian</strong></td>
-                        <td>:</td>
-                        <td>{{ $mahasiswa->program_studi }}</td>
-                    </tr>
-                </table>
-
-                <table class="table-formal">
-                    <thead>
-                        <tr>
-                            <th width="5%">NO</th>
-                            <th style="text-align: left;">MATA KULIAH</th>
-                            <th style="text-align: left;">DOSEN</th>
-                            <th width="10%">SKS</th>
-                        </tr>
-                    </thead>
-                    <tbody id="courseTableBody">
-                        </tbody>
-                </table>
-
-                <div class="signature-container">
-                    <div class="text-center" style="width: 250px;">
-                        <p style="font-size: 11pt;">Mahasiswa Ybs,</p>
-                        <div style="height: 80px;"></div>
-                        <p style="font-weight: bold; text-decoration: underline; font-size: 11pt; text-transform: uppercase;">{{ $mahasiswa->nama_mhs }}</p>
-                        <p style="font-size: 11pt;">NIPD. {{ $mahasiswa->nipd }}</p>
-                    </div>
-
-                    <div class="text-center" style="width: 250px;">
-                        <p style="font-size: 11pt;">Karawang, {{ date('d F Y') }}</p>
-                        <p style="font-size: 11pt;">Bagian Akademik,</p>
-                        <div style="height: 80px;"></div>
-                        <p style="font-weight: bold; text-decoration: underline; font-size: 11pt;">( Administrator )</p>
-                        <p style="font-size: 11pt;">NIDN. -</p>
-                    </div>
-                </div>
+{{-- MODAL WRAPPER (Tampilan Dokumen) --}}
+<div id="krsModal" class="fixed inset-0 bg-black/70 hidden justify-center overflow-y-auto z-[9999] py-10 backdrop-blur-sm">
+    
+    {{-- KONTEN DOKUMEN --}}
+    <div id="printArea" class="paper-preview font-poppins text-black relative">
+        
+        {{-- 1. KOP SURAT --}}
+        <div class="flex items-start mb-8 gap-4">
+            <img src="{{ asset('/img/lp3i-kotak.png') }}" class="w-20 h-auto object-contain">
+            <div class="flex-1 pt-1">
+                <h1 class="text-xl font-bold tracking-wide leading-none mb-1">LP3I COLLEGE</h1>
+                <p class="text-[11px] leading-snug text-gray-800 w-3/4">
+                    Cabang Karawang : Jl. Tarumanegara, Komplek Karawang Hijau Blok B. 4-6, Kab. Karawang
+                </p>
+                <p class="text-[11px] font-bold mt-1">TAHUN AKADEMIK 2025/2026</p>
             </div>
         </div>
+
+        {{-- 2. JUDUL --}}
+        <div class="text-center mb-6">
+            <h2 class="font-bold text-base uppercase tracking-wider">KARTU RENCANA STUDI (KRS)</h2>
+        </div>
+
+        {{-- 3. BIODATA --}}
+        <div class="mb-6 pl-1">
+            <table class="w-full text-[12px] leading-tight font-medium">
+                <tr><td class="w-40 py-0.5">NIPD</td><td class="py-0.5">: {{ $mahasiswa->nipd }}</td></tr>
+                <tr><td class="py-0.5">NAMA LENGKAP</td><td class="py-0.5">: {{ strtoupper($mahasiswa->nama) }}</td></tr>
+                <tr><td class="py-0.5">SEMESTER</td><td class="py-0.5">: <span id="semesterText"></span></td></tr>
+                <tr><td class="py-0.5">BIDANG KEAHLIAN</td><td class="py-0.5">: {{ strtoupper($mahasiswa->bidangKeahlian->nama_bidang_keahlian ?? '-') }}</td></tr>
+            </table>
+        </div>
+
+        {{-- 4. TABEL --}}
+        <table class="w-full border border-black text-[11px] mb-2 border-collapse">
+            <thead class="bg-gray-300 font-bold text-center">
+                <tr>
+                    <th class="border border-black py-1.5 w-10">NO</th>
+                    <th class="border border-black py-1.5 w-24">KODE</th>
+                    <th class="border border-black py-1.5  px-3">MATERI AJAR</th>
+                    <th class="border border-black py-1.5 w-14">BK</th>
+                </tr>
+            </thead>
+            <tbody id="krsBody"></tbody>
+            <tfoot class="font-bold bg-gray-100">
+                <tr>
+                    <td colspan="3" class="border border-black text-right py-1.5 px-3 uppercase text-[10px]">Total Jumlah BK</td>
+                    <td class="border border-black text-center py-1.5" id="totalSks"></td>
+                </tr>
+            </tfoot>
+        </table>
+
+        {{-- Note --}}
+        <div class="text-[10px] font-bold mt-1 mb-12">
+            Note : Waktu dan Tempat lihat jadual di Sistem Informasi Akademik (e-student)
+        </div>
+
+        {{-- 5. TTD --}}
+        <div class="flex justify-between text-[11px] px-2">
+            <div class="text-left w-1/3">
+                <p class="mb-16">Pembimbing Akademik (PA)</p>
+                <p class="font-bold underline underline-offset-2">Eko Marmanto P.U, M.Kom.,MOS.</p>
+            </div>
+            <div class="text-left w-1/3 ml-auto pl-6">
+                <p class="mb-2">Karawang, {{ now()->translatedFormat('d-F-Y') }}</p>
+                <p class="mb-14">PD yang bersangkutan,</p>
+                <div class="h-4"></div> 
+                <p class="font-bold">{{ $mahasiswa->nama }}</p>
+            </div>
+        </div>
+    </div>
+
+    {{-- TOMBOL AKSI --}}
+    <div class="fixed bottom-6 left-1/2 transform -translate-x-1/2 flex gap-4 no-print z-[10000]">
+        <button onclick="closeModal()" class="bg-white text-gray-700 border border-gray-300 px-6 py-2 rounded-full shadow-lg text-sm font-semibold hover:bg-gray-50 transition-all">
+            Tutup
+        </button>
+        <button onclick="window.print()" class="bg-gray-900 text-white px-6 py-2 rounded-full shadow-lg text-sm font-semibold hover:bg-black flex items-center gap-2 transition-all hover:scale-105">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z" />
+            </svg>
+            Cetak KRS
+        </button>
     </div>
 </div>
 
 <script>
-    const semesterData = {
-        @foreach($krsBySemester as $semId => $krsList)
-            {{ $semId }}: {
-                courses: [
-                    @foreach($krsList as $krs)
-                    { 
-                        code: "{{ $krs->mataKuliah->kode_mk ?? 'MK-00' }}",
-                        name: "{{ $krs->mataKuliah->nama_mk }}", 
-                        dosen: "{{ $krs->dosen->nama_dsn ?? '-' }}", 
-                        sks: {{ $krs->sks }} 
-                    },
-                    @endforeach
-                ]
-            },
-        @endforeach
-    };
+function openKrs(semester) {
+    document.getElementById('krsBody').innerHTML = '<tr><td colspan="4" class="text-center py-4">Memuat...</td></tr>';
+    const modal = document.getElementById('krsModal');
+    modal.classList.remove('hidden');
+    modal.classList.add('flex');
 
-    function toRoman(num) { const r = {1:'I',2:'II',3:'III',4:'IV',5:'V',6:'VI'}; return r[num] || num; }
+    fetch(`/krs/${semester}`)
+        .then(res => res.json())
+        .then(res => {
+            // Logic Text Semester (Ganjil/Genap)
+            const jenisSem = semester % 2 !== 0 ? 'Ganjil' : 'Genap';
+            document.getElementById('semesterText').innerText = `${jenisSem} ( ${semester} )`; 
+            
+            document.getElementById('totalSks').innerText = res.total_sks;
 
-    function openDetail(semId) {
-        const data = semesterData[semId];
-        if(!data) return;
-        document.getElementById('formalSemesterText').innerText = toRoman(semId);
-        const tbody = document.getElementById('formalTableBody');
-        tbody.innerHTML = '';
-        let total = 0;
-        data.courses.forEach((c, i) => {
-            total += c.sks;
-            tbody.innerHTML += `<tr><td align="center">${i+1}</td><td>${c.code}</td><td>${c.name}</td><td>${c.dosen}</td><td align="center">${c.sks}</td></tr>`;
-        });
-        tbody.innerHTML += `<tr style="background-color: #f9f9f9;"><td colspan="4" align="right" style="padding-right:15px;"><strong>TOTAL SKS DIAMBIL</strong></td><td align="center" style="font-weight: bold;">${total}</td></tr>`;
-        
-        const modal = document.getElementById('detailModal');
-        modal.classList.remove('hidden');
-        document.body.style.overflow = 'hidden';
-    }
+            let body = '';
+            if(res.data && res.data.length > 0) {
+                res.data.forEach((item, i) => {
+                    let kode = item.materi_ajar?.kode_mk ?? '23IC030' + (i+1); 
+                    body += `
+                        <tr>
+                            <td class="border border-black px-2 py-1 text-center align-middle">${i+1}</td>
+                            <td class="border border-black px-2 py-1 align-middle">${kode}</td>
+                            <td class="border border-black px-3 py-1 align-middle">${item.materi_ajar?.nama_mk ?? '-'}</td>
+                            <td class="border border-black px-2 py-1 text-center font-bold align-middle">${item.sks}</td>
+                        </tr>`;
+                });
+            } else {
+                body = `<tr><td colspan="4" class="text-center py-4 border border-black italic">Data belum tersedia.</td></tr>`;
+            }
+            document.getElementById('krsBody').innerHTML = body;
+        })
+        .catch(err => { console.error(err); alert('Gagal mengambil data.'); });
+}
 
-    function closeModal() {
-        document.getElementById('detailModal').classList.add('hidden');
-        document.body.style.overflow = 'auto';
-    }
-
-    document.getElementById('detailModal').addEventListener('click', function(e) {
-        // Cek jika yang diklik adalah backdrop (bukan kertas)
-        if (e.target.id === 'detailModal' || e.target.classList.contains('flex')) {
-            closeModal();
-        }
-    });
-
-    function downloadPDF() {
-        const element = document.getElementById('printableArea');
-        var opt = {
-            margin: [10, 10, 10, 10], // Margin diperkecil sedikit agar muat
-            filename: 'KRS_Semester_{{ $mahasiswa->nipd }}.pdf',
-            image: { type: 'jpeg', quality: 0.98 },
-            html2canvas: { scale: 2, useCORS: true, scrollY: 0 },
-            jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
-        };
-        html2pdf().set(opt).from(element).save();
-    }
+function closeModal() {
+    const modal = document.getElementById('krsModal');
+    modal.classList.add('hidden');
+    modal.classList.remove('flex');
+}
 </script>
 @endsection

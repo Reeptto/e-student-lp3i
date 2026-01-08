@@ -4,7 +4,6 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
-
 use App\Models\Ruangan;
 
 class RuanganSeeder extends Seeder
@@ -15,33 +14,28 @@ class RuanganSeeder extends Seeder
     public function run(): void
     {
         Ruangan::create([
-                'nama_ruangan' => 'Lab. Bill Gates',
-                'kapasitas' => 25,
-                'deskripsi' => 'Laboratorium Komputer',
+            'nama_ruangan' => 'Bill Gates',
+            'kapasitas' => '25',
         ]);
 
         Ruangan::create([
-                'nama_ruangan' => 'R. Crown',
-                'kapasitas' => 30,
-                'deskripsi' => 'Ruang Kelas',
+            'nama_ruangan' => 'Soekarno',
+            'kapasitas' => '15',
         ]);
 
         Ruangan::create([
-                'nama_ruangan' => 'R. Pullman',
-                'kapasitas' => 25,
-                'deskripsi' => 'Ruang Kelas',
+            'nama_ruangan' => 'Bj. Habibie',
+            'kapasitas' => '40',
         ]);
 
         Ruangan::create([
-                'nama_ruangan' => 'R. Bj. Habibie',
-                'kapasitas' => 40,
-                'deskripsi' => 'Ruang Kelas/Aula',
+            'nama_ruangan' => 'R. Crown',
+            'kapasitas' => '30',
         ]);
 
         Ruangan::create([
-                'nama_ruangan' => 'Lab. Soekarno',
-                'kapasitas' => 18,
-                'deskripsi' => 'Laboratorium Komputer',
+            'nama_ruangan' => 'R. Pullman',
+            'kapasitas' => '25',
         ]);
     }
 }

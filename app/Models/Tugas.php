@@ -7,25 +7,33 @@ use Illuminate\Database\Eloquent\Model;
 class Tugas extends Model
 {
     protected $table = 'tugas';
+    protected $primaryKey = 'id_tugas'; // ← SESUAIKAN DENGAN DB KAMU
+    public $incrementing = true;
+    protected $keyType = 'int';
     protected $fillable = [
-        'mk_id',
-        'dsn_id',
+        'id_ma',
+        'id_kelas',
         'judul_tugas',
         'file_materi',
         'deskripsi',
-        'time_start',
-        'time_end',
+        'jam_mulai',
+        'jam_selesai',
         'status',
     ];
 
-    public function matkul()
+    public function materiAjar()
     {
-        return $this->belongsTo(MataKuliah::class, 'mk_id');
+        return $this->belongsTo(MataKuliah::class, 'id_ma', 'id_ma');
+    }
+
+    public function submissions()
+    {
+        return $this->hasMany(Submission::class, 'id_tugas', 'id_tugas');
     }
 
     public function submissionByAuth()
     {
-        return $this->hasOne(Submission::class)->where('mhs_id', auth()->id());
+        return $this->hasOne(Submission::class, 'id_tugas', 'id_tugas')->where('id_mahasiswa', auth()->user()->id_user);
     }
 
 

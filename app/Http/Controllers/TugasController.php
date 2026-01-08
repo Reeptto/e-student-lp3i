@@ -5,63 +5,59 @@ namespace App\Http\Controllers;
 use App\Models\MataKuliah;
 use App\Models\Tugas;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-
 
 class TugasController extends Controller
 {
     public function index(Request $request)
     {
-
         $user = auth()->user();
-        if (!$user) abort(403);
+        abort_if(!$user || !$user->mahasiswa || !$user->mahasiswa->kelas, 403);
 
-        
-        $matkul = Matakuliah::orderBy('nama_mk')->get();
+        $kelasId = $user->mahasiswa->id_kelas;
 
-        $kelasId = $user->kelas_id;
-        $prodiId = $user->kelas->prodi_id;
-
-        $semesters = MataKuliah::where('prodi_id', $prodiId)
-        ->select('semester')
-        ->distinct()
-        ->orderBy('semester', 'asc')
-        ->pluck('semester');
-
-        $matkul = collect([]);
-
-        if ($request->filled('semester')) {
-                $matkul = MataKuliah::where(function($query) use ($prodiId) {
-                $query->where('prodi_id', $prodiId)
-                    ->orWhereNull('prodi_id');
+        // Ambil semester dari matkul yang BENAR-BENAR punya tugas di kelas ini
+        $semesters = MataKuliah::whereIn('id_ma', function ($q) use ($kelasId) {
+                $q->select('id_ma')
+                  ->from('tugas')
+                  ->where('id_kelas', $kelasId);
             })
-        ->where('semester', $request->semester)
-        ->orderBy('nama_mk')
-        ->get();
-    }
-        $tugas = Tugas::where('kelas_id', $kelasId)
-            ->when($request->matkul, function ($q) use ($request) {
-                $q->where('mk_id', $request->matkul);
+            ->whereNotNull('semester')
+            ->select('semester')
+            ->distinct()
+            ->orderBy('semester')
+            ->pluck('semester');
+
+        // Ambil matkul berdasarkan tugas di kelas ini (AMAN antar kelas)
+        $matkul = MataKuliah::whereIn('id_ma', function ($q) use ($kelasId) {
+                $q->select('id_ma')
+                  ->from('tugas')
+                  ->where('id_kelas', $kelasId);
             })
-            ->orderBy('time_end')
+            ->when($request->filled('semester'), function ($q) use ($request) {
+                $q->where('semester', $request->semester);
+            })
+            ->orderBy('nama_mk')
             ->get();
 
-        return view('tugas.index', compact('matkul', 'tugas', 'semesters'));
-    }
+        // Ambil tugas
+        $tugas = Tugas::with('materiAjar')
+            ->where('id_kelas', $kelasId)
+            ->when($request->filled('matkul'), function ($q) use ($request) {
+                $q->where('id_ma', $request->matkul);
+            })
+            ->orderBy('jam_selesai')
+            ->get();
 
+        return view('tugas.index', compact('semesters', 'matkul', 'tugas'));
+    }
 
     public function show(Tugas $tugas)
     {
-        $tugas->load('matkul');
+        $tugas->load('materiAjar');
 
-        $submission = $tugas->submissionByAuth()
-            ->where('mhs_id', auth()->user()->id)
-            ->first();
-
-        $isExpired = now()->format('H:i:s') > $tugas->time_end;
+        $submission = $tugas->submissionByAuth()->first();
+        $isExpired  = now()->isAfter($tugas->jam_selesai);
 
         return view('tugas.show', compact('tugas', 'submission', 'isExpired'));
     }
-
-
 }

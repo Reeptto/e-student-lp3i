@@ -35,11 +35,11 @@ class ProfileMahasiswaController extends Controller
         $mahasiswa = auth()->user()->mahasiswa;
 
         $request->validate([
-            'Domisili' => 'required|string|max:255',
+            'domisili' => 'required|string|max:255',
             'foto' => 'nullable|image|mimes:jpeg,png,jpg,webp,svg|max:2048',
         ]);
 
-        $mahasiswa->Domisili = $request->Domisili;
+        $mahasiswa->domisili = $request->domisili;
 
         if($request->hasFile('foto')){
             // Hapus foto lama

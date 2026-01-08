@@ -11,8 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('matakuliah', function (Blueprint $table) {
-            $table->integer('semester')->after('nama_mk');
+        Schema::create('pengumuman', function (Blueprint $table) {
+            $table->id('id_pengumuman');
+            $table->string('judul_pengumuman');
+            $table->text('isi');
+            $table->string('file_path');
+            $table->timestamps();
         });
     }
 
@@ -21,8 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('matakuliah', function (Blueprint $table) {
-            //
-        });
+        Schema::dropIfExists('pengumuman');
     }
 };

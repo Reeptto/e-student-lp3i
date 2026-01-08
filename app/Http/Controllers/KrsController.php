@@ -4,105 +4,70 @@ namespace App\Http\Controllers;
 
 use App\Models\Krs;
 use App\Models\Mahasiswa;
-use App\Models\MataKuliah;
-use Illuminate\Http\Request;
 
 class KrsController extends Controller
 {
-    // ===============================
-    // INDEX (LIST SEMUA SEMESTER KRS)
-    // ===============================
     public function index()
     {
         $user = auth()->user();
-        if (!$user) abort(403);
+        abort_if(!$user, 403);
 
-        $mahasiswa = Mahasiswa::where('user_id', $user->id)->firstOrFail();
+        $mahasiswa = Mahasiswa::where('id_user', $user->id_user)->firstOrFail();
 
-        $krsList = Krs::with(['mataKuliah', 'dosen', 'kelas'])
-            ->where('nipd', $mahasiswa->nipd)
+        $krs = Krs::where('id_mahasiswa', $mahasiswa->id_mahasiswa)
             ->orderBy('semester')
-            ->get();
+            ->get()
+            ->groupBy('semester');
 
-        // group KRS berdasarkan semester pengambilan
-        $krsBySemester = $krsList->groupBy('semester');
-
-        // data header semester
-        $semesters = $krsBySemester->map(function ($items, $semester) {
-            return (object) [
-                'id' => $semester,
-                'nama' => "Semester $semester",
-                'total_sks' => $items->sum(fn ($i) => $i->mataKuliah->sks),
+        $semesters = $krs->map(function ($items, $semester) {
+            return [
+                'semester' => $semester,
+                'total_sks' => $items->sum('sks'),
             ];
         })->values();
 
-        return view('krs.index', compact(
-            'mahasiswa',
-            'krsBySemester',
-            'semesters'
-        ));
+        return view('krs.index', compact('mahasiswa', 'semesters'));
     }
 
-   
-    // GENERATE KRS (AUTO PAKET)
- 
-    public function generate()
-    {
-        $user = auth()->user();
-        if (!$user) abort(403);
-
-        $mahasiswa = Mahasiswa::where('user_id', $user->id)->firstOrFail();
-
-        $semesterAktif = $mahasiswa->semester_aktif;
-        if (!$semesterAktif) {
-            return back()->with('error', 'Semester belum aktif');
-        }
-
-        // ambil MK paket semester aktif
-        $matkulPaket = MataKuliah::where('semester', $semesterAktif)->get();
-
-        foreach ($matkulPaket as $mk) {
-
-            // CEK: MK sudah pernah diambil?
-            $sudahAmbil = Krs::where('nipd', $mahasiswa->nipd)
-                ->where('mk_id', $mk->id)
-                ->exists();
-
-            if ($sudahAmbil) {
-                continue; // skip MK lama
-            }
-
-            Krs::create([
-                'nipd'       => $mahasiswa->nipd,
-                'mk_id'      => $mk->id,
-                'kelas_id'   => $mahasiswa->kelas_id,
-                'semester'   => $semesterAktif, 
-                'status'     => 'normal',
-            ]);
-        }
-
-        return back()->with('success', 'KRS semester ' . $semesterAktif . ' berhasil digenerate');
-    }
-
-    
-    // DETAIL KRS PER SEMESTER
-   
+    // AJAX MODAL
     public function show($semester)
     {
         $user = auth()->user();
-        if (!$user) abort(403);
+        abort_if(!$user, 403);
 
-        $mahasiswa = Mahasiswa::where('user_id', $user->id)->firstOrFail();
+        $mahasiswa = Mahasiswa::where('id_user', $user->id_user)->firstOrFail();
 
-        $krsList = Krs::with(['mataKuliah', 'dosen', 'kelas'])
-            ->where('nipd', $mahasiswa->nipd)
+        $krs = Krs::with('materiAjar')
+            ->where('id_mahasiswa', $mahasiswa->id_mahasiswa)
             ->where('semester', $semester)
             ->get();
 
-        return view('krs.detail', [
-            'krsList'   => $krsList,
-            'semester'  => $semester,
-            'totalSks'  => $krsList->sum(fn ($i) => $i->mataKuliah->sks),
+        return response()->json([
+            'data' => $krs,
+            'total_sks' => $krs->sum('sks'),
         ]);
+    }
+
+    // CETAK
+    public function print($semester)
+    {
+        $user = auth()->user();
+        abort_if(!$user, 403);
+
+        $mahasiswa = Mahasiswa::where('id_user', $user->id_user)->firstOrFail();
+
+        $krsList = Krs::with('materiAjar')
+            ->where('id_mahasiswa', $mahasiswa->id_mahasiswa)
+            ->where('semester', $semester)
+            ->get();
+
+        $totalSks = $krsList->sum('sks');
+
+        return view('krs.print', compact(
+            'mahasiswa',
+            'krsList',
+            'semester',
+            'totalSks'
+        ));
     }
 }

@@ -2,10 +2,9 @@
 
 namespace Database\Seeders;
 
-use App\Models\User;
-use App\Models\Mahasiswa;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use App\Models\User;
 
 class UserSeeder extends Seeder
 {
@@ -15,22 +14,26 @@ class UserSeeder extends Seeder
     public function run(): void
     {
         User::create([
-                'name' => 'Ari Aprianto',
-                'email' => 'ari@gmail.com',
-                'password' => '12345678',
-                'bidang_keahlian_id' => 1           
+            'name' => 'Ari Aprianto',
+            'email' => 'ari@kampus.test',
+            'password' => bcrypt('12345678'),
+            'role' => 'mahasiswa',
         ]);
+
         User::create([
-                'name' => 'Esa Nabila Cahyani',
-                'email' => 'esa@gmail.com',
-                'password' => '12345678',
-                'bidang_keahlian_id'=> 2           
+            'name' => 'Esa Nabila Cahyani',
+            'email' => 'esa@kampus.test',
+            'password' => bcrypt('12345678'),
+            'role' => 'mahasiswa',
         ]);
+
         User::create([
-                'name' => 'Novi Irnawati',
-                'email' => 'novi@gmail.com',
-                'password' => '12345678',
-                'bidang_keahlian_id'=> 3          
+            'name' => 'Novi Irnawati',
+            'email' => 'novi@kampus.test',
+            'password' => bcrypt('12345678'),
+            'role' => 'mahasiswa',
         ]);
     }
 }
+
+

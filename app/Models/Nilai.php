@@ -9,30 +9,33 @@ class Nilai extends Model
     protected $table = 'nilai';
 
     protected $fillable = [
-        'mk_id',
-        'mhs_id',
-        'kehadiran',
-        'attitude',
+        'id_pendidik',
+        'id_mahasiswa',
+        'id_ma',
+        'semester',
+        'periode',
+        'tahun_ajaran',
+        'nilai_kehadiran',
+        'nilai_sikap',
         'nilai_tugas',
         'nilai_formative',
         'nilai_uts',
-        'nilai_uas'
-    ];
-
-    protected $appends = [
+        'nilai_uas',
         'nilai_akhir',
-        'huruf_mutu',
-        'nilai_kumulatif'
+        'grade',
+        'bobot_ip',
     ];
 
-    public function matkul()
+
+
+    public function materiAjar()
     {
-        return $this->belongsTo(Matakuliah::class, 'mk_id');
+        return $this->belongsTo(Matakuliah::class, 'id_ma', 'id_ma');
     }
 
     public function mahasiswa()
     {
-        return $this->belongsTo(Mahasiswa::class, 'mhs_id');
+        return $this->belongsTo(Mahasiswa::class, 'id_mahasiswa', 'id_mahasiswa');
     }
 
     /* ================= NILAI AKHIR ================= */

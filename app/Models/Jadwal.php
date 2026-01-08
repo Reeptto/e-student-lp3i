@@ -12,7 +12,6 @@ class Jadwal extends Model
         'mk_id',
         'jam_mulai',
         'jam_selesai',
-        
         'dsn_id',
         'ruangan_id',
         'kelas_id',
@@ -20,22 +19,22 @@ class Jadwal extends Model
     ];
         public function matkul()
         {
-            return $this->belongsTo(Matakuliah::class,'mk_id');
+            return $this->belongsTo(Matakuliah::class,'id_ma', 'id_ma');
         }
 
         public function dosen()
         {
-            return $this->belongsTo(Dosen::class,'dsn_id');
+            return $this->belongsTo(Dosen::class,'id_pendidik', 'id_pendidik');
         }
 
         public function ruangan()
         {
-            return $this->belongsTo(Ruangan::class,'ruangan_id');
+            return $this->belongsTo(Ruangan::class,'id_ruangan', 'id_ruangan');
         }
 
         public function kelas()
         {
-            return $this->belongsTo(Kelas::class, 'kelas_id');
+            return $this->belongsTo(Kelas::class, 'id_kelas');
         }
 
 }

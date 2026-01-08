@@ -12,10 +12,9 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('bidang_keahlian', function (Blueprint $table) {
-            $table->id();
+            $table->id('id_bidang_keahlian');
             $table->string('nama_bidang_keahlian');
-            $table->string('kode_bidang_keahlian')->unique();
-            $table->string('deskripsi');
+            $table->string('kode_bidang_keahlian');
             $table->timestamps();
         });
     }
@@ -23,7 +22,7 @@ return new class extends Migration
     /**
      * Reverse the migrations.
      */
-    public function down(): void
+    public function down(): void 
     {
         Schema::dropIfExists('bidang_keahlian');
     }

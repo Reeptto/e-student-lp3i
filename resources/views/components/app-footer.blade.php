@@ -38,7 +38,6 @@
         z-index: -1;
     }
 
-    /* 2. Konektor Teal */
     .tech-connector {
         width: 15px;
         height: 100%;
@@ -49,7 +48,6 @@
         z-index: 1;
     }
 
-    /* 3. Bar Utama (Tengah - Tempat Copyright) */
     .tech-main-bar {
         flex: 1;
         position: relative;
@@ -57,7 +55,7 @@
         align-items: center;
         padding-left: 30px;
         background: white;
-        font-size: 0.9rem; /* Ukuran font disesuaikan untuk copyright */
+        font-size: 0.9rem;
         font-weight: 600;
         color: #333;
     }
@@ -122,7 +120,7 @@
 
             <div class="tech-main-bar">
                 <span class="uppercase tracking-wide text-blue-700">
-                    &copy; {{ date('Y') }} E-STUDENT Information System <b>|</b> Created By ASE-10 <b>|</b> Rev.02 <b>|</b> v1.0
+                    &copy; {{ date('Y') }} E-STUDENT Information System <b>|</b> Created By ASE-10 <b>|</b> Rev. 03 <b>|</b> v1.0
                 </span>
             </div>
 

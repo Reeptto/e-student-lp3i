@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Submission;
+use Carbon\Carbon;
 use App\Models\Tugas;
 use Illuminate\Http\Request;
 
@@ -11,30 +12,30 @@ class SubmissionController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'tugas_id' => 'required|exists:tugas,id',
-            'file_tugas_mhs' => 'required|file|mimes:pdf,docx,zip|max:5120'
+            'id_tugas' => 'required|exists:tugas,id_tugas',
+            'file_tugas' => 'required|file|mimes:pdf,docx,zip|max:5120',
         ]);
 
-        $tugas = Tugas::with(['matkul', 'submissionByAuth'])->orderBy('created_at', 'desc')->get();
+        $tugas = Tugas::where('id_tugas', $request->id_tugas)->firstOrFail();
 
-        $existing = Submission::where('tugas_id', $tugas->id)->where('mhs_id', auth()->user()->id)->first();
+        $existing = Submission::where('id_tugas', $tugas->id_tugas)
+            ->where('id_mahasiswa', auth()->user()->id_user)
+            ->first();
 
         if ($existing) {
-            return back()->with('error', 'Tugas Sudah dikumpulkan');
+            return back()->with('error', 'Tugas sudah dikumpulkan');
         }
 
-        $path = $request->file('file_tugas_mhs')->store('submission', 'public');
-        $isLate = now()->format('H:i:s') > $tugas->time_end;
-        
+        $file = $request->file('file_tugas');
+        $path = $file->store('submission', 'public');
+
         Submission::create([
-            'file_tugas_mhs' => $path,
-            'mhs_id'    => auth()->user()->id,
-            'tugas_id'  => $tugas->id,
-            'status'    => $isLate ? 'Late' : 'Submitted',
-            'submitted_at' => now()
+            'id_tugas' => $tugas->id_tugas,
+            'id_mahasiswa' => auth()->user()->id_user,
+            'file_tugas' => $path,
+            'submitted_at' => Carbon::now(),
         ]);
 
-
-        return redirect()->route('tugas.show', $tugas->id)->with('success', 'Tugas berhasil dikumpulkan!');
+        return back()->with('success', 'Tugas berhasil dikumpulkan');
     }
 }

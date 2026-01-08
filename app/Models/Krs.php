@@ -12,14 +12,12 @@ class Krs extends Model
     protected $table = 'krs';
 
     protected $fillable = [
-        'nipd',
-        'kode_mk',
-        'dosen_id',
-        'kelas_id',
-        'bidang_keahlian',
+        'id_mahasiswa',
+        'id_pendidik',
+        'id_kelas',
+        'id_ma',
         'sks',
         'semester', // semester pengambilan
-        'status',   // normal | ngulang | cuti
     ];
 
     // =====================
@@ -28,22 +26,22 @@ class Krs extends Model
 
     public function mahasiswa()
     {
-        return $this->belongsTo(Mahasiswa::class, 'nipd', 'nipd');
+        return $this->belongsTo(Mahasiswa::class, 'id_mahasiswa', 'id_mahasiswa');
     }
 
-    public function mataKuliah()
+    public function materiAjar()
     {
-        return $this->belongsTo(MataKuliah::class, 'kode_mk', 'kode_mk');
+        return $this->belongsTo(MataKuliah::class, 'id_ma', 'id_ma');
     }
 
-    public function dosen()
+    public function pendidik()
     {
-        return $this->belongsTo(Dosen::class);
+        return $this->belongsTo(Dosen::class, 'id_pendidik', 'id_pendidik');
     }
 
     public function kelas()
     {
-        return $this->belongsTo(Kelas::class);
+        return $this->belongsTo(Kelas::class, 'id_kelas', 'id_kelas');
     }
 
     // =====================

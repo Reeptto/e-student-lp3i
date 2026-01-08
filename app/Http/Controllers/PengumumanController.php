@@ -13,7 +13,7 @@ class PengumumanController extends Controller
         $user = auth()->user();
         if (!$user) abort(403);
         
-        $pengumuman = Pengumuman::orderBy('tanggal_terbit', 'desc')->get();
+        $pengumuman = Pengumuman::orderBy('created_at', 'desc')->get();
 
         return view('pengumuman.index', compact('pengumuman'));
     }

@@ -7,10 +7,11 @@ use Illuminate\Database\Eloquent\Model;
 class Submission extends Model
 {
     protected $table = 'submission';
+    protected $primaryKey = 'id_submission'; 
     protected $fillable = [
-        'file_tugas_mhs',
-        'mhs_id',
-        'tugas_id',
+        'file_tugas',
+        'id_mahasiswa',
+        'id_tugas',
         'nilai',   
         'status',   
         'submitted_at',   

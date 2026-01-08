@@ -2,107 +2,70 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
-use App\Models\MataKuliah;
-use App\Models\Dosen;
-use App\Models\Kelas;
-
 use App\Models\Tugas;
-
+use App\Models\MataKuliah;
+use App\Models\Kelas;
+use Carbon\Carbon;
 
 class TugasSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     */
     public function run(): void
     {
-        $abp = MataKuliah::where('kode_mk', 'ABP-01')->first();
-        $egc = MataKuliah::where('kode_mk', 'EGC-01')->first();
-        $wd = MataKuliah::where('kode_mk', 'WD-01')->first();
+        // =========================
+        // AMBIL MASTER DATA
+        // =========================
+        $mkAIS = MataKuliah::where('kode_mk', 'AIS-101')->firstOrFail();
+        $mkASE = MataKuliah::where('kode_mk', 'ASE-101')->firstOrFail();
+        $mkOAA = MataKuliah::where('kode_mk', 'OAA-101')->firstOrFail(); // kode MK boleh tetap
 
-        // $mk = MataKuliah::firstOrFail();
-        $dosen = Dosen::firstOrFail();
-        $kelas = Kelas::firstOrFail();
+        $kelasAIS = Kelas::where('nama_kelas', 'AIS-12')->firstOrFail();
+        $kelasASE = Kelas::where('nama_kelas', 'ASE-10')->firstOrFail();
+        $kelasOAA = Kelas::where('nama_kelas', 'OAA-13A')->firstOrFail();
 
-        Tugas::create([
-            'mk_id' => $abp->id,
-            'dsn_id' => $dosen->id,
-            'kelas_id' => $kelas->id,
-            'judul_tugas' => 'buatlah mainan seru',
-            'file_materi' => 'file.pdf',
-            'deskripsi' => 'Buatlah program kalkulator sederhana',
-            'time_start' => '2026-01-02 08:00:00',
-            'time_end' => '2026-01-02 12:00:00',
-            'status' => 'Belum Selesai',
-        ]);
+        // =========================
+        // DATA TUGAS (URUT)
+        // =========================
+        $tugas = [
+            // ===== AIS-12
+            [
+                'judul_tugas' => 'Tugas 1 - Sistem Informasi',
+                'deskripsi' => 'Buat ringkasan konsep sistem informasi',
+                'file_materi' => null,
+                'jam_mulai' => Carbon::now(),
+                'jam_selesai' => Carbon::now()->addDays(7),
+                'status' => 'Aktif',
+                'id_ma' => $mkAIS->id_ma,
+                'id_kelas' => $kelasAIS->id_kelas,
+            ],
 
-        Tugas::create([
-            'mk_id' => $abp->id,
-            'dsn_id' => $dosen->id,
-            'kelas_id' => $kelas->id,
-            'judul_tugas' => 'Membuat Program Kalkulator Sederhana',
-            'file_materi' => 'file.pdf',
-            'deskripsi' => 'Buatlah program kalkulator sederhana',
-            'time_start' => '2026-01-02 08:00:00',
-            'time_end' => '2026-01-03 08:00:00',
-            'status' => 'Belum Selesai',
-        ]);
+            // ===== ASE-10
+            [
+                'judul_tugas' => 'Tugas 1 - Pemrograman Dasar',
+                'deskripsi' => 'Buat program CRUD sederhana menggunakan PHP',
+                'file_materi' => null,
+                'jam_mulai' => Carbon::now(),
+                'jam_selesai' => Carbon::now()->addDays(5),
+                'status' => 'Aktif',
+                'id_ma' => $mkASE->id_ma,
+                'id_kelas' => $kelasASE->id_kelas,
+            ],
 
+            // ===== OAA-13A
+            [
+                'judul_tugas' => 'Tugas 1 - Administrasi Perkantoran',
+                'deskripsi' => 'Buat laporan administrasi perkantoran',
+                'file_materi' => null,
+                'jam_mulai' => Carbon::now(),
+                'jam_selesai' => Carbon::now()->addDays(6),
+                'status' => 'Aktif',
+                'id_ma' => $mkOAA->id_ma,
+                'id_kelas' => $kelasOAA->id_kelas,
+            ],
+        ];
 
-
-            Tugas::create([
-            'mk_id' => $egc->id,
-            'dsn_id' => $dosen->id,
-            'kelas_id' => $kelas->id,
-            'judul_tugas' => 'Membuat kepalamu berpikir',
-            'file_materi' => 'file.pdf',
-            'deskripsi' => 'Buatlah semacam analisa barang ga boleh tanya gpt',
-            'time_start' => '2026-01-02 08:00:00',
-            'time_end' => '2026-01-04 20:00:00',
-            'status' => 'Belum Selesai',
-        ]);
-
-
-
-            Tugas::create([
-            'mk_id' => $egc->id,
-            'dsn_id' => $dosen->id,
-            'kelas_id' => $kelas->id,
-            'judul_tugas' => 'Membuat puisi',
-            'file_materi' => 'ichi.html',
-            'deskripsi' => 'Buatlah sebuah puisi untuk dirimu sendiri, kenapa bisa dirimu jadi begitu',
-            'time_start' => '2026-01-02 08:00:00',
-            'time_end' => '2026-01-04 20:00:00',
-            'status' => 'Belum Selesai',
-        ]);
-
-
-            Tugas::create([
-            'mk_id' => $wd->id,
-            'dsn_id' => $dosen->id,
-            'kelas_id' => $kelas->id,
-            'judul_tugas' => 'Membuat Indonesia bebas dari korupsi',
-            'file_materi' => 'file.doc',
-            'deskripsi' => 'Buatlah sebuah cerita dimana indonesia bisa bebas dari korupsi',
-            'time_start' => '2026-01-02 08:00:00',
-            'time_end' => '2026-01-04 20:00:00',
-            'status' => 'Belum Selesai',
-        ]);
-
-
-                Tugas::create([
-            'mk_id' => $wd->id,
-            'dsn_id' => $dosen->id,
-            'kelas_id' => $kelas->id,
-            'judul_tugas' => 'Membuat Program Vr',
-            'file_materi' => 'file.pdf',
-            'deskripsi' => 'Buatlah program VR seperti the Spirealm',
-            'time_start' => '2026-01-02 08:00:00',
-            'time_end' => '2026-01-03 20:00:00',
-            'status' => 'Belum Selesai',
-        ]);
-
-            }
+        foreach ($tugas as $item) {
+            Tugas::create($item);
+        }
+    }
 }

@@ -19,19 +19,16 @@ class DatabaseSeeder extends Seeder
         UserSeeder::class,
         BidangKeahlianSeeder::class,
         KelasSeeder::class,
-        
         MahasiswaSeeder::class,
-        MatkulSeeder::class,
-        MaterialSeeder::class,
-        PengumumanSeeder::class,
-        DosenSeeder::class,
-        TugasSeeder::class,
-         KrsSeeder::class,
-        NilaiSeeder::class,
+        PendidikSeeder::class,
+        MateriAjarSeeder::class,
         RuanganSeeder::class,
         JadwalSeeder::class,
-
-
+        MateriSeeder::class,
+        TugasSeeder::class,
+        KrsSeeder::class,
+        NilaiSeeder::class,
+        KhsSeeder::class,
     ]);
 }
 

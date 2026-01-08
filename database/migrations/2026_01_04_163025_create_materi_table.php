@@ -12,12 +12,16 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('materi', function (Blueprint $table) {
-            $table->id();
-            $table->string('nama_materi');
-            $table->string('file_materi');
-            $table->string('deskripsi');
+            $table->id('id_materi');
+            $table->foreignId('id_ma');
+            $table->foreignId('id_kelas');
+            $table->string('judul_materi');
+            $table->string('file_materi')->nullable();
+            $table->text('deskripsi');
             $table->string('pertemuan');
             $table->date('tgl_upload');
+            $table->foreign('id_ma')->references('id_ma')->on('materi_ajar')->onDelete('cascade');
+            $table->foreign('id_kelas')->references('id_kelas')->on('kelas')->onDelete('cascade');
             $table->timestamps();
         });
     }

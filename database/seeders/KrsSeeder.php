@@ -5,86 +5,107 @@ namespace Database\Seeders;
 use Illuminate\Database\Seeder;
 use App\Models\Krs;
 use App\Models\Mahasiswa;
-use App\Models\MataKuliah;
 use App\Models\Dosen;
+use App\Models\MataKuliah;
 use App\Models\Kelas;
 
 class KrsSeeder extends Seeder
 {
     public function run(): void
     {
-        $ari  = Mahasiswa::where('nipd', '2407810040004')->firstOrFail();
-        $esa  = Mahasiswa::where('nipd', '2407810070044')->firstOrFail();
-        $novi = Mahasiswa::where('nipd', '2407810030002')->firstOrFail();
+        // =========================
+        // AMBIL MASTER DATA
+        // =========================
+        $mhsAIS = Mahasiswa::where('nipd', '2407810030002')->firstOrFail();
+        $mhsASE = Mahasiswa::where('nipd', '2407810040004')->firstOrFail();
+        $mhsOAA = Mahasiswa::where('nipd', '2407810070044')->firstOrFail();
 
-        $budi = Dosen::where('nama_dsn', 'Budi Santoso')->firstOrFail();
-        $siti = Dosen::where('nama_dsn', 'Siti Aminah')->firstOrFail();
+        $kelasAIS = Kelas::where('nama_kelas', 'AIS-12')->firstOrFail();
+        $kelasASE = Kelas::where('nama_kelas', 'ASE-10')->firstOrFail();
+        $kelasOAA = Kelas::where('nama_kelas', 'OAA-13A')->firstOrFail();
 
-        $kelasAse = Kelas::where('kode_kelas', 'ASE-10')->firstOrFail();
-        $kelasOaa = Kelas::where('kode_kelas', 'OAA-13')->firstOrFail();
-        $kelasAis = Kelas::where('kode_kelas', 'AIS-12')->firstOrFail();
+        $dosenAIS = Dosen::where('bidang', 'Accounting Information System')->firstOrFail();
+        $dosenASE = Dosen::where('bidang', 'Application Software Engineering')->firstOrFail();
+        $dosenOAA = Dosen::where('bidang', 'Office Administration Automatization')->firstOrFail();
 
-        $abp  = MataKuliah::where('kode_mk', 'ABP-01')->firstOrFail();
-        $egc  = MataKuliah::where('kode_mk', 'EGC-01')->firstOrFail();
-        $wd   = MataKuliah::where('kode_mk', 'WD-01')->firstOrFail();
-        $cfo2 = MataKuliah::where('kode_mk', 'CFO2-01')->firstOrFail();
-        $cfo1 = MataKuliah::where('kode_mk', 'CFO1-01')->firstOrFail();
+        // Mata kuliah umum
+        $mkUmum = MataKuliah::whereNull('id_bidang_keahlian')->get();
 
-        Krs::create([
-            'nipd' => $ari->nipd,
-            'kode_mk' => $abp->kode_mk,
-            'dosen_id' => $budi->id,
-            'kelas_id' => $kelasAse->id,
-            'bidang_keahlian_id' => $ari->bidang_keahlian_id,
-            'semester'=>$ari->semester_aktif,
-            'status'=>'normal',
-            // 'mk_id'=>$matakuliah->semester,
-            // $krs->mataKuliah->semester
-            'sks' => 3,
-        ]);
+        // Mata kuliah inti
+        $mkAIS = MataKuliah::where('kode_mk', 'AIS-101')->firstOrFail();
+        $mkASE = MataKuliah::where('kode_mk', 'ASE-101')->firstOrFail();
+        $mkOAA = MataKuliah::where('kode_mk', 'OAA-101')->firstOrFail();
 
-        Krs::create([
-            'nipd' => $ari->nipd,
-            'kode_mk' => $egc->kode_mk,
-            'dosen_id' => $siti->id,
-            'kelas_id' => $kelasAse->id,
-            'bidang_keahlian_id' => $ari->bidang_keahlian_id,
-            'semester'=>$ari->semester_aktif,
-            'status'=>'normal',
-            'sks' => 2,
-        ]);
+        // =========================
+        // ISI KRS
+        // =========================
+        $data = [];
 
-        Krs::create([
-            'nipd' => $esa->nipd,
-            'kode_mk' => $wd->kode_mk,
-            'dosen_id' => $budi->id,
-            'kelas_id' => $kelasOaa->id,
-            'bidang_keahlian_id' => $esa->bidang_keahlian_id,
-            'semester'=>$esa->semester_aktif,
-            'status'=>'normal',
-            'sks' => 3,
-        ]);
+        // ===== AIS
+        foreach ($mkUmum as $mk) {
+            $data[] = [
+                'id_mahasiswa' => $mhsAIS->id_mahasiswa,
+                'id_pendidik' => $dosenAIS->id_pendidik,
+                'id_kelas' => $kelasAIS->id_kelas,
+                'id_ma' => $mk->id_ma,
+                'semester' => 1,
+                'sks' => $mk->sks,
+            ];
+        }
 
-        Krs::create([
-            'nipd' => $esa->nipd,
-            'kode_mk' => $cfo2->kode_mk,
-            'dosen_id' => $siti->id,
-            'kelas_id' => $kelasOaa->id,
-            'bidang_keahlian_id' => $esa->bidang_keahlian_id,
-             'semester'=>$esa->semester_aktif,
-            'status'=>'normal',
-            'sks' => 2,
-        ]);
+        $data[] = [
+            'id_mahasiswa' => $mhsAIS->id_mahasiswa,
+            'id_pendidik' => $dosenAIS->id_pendidik,
+            'id_kelas' => $kelasAIS->id_kelas,
+            'id_ma' => $mkAIS->id_ma,
+            'semester' => 1,
+            'sks' => $mkAIS->sks,
+        ];
 
-        Krs::create([
-            'nipd' => $novi->nipd,
-            'kode_mk' => $cfo1->kode_mk,
-            'dosen_id' => $budi->id,
-            'kelas_id' => $kelasAis->id,
-            'bidang_keahlian_id' => $novi->bidang_keahlian_id,
-             'semester'=>$novi->semester_aktif,
-            'status'=>'normal',
-            'sks' => 3,
-        ]);
+        // ===== ASE
+        foreach ($mkUmum as $mk) {
+            $data[] = [
+                'id_mahasiswa' => $mhsASE->id_mahasiswa,
+                'id_pendidik' => $dosenASE->id_pendidik,
+                'id_kelas' => $kelasASE->id_kelas,
+                'id_ma' => $mk->id_ma,
+                'semester' => 1,
+                'sks' => $mk->sks,
+            ];
+        }
+
+        $data[] = [
+            'id_mahasiswa' => $mhsASE->id_mahasiswa,
+            'id_pendidik' => $dosenASE->id_pendidik,
+            'id_kelas' => $kelasASE->id_kelas,
+            'id_ma' => $mkASE->id_ma,
+            'semester' => 1,
+            'sks' => $mkASE->sks,
+        ];
+
+        // ===== OAA
+        foreach ($mkUmum as $mk) {
+            $data[] = [
+                'id_mahasiswa' => $mhsOAA->id_mahasiswa,
+                'id_pendidik' => $dosenOAA->id_pendidik,
+                'id_kelas' => $kelasOAA->id_kelas,
+                'id_ma' => $mk->id_ma,
+                'semester' => 1,
+                'sks' => $mk->sks,
+            ];
+        }
+
+        $data[] = [
+            'id_mahasiswa' => $mhsOAA->id_mahasiswa,
+            'id_pendidik' => $dosenOAA->id_pendidik,
+            'id_kelas' => $kelasOAA->id_kelas,
+            'id_ma' => $mkOAA->id_ma,
+            'semester' => 1,
+            'sks' => $mkOAA->sks,
+        ];
+
+        foreach ($data as $item) {
+            Krs::create($item);
+        }
     }
 }

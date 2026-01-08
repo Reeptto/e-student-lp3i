@@ -16,10 +16,10 @@ class NilaiController extends Controller
         
     $semester = $request->semester;
 
-    $nilai = Nilai::with('matkul')
-        ->where('mhs_id', auth()->user()->mahasiswa->id)
+    $nilai = Nilai::with('materiAjar')
+        ->where('id_mahasiswa', auth()->user()->mahasiswa->id_mahasiswa)
         ->when($semester, function ($q) use ($semester) {
-            $q->whereHas('matkul', function ($mq) use ($semester) {
+            $q->whereHas('materiAjar', function ($mq) use ($semester) {
                 $mq->where('semester', $semester);
             });
         })

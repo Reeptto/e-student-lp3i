@@ -2,25 +2,24 @@
 
 namespace App\Models;
 
-use App\Models\MataKuliah;
 use Illuminate\Database\Eloquent\Model;
 
 class Material extends Model
 {
     protected $table = 'materi';
+    protected $primaryKey = 'id_materi';
+
     protected $fillable = [
-        'mk_id',
-        'nama_materi',
+        'id_ma',
+        'judul_materi',
         'file_materi',
         'deskripsi',
         'pertemuan',
         'tgl_upload',
     ];
 
-    public function matkul()
+    public function materiAjar()
     {
-        return $this->belongsTo(MataKuliah::class, 'mk_id');
+        return $this->belongsTo(MataKuliah::class, 'id_ma', 'id_ma');
     }
-
-
 }

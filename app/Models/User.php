@@ -20,6 +20,10 @@ class User extends Authenticatable
      *
      * @var list<string>
      */
+    protected $primaryKey = 'id_user';
+    public $incrementing = true;
+    protected $keyType = 'int';
+
     protected $fillable = [
         'name',
         'email',
@@ -51,17 +55,17 @@ class User extends Authenticatable
 
     public function mahasiswa()
     {
-        return $this->hasOne(Mahasiswa::class);
+        return $this->hasOne(Mahasiswa::class, 'id_user');
     }
 
     public function bidang_keahlian()
     {
-        return $this->belongsTo(BidangKeahlian::class, 'bidang_keahlian_id');
+        return $this->belongsTo(BidangKeahlian::class, 'id_bidang_keahlian');
     }
 
     public function kelas()
     {
-        return $this->belongsTo(Kelas::class, 'kelas_id');
+        return $this->belongsTo(Kelas::class, 'id_kelas');
     }
 
 }

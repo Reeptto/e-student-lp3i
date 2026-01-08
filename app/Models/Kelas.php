@@ -10,7 +10,7 @@ class Kelas extends Model
     protected $table = 'kelas';
     protected $fillable = [
         'nama_kelas',
-        'bidang_keahlian_id'
+        'id_bidang_keahlian'
     ];
 
     public function program_studi()

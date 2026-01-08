@@ -2,38 +2,36 @@
 
 namespace Database\Seeders;
 
-use App\Models\BidangKeahlian;
-use App\Models\Kelas;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use App\Models\Kelas;
+use App\Models\BidangKeahlian;
 
 class KelasSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     */
     public function run(): void
     {
-        $ase = BidangKeahlian::where('kode_bidang_keahlian', '004')->first();
-        $oaa = BidangKeahlian::where('kode_bidang_keahlian', '007')->first();
-        $ais = BidangKeahlian::where('kode_bidang_keahlian', '003')->first();
+        // Ambil bidang keahlian
+        $ase = BidangKeahlian::where('kode_bidang_keahlian', '002')->firstOrFail();
+        $ais = BidangKeahlian::where('kode_bidang_keahlian', '004')->firstOrFail();
+        $oaa = BidangKeahlian::where('kode_bidang_keahlian', '007')->firstOrFail();
 
-        Kelas::insert([
+        $data = [
             [
-                'bidang_keahlian_id' => $ase->id,
-                'nama_kelas' => 'ASE',
-                'kode_kelas' => 'ASE-10'
+                'nama_kelas' => 'AIS-12',
+                'id_bidang_keahlian' => $ais->id_bidang_keahlian,
             ],
             [
-                'bidang_keahlian_id' => $ais->id,
-                'nama_kelas' => 'AIS',
-                'kode_kelas' => 'AIS-12'
+                'nama_kelas' => 'ASE-10',
+                'id_bidang_keahlian' => $ase->id_bidang_keahlian,
             ],
             [
-                'bidang_keahlian_id' => $oaa->id,
-                'nama_kelas' => 'OAA',
-                'kode_kelas' => 'OAA-13'
-            ]
-        ]);
+                'nama_kelas' => 'OAA-13A',
+                'id_bidang_keahlian' => $oaa->id_bidang_keahlian,
+            ],
+        ];
+
+        foreach ($data as $kelas) {
+            Kelas::create($kelas);
+        }
     }
 }

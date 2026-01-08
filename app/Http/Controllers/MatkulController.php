@@ -13,11 +13,11 @@ class MatkulController extends Controller
         $user = Auth::user();
 
         if (!$user) {
-            return response()->json(['error' => 'user tidak terautentikasi'], 401);
+            return response()->json(['error' => 'Unauthorized'], 401);
         }
 
         $semester = $request->semester;
-        $bidang_keahlianId  = $user->bidang_keahlian_id;
+        $bidangKeahlianId = $user->bidang_keahlian_id;
 
         if (!$semester) {
             return response()->json([]);
@@ -26,17 +26,17 @@ class MatkulController extends Controller
         try {
             $matkul = MataKuliah::query()
                 ->where('semester', $semester)
-                ->where(function ($q) use ($bidang_keahlianId) {
-                    $q->where('bidang_keahlian_id', $bidang_keahlianId)
+                // Isolasi: Hanya ambil matkul sesuai jurusan user atau matkul umum
+                ->where(function ($q) use ($bidangKeahlianId) {
+                    $q->where('bidang_keahlian_id', $bidangKeahlianId)
                       ->orWhereNull('bidang_keahlian_id');
                 })
                 ->orderBy('nama_mk')
                 ->get();
 
-                return response()->json($matkul);
+            return response()->json($matkul);
         } catch (\Exception $e) {
             return response()->json(['error' => $e->getMessage()], 500);
         }
     }
 }
-

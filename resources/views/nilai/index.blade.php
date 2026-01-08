@@ -14,6 +14,7 @@
         --red: #f15b67;
     }
 
+    /* Style Original Mecha */
     .mecha-wrapper { position: relative; margin-bottom: 2rem; z-index: 1; --theme-color: #333; }
     .mecha-border { position: relative; border: 3px solid var(--theme-color); background: white; z-index: 10; border-radius: 12px; }
     .mecha-shadow { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: var(--theme-color); opacity: 0.25; z-index: 0; transform: translate(4px, 4px); border-radius: 12px; }
@@ -56,14 +57,11 @@
                    <label class="text-[0.65rem] font-bold text-[#009DA5] uppercase tracking-wider">Filter Semester</label>
                    <select name="semester" onchange="this.form.submit()" class="font-bold text-gray-700 bg-transparent border-none p-0 pr-8 focus:ring-0 cursor-pointer text-sm outline-none -mt-0.5">
                         <option value="">-- Semua Semester --</option>
-                       @for ($i = 1; $i <= 8; $i++)
-            <option value="{{ $i }}" {{ request('semester') == $i ? 'selected' : '' }}>
-                Semester {{ $i }}
-            </option>
-        @endfor
-    </select>
-                       
-
+                        @for ($i = 1; $i <= 8; $i++)
+                            <option value="{{ $i }}" {{ request('semester') == $i ? 'selected' : '' }}>
+                                Semester {{ $i }}
+                            </option>
+                        @endfor
                     </select>
                 </div>
             </div>
@@ -95,14 +93,14 @@
 
                 <div class="flex items-center gap-5 relative z-10">
                     <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-[#004269] to-[#006064] flex items-center justify-center text-white font-black text-xl shadow-lg">
-                        {{ substr($item->matkul->nama_mk, 0, 1) }}
+                        {{ substr($item->materiAjar->nama_mk, 0, 1) }}
                     </div>
                     <div>
-                        <h3 class="text-lg font-bold text-[#004269] group-hover:text-[#009DA5] transition-colors">{{ $item->matkul->nama_mk }}</h3>
+                        <h3 class="text-lg font-bold text-[#004269] group-hover:text-[#009DA5] transition-colors">{{ $item->materiAjar->nama_mk }}</h3>
                         <div class="flex items-center gap-2 text-xs font-bold text-gray-400 uppercase tracking-wide mt-1">
-                            <span class="bg-gray-100 px-2 py-0.5 rounded border border-gray-200">SKS: {{ $item->matkul->sks }}</span>
+                            <span class="bg-gray-100 px-2 py-0.5 rounded border border-gray-200">SKS: {{ $item->materiAjar->sks }}</span>
                             <span>•</span>
-                            <span>Semester {{ $item->matkul->semester }}</span>
+                            <span>Semester {{ $item->materiAjar->semester }}</span>
                         </div>
                     </div>
                 </div>
@@ -113,11 +111,11 @@
                         <div class="flex items-center gap-2 justify-end">
                             <span class="text-2xl font-black text-[#004269]">{{ $item->nilai_akhir }}</span>
                             @php 
-                                $g = strtoupper($item->huruf_mutu);
+                                $g = strtoupper($item->grade);
                                 $gradeColor = str_starts_with($g, 'A') ? 'green' : (str_starts_with($g, 'B') ? 'blue' : (str_starts_with($g, 'C') ? 'orange' : 'red')); 
                             @endphp
                             <span class="px-2 py-0.5 rounded text-sm font-black bg-{{$gradeColor}}-100 text-{{$gradeColor}}-700 border border-{{$gradeColor}}-200 shadow-sm">
-                                {{ $item->huruf_mutu }}
+                                {{ $item->grade }}
                             </span>
                         </div>
                     </div>
@@ -127,31 +125,25 @@
                 </div>
             </div>
 
-            {{-- Detail Expand (Data sesuai Seeder) --}}
+            {{-- Detail Expand --}}
             <div x-show="expanded" x-collapse class="border-t-2 border-dashed border-gray-200 bg-gray-50/80 p-6 relative">
-                <div class="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyMCIgaGVpZ2h0PSIyMCI+CjxyZWN0IHdpZHRoPSIyMCIgaGVpZ2h0PSIyMCIgZmlsbD0iI2ZmZmZmZiI+PC9yZWN0Pgo8Y2lyY2xlIGN4PSIxIiBjeT0iMSIgcj0iMSIgZmlsbD0iI2UzZThlZiI+PC9jaXJjbGU+Cjwvc3ZnPg==')] opacity-50"></div>
-                
                 <div class="relative z-10">
                     <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
-                        {{-- Kehadiran --}}
                         <div class="bg-white p-3 rounded-xl border border-gray-200 text-center shadow-sm flex flex-col items-center">
                             <div class="text-blue-400 mb-1"><i class="fas fa-user-clock"></i></div>
                             <span class="text-[0.65rem] text-gray-400 font-bold uppercase tracking-wider block mb-1">Kehadiran</span>
-                            <span class="text-lg font-black text-[#004269]">{{ $item->kehadiran ?? '-' }}</span>
+                            <span class="text-lg font-black text-[#004269]">{{ $item->nilai_kehadiran ?? '-' }}</span>
                         </div>
-                        {{-- Attitude --}}
                         <div class="bg-white p-3 rounded-xl border border-gray-200 text-center shadow-sm flex flex-col items-center">
                             <div class="text-purple-400 mb-1"><i class="fas fa-smile"></i></div>
                             <span class="text-[0.65rem] text-gray-400 font-bold uppercase tracking-wider block mb-1">Attitude</span>
-                            <span class="text-lg font-black text-[#004269]">{{ $item->attitude ?? '-' }}</span>
+                            <span class="text-lg font-black text-[#004269]">{{ $item->nilai_sikap ?? '-' }}</span>
                         </div>
-                        {{-- Tugas --}}
                         <div class="bg-white p-3 rounded-xl border border-gray-200 text-center shadow-sm flex flex-col items-center">
                             <div class="text-orange-400 mb-1"><i class="fas fa-tasks"></i></div>
                             <span class="text-[0.65rem] text-gray-400 font-bold uppercase tracking-wider block mb-1">Tugas</span>
                             <span class="text-lg font-black text-[#004269]">{{ $item->nilai_tugas ?? '-' }}</span>
                         </div>
-                        {{-- Formative/Quiz --}}
                         <div class="bg-white p-3 rounded-xl border border-gray-200 text-center shadow-sm flex flex-col items-center">
                             <div class="text-pink-400 mb-1"><i class="fas fa-question-circle"></i></div>
                             <span class="text-[0.65rem] text-gray-400 font-bold uppercase tracking-wider block mb-1">Formative</span>
@@ -180,108 +172,132 @@
         @endforelse
     </div>
 
-    {{-- TAB 2: KHS (PRINTABLE) --}}
-    <div x-show="activeTab === 'khs'" 
-         x-transition:enter="transition ease-out duration-300"
-         x-transition:enter-start="opacity-0 translate-y-2"
-         x-transition:enter-end="opacity-100 translate-y-0"
-         style="display: none;"
-         class="relative z-10">
+
+<div x-show="activeTab === 'khs'" 
+     style="display: none;"
+     class="relative z-10">
+    
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <div class="bg-gray-100 p-4 md:p-8 rounded-xl flex justify-center">
         
-        <div class="mecha-wrapper" style="--theme-color: #004269;">
-            <div class="mecha-shadow"></div>
-            <div class="mecha-deco-tl"></div><div class="mecha-deco-br"></div>
-            <div class="mecha-border overflow-hidden bg-white">
-                
-                <div id="printable-khs">
-                    <div class="bg-gray-50 p-6 border-b-2 border-[#004269] relative overflow-hidden">
-                        <div class="absolute inset-0 opacity-5 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0MCIgaGVpZ2h0PSI0MCIgdmlld0JveD0iMCAwIDQwIDQwIj48cGF0aCBkPSJNMjAgMjBMMCAwSDQwTDIwIDIwWk0yMCAyMEw0MCA0MEgwTDIwIDIwWiIgZmlsbD0iIzAwNDI2OSIvPjwvc3ZnPg==')]"></div>
+        <div id="printable-khs" class="bg-white shadow-lg text-black relative" 
+             style="width: 100%; max-width: 800px; padding: 40px; font-family: 'Poppins', sans-serif; margin: 0 auto; color: #000;">
+            
+            <table style="width: 100%; border-bottom: 3px solid black; margin-bottom: 2px;">
+                <tr>
+                    <td style="width: 15%; vertical-align: top;">
+                        <img src="{{ asset('/img/lp3i-kotak.png') }}" style="width: 80px; height: auto;" alt="LP3I">
+                    </td>
+                    <td style="width: 70%; text-align: center; vertical-align: middle;">
+                        <h1 style="font-size: 18pt; font-weight: 700; color: #004269; margin: 0; line-height: 1;">LP3I COLLEGE</h1>
+                        <p style="font-size: 9pt; color: #333; margin: 5px 0 0 0; line-height: 1.3; font-weight: 400;">
+                            Gedung Karawang Hijau, Jl. Tarumanegara No. 4-6, Desa Purwadana,<br>
+                            Kecamatan Telukjambe Timur, Kabupaten Karawang, Jawa Barat 41361<br>
+                            Telp (0267) 411286
+                        </p>
+                    </td>
+                    <td style="width: 15%;"></td>
+                </tr>
+            </table>
+            <div style="border-bottom: 1px solid black; margin-bottom: 25px;"></div>
 
-                        <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 relative z-10">
-                            <div>
-                                <h2 class="text-2xl font-black text-[#004269] uppercase mb-4 tracking-wider flex items-center gap-2">
-                                    <i class="fas fa-file-invoice text-[#009DA5]"></i> Kartu Hasil Studi
-                                </h2>
-                                <div class="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-2 text-sm text-[#004269]">
-                                    <div class="flex gap-2"><span class="w-24 font-bold uppercase opacity-70">Nama</span>: <span class="font-bold">{{ auth()->user()->mahasiswa->nama_mhs }}</span></div>
-                                    <div class="flex gap-2"><span class="w-24 font-bold uppercase opacity-70">NIM</span>: <span class="font-bold font-mono">{{ auth()->user()->mahasiswa->nipd }}</span></div>
-                                    <div class="flex gap-2"><span class="w-24 font-bold uppercase opacity-70">Bidang Keahlian</span>: <span class="font-bold">{{ auth()->user()->mahasiswa->bidang_keahlian }}</span></div>
-                                    <div class="flex gap-2 items-center"><span class="w-24 font-bold uppercase opacity-70">T.A</span>: <span class="font-bold bg-[#009DA5] text-white px-2 rounded-md text-xs py-0.5 shadow-sm">2024/2025 Ganjil</span></div>
-                                </div>
-                            </div>
-                            
-                            <button onclick="printKHS()" id="btn-print-khs" class="group bg-white border-2 border-[#004269] hover:bg-[#004269] hover:text-white text-[#004269] px-5 py-2.5 rounded-xl text-sm font-bold shadow-[3px_3px_0px_#004269] transition-all transform hover:-translate-y-1 active:translate-y-0 active:shadow-none flex items-center gap-2" data-html2canvas-ignore="true">
-                                <i class="fas fa-print group-hover:animate-pulse"></i>
-                                <span>Cetak KHS</span>
-                            </button>
-                        </div>
-                    </div>
-
-                    <div class="overflow-x-auto p-0">
-                        <table class="w-full text-sm text-left">
-                            <thead class="bg-[#004269] text-white uppercase font-black text-xs tracking-widest">
-                                <tr>
-                                    <th class="px-6 py-4 border-r border-white/20 text-center w-16">No</th>
-                                    <th class="px-6 py-4 border-r border-white/20">Kode MK</th>
-                                    <th class="px-6 py-4 border-r border-white/20">Mata Kuliah</th>
-                                    <th class="px-6 py-4 border-r border-white/20 text-center">SKS </th>
-                                    <th class="px-6 py-4 border-r border-white/20 text-center">Nilai Numerik</th>
-                                    <th class="px-6 py-4 border-r border-white/20 text-center">Huruf Mutu</th>
-                                    <th class="px-6 py-4 text-center bg-[#003355]">Nilai Kumulatif</th>
-                                </tr>
-                            </thead>
-                            <tbody class="divide-y divide-gray-100 font-medium text-gray-700 bg-white">
-                              @php
-                                    $no = 1;
-                                    $totalSks = 0;
-                                    $totalBobot = 0;
-                                @endphp
-
-                                @foreach ($nilai as $item)
-                                @php
-                                $totalSks += $item->matkul->sks;
-                                $totalBobot += $item->nilai_kumulatif; // bobot × sks (accessor)
-                            @endphp
-
-                              
-                                <tr class="hover:bg-blue-50 transition group">
-                                    <td class="px-6 py-3 text-center font-bold text-gray-400 group-hover:text-[#004269]">{{ $no++ }}</td>
-                                    <td class="px-6 py-3 font-mono text-xs text-gray-500 group-hover:text-[#004269]">{{ $item->matkul->kode_mk ?? 'MK-??' }}</td>
-                                    <td class="px-6 py-3 font-bold text-[#004269]">{{ $item->matkul->nama_mk }}</td>
-                                    <td class="px-6 py-3 text-center">{{ $item->matkul->sks }}</td>
-                                    <td class="px-6 py-3 text-center">
-                                        <span class="inline-block w-8 h-8 leading-8 rounded-full bg-blue-100 text-blue-700 font-bold text-xs shadow-sm">{{ number_format($item->nilai_akhir, 2) }}</span>
-                                    </td>
-                                    <td class="px-6 py-3 text-center text-gray-500">{{ $item->huruf_mutu}}</td>
-                                    <td class="px-6 py-3 text-center font-bold text-[#004269] bg-blue-50/50 group-hover:bg-blue-100/50">{{ number_format($item->nilai_kumulatif, 2) }}</td>
-                                </tr>
-                                @endforeach
-                            </tbody>
-                            <tfoot class="bg-gray-50 border-t-2 border-[#004269]">
-                                <tr>
-                                    <td colspan="3" class="px-6 py-4 text-right font-black text-[#004269] uppercase tracking-wide">Total Semester Ini</td>
-                                    <td class="px-6 py-4 text-center font-bold text-white bg-[#009DA5] shadow-inner">{{ $totalSks }}</td>
-                                    <td colspan="2" class="px-6 py-4 text-right font-black text-[#004269] uppercase tracking-wide">Total Bobot (KxB)</td>
-                                    <td class="px-6 py-4 text-center font-bold text-white bg-[#004269] shadow-inner">{{ number_format($totalBobot, 1) }}</td>
-                                </tr>
-                            </tfoot>
-                        </table>
-                    </div>
-
-                    <div class="p-6 bg-gradient-to-br from-blue-50 to-white border-t border-blue-100 flex justify-end relative overflow-hidden">
-                         <div class="absolute left-0 bottom-0 opacity-10"><i class="fas fa-chart-line text-8xl text-[#009DA5]"></i></div>
-                        <div class="text-right relative z-10">
-                            <span class="text-xs uppercase text-gray-500 font-bold tracking-wider block">Indeks Prestasi Semester (IPS)</span>
-                            <div class="text-5xl font-black text-transparent bg-clip-text bg-gradient-to-r from-[#004269] to-[#009DA5] mt-1">
-                                {{ $totalSks > 0 ? number_format($totalBobot / $totalSks, 2) : '0.00' }}
-                            </div>
-                        </div>
-                    </div>
-                </div>
+            {{-- 2. JUDUL --}}
+            <div style="text-align: center; margin-bottom: 25px;">
+                <h2 style="font-size: 14pt; font-weight: 700; text-transform: uppercase; margin: 0;">KARTU HASIL STUDI</h2>
             </div>
+
+            {{-- 3. BIODATA --}}
+            <div style="margin-bottom: 20px;">
+                <table style="width: 100%; font-size: 10pt; font-weight: 500;">
+                    <tr><td style="width: 180px; padding: 3px 0;">Nama</td><td>: {{ strtoupper(auth()->user()->mahasiswa->nama) }}</td></tr>
+                    <tr><td style="padding: 3px 0;">NIPD</td><td>: {{ auth()->user()->mahasiswa->nipd }}</td></tr>
+                    <tr><td style="padding: 3px 0;">Tempat / Tanggal Lahir</td><td>: {{ auth()->user()->mahasiswa->tempat_lahir }} / {{ \Carbon\Carbon::parse(auth()->user()->mahasiswa->tgl_lahir)->translatedFormat('d F Y') }}</td></tr>
+                    <tr><td style="padding: 3px 0;">Bidang Keahlian</td><td>: {{ strtoupper(auth()->user()->mahasiswa->bidangKeahlian->nama_bidang_keahlian) }}</td></tr>
+                </table>
+            </div>
+
+            {{-- 4. TABEL NILAI --}}
+            {{-- Fix: Menambahkan vertical-align: middle dan padding lebih besar agar teks tidak terpotong --}}
+            <table style="width: 100%; border-collapse: collapse; font-size: 10pt; margin-bottom: 10px;">
+                <thead>
+                    <tr style="background-color: #e5e7eb; text-align: center;">
+                        <th rowspan="2" style="border: 1px solid #333; padding: 12px 5px; vertical-align: middle;">NO</th>
+                        <th rowspan="2" style="border: 1px solid #333; padding: 12px 5px; vertical-align: middle;">MATERI AJAR</th>
+                        <th rowspan="2" style="border: 1px solid #333; padding: 12px 5px; vertical-align: middle;">BK</th>
+                        <th colspan="2" style="border: 1px solid #333; padding: 8px 5px; vertical-align: middle;">NILAI</th>
+                        <th rowspan="2" style="border: 1px solid #333; padding: 12px 5px; vertical-align: middle;">KUMULATIF</th>
+                    </tr>
+                    <tr style="background-color: #e5e7eb; text-align: center;">
+                        <th style="border: 1px solid #333; padding: 8px 5px; vertical-align: middle;">Angka</th>
+                        <th style="border: 1px solid #333; padding: 8px 5px; vertical-align: middle;">Huruf</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr style="background-color: #f9fafb;">
+                        <td colspan="6" style="border: 1px solid #333; padding: 8px 10px; font-weight: 700; font-style: italic;">
+                            Semester {{ request('semester', '1') }}
+                        </td>
+                    </tr>
+                    @php $no = 1; $totalSks = 0; $totalKumulatif = 0; @endphp
+                    @foreach ($nilai as $item)
+                    @php
+                        $sks = $item->materiAjar->sks;
+                        $g = strtoupper($item->grade);
+                        $angkaMutu = match($g) { 'A' => 4.0, 'A-' => 3.7, 'B+' => 3.3, 'B' => 3.0, 'B-' => 2.7, 'C+' => 2.3, 'C' => 2.0, 'D' => 1.0, default => 0 };
+                        $kumulatif = $sks * $angkaMutu;
+                        $totalSks += $sks; $totalKumulatif += $kumulatif;
+                    @endphp
+                    <tr>
+                        <td style="border: 1px solid #333; padding: 6px; text-align: center; vertical-align: middle;">{{ $no++ }}</td>
+                        <td style="border: 1px solid #333; padding: 6px; vertical-align: middle;">{{ $item->materiAjar->nama_mk }}</td>
+                        <td style="border: 1px solid #333; padding: 6px; text-align: center; vertical-align: middle;">{{ $sks }}</td>
+                        <td style="border: 1px solid #333; padding: 6px; text-align: center; vertical-align: middle;">{{ number_format($angkaMutu, 1) }}</td>
+                        <td style="border: 1px solid #333; padding: 6px; text-align: center; vertical-align: middle;">{{ $g }}</td>
+                        <td style="border: 1px solid #333; padding: 6px; text-align: center; vertical-align: middle;">{{ number_format($kumulatif, 1) }}</td>
+                    </tr>
+                    @endforeach
+                    <tr style="font-weight: 700; background-color: #e5e7eb;">
+                        <td colspan="2" style="border: 1px solid #333; padding: 8px 10px;">JUMLAH</td>
+                        <td style="border: 1px solid #333; padding: 8px; text-align: center;">{{ $totalSks }}</td>
+                        <td style="border: 1px solid #333; background-color: #9ca3af;"></td>
+                        <td style="border: 1px solid #333; background-color: #9ca3af;"></td>
+                        <td style="border: 1px solid #333; padding: 8px; text-align: center;">{{ number_format($totalKumulatif, 1) }}</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            {{-- 5. FOOTER IPS --}}
+            <div style="border: 1px solid #333; border-top: none; padding: 10px; font-weight: 700; font-size: 10pt; margin-bottom: 30px;">
+                <table style="width: 100%;">
+                    <tr>
+                        <td>IPS : {{ $totalSks > 0 ? number_format($totalKumulatif / $totalSks, 2) : '0.00' }}</td>
+                        <td style="text-align: right;">Predikat : Sangat Memuaskan</td>
+                    </tr>
+                </table>
+            </div>
+
+            {{-- 6. TANDA TANGAN --}}
+            <table style="width: 100%; margin-top: 20px;">
+                <tr>
+                    <td style="width: 60%;"></td> {{-- Space Kiri --}}
+                    <td style="width: 40%; text-align: center;">
+                        <p style="font-size: 10pt; margin-bottom: 60px;">Karawang, {{ now()->translatedFormat('d F Y') }}</p>
+                        <p style="font-weight: 700; text-decoration: underline; margin: 0; font-size: 10pt;">Eko Marmanto P.U, S.Kom.,M.Kom.,MOS. CDMP</p>
+                        <p style="font-size: 9pt; color: #555; margin: 0;">Head of Education</p>
+                    </td>
+                </tr>
+            </table>
+
         </div>
     </div>
 
+    {{-- TOMBOL PRINT --}}
+    <div class="text-center mt-6 pb-10">
+        <button onclick="printKHS()" id="btn-print-khs" class="bg-[#004269] text-white px-8 py-3 rounded-full font-bold shadow-lg hover:bg-[#003355] flex items-center gap-2 mx-auto transition transform hover:scale-105">
+            <i class="fas fa-print"></i> Cetak KHS (A4)
+        </button>
+    </div>
 </div>
 
 <script>
@@ -289,31 +305,34 @@
         const btn = document.getElementById('btn-print-khs');
         const originalText = btn.innerHTML;
 
-        if (typeof html2pdf === 'undefined') { alert('Library PDF sedang dimuat, coba sesaat lagi.'); return; }
+        if (typeof html2pdf === 'undefined') { alert('Library PDF belum siap.'); return; }
 
-        btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> <span>Memproses...</span>';
+        btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Memproses...';
         btn.disabled = true;
 
         const element = document.getElementById('printable-khs');
         const clone = element.cloneNode(true);
         
+        // --- LOGIKA CLONE ---
         const container = document.createElement('div');
-        container.style.width = '800px'; 
+        container.style.width = '800px'; // Paksa lebar 800px (mirip A4)
         container.style.position = 'absolute'; 
         container.style.left = '-9999px';
         container.style.top = '0';
+        container.style.backgroundColor = 'white'; // Pastikan background putih
         
-        clone.querySelector('.bg-white').style.borderRadius = '0';
-        clone.querySelector('.bg-white').style.border = 'none';
-        const table = clone.querySelector('table');
-        if(table) table.style.width = '100%';
-
+        // Pastikan font Poppins terbawa ke clone
+        clone.style.fontFamily = "'Poppins', sans-serif";
+        clone.style.margin = '0 auto';
+        clone.style.maxWidth = 'none'; 
+        clone.style.width = '100%';    
+        
         container.appendChild(clone);
         document.body.appendChild(container);
 
         var opt = {
-            margin: [10, 10, 15, 10],
-            filename: 'KHS_{{ auth()->user()->mahasiswa->nipd }}_{{ date("Ymd") }}.pdf',
+            margin: [10, 10, 10, 10], 
+            filename: 'KHS_{{ auth()->user()->mahasiswa->nipd }}.pdf',
             image: { type: 'jpeg', quality: 0.98 },
             html2canvas: { scale: 2, useCORS: true, scrollY: 0 },
             jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
@@ -327,10 +346,10 @@
             })
             .catch(err => {
                 console.error(err);
-                alert('Gagal mencetak KHS.');
-                document.body.removeChild(container);
+                if(document.body.contains(container)) document.body.removeChild(container);
                 btn.innerHTML = originalText;
                 btn.disabled = false;
+                alert('Gagal mencetak.');
             });
     }
 </script>

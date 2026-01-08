@@ -6,11 +6,11 @@ use Illuminate\Database\Eloquent\Model;
 
 class Pengumuman extends Model
 {
-    protected $table = 'information';
+    protected $table = 'pengumuman';
 
     protected $fillable = [
-        'judul_informasi',
-        'deskripsi',
-        'tanggal_terbit',
+        'judul_pengumuman',
+        'isi',
+        'file_path',
     ];
 }
