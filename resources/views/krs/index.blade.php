@@ -109,10 +109,6 @@
             </div>
         </div>
 
-        {{-- 2. JUDUL --}}
-        <div class="text-center mb-6">
-            <h2 class="font-bold text-base uppercase tracking-wider">KARTU RENCANA STUDI (KRS)</h2>
-        </div>
 
         {{-- 3. BIODATA --}}
         <div class="mb-6 pl-1">

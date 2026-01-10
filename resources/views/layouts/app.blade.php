@@ -181,53 +181,56 @@
                     @csrf
                     <button type="submit" class="flex items-center justify-center w-full gap-2 px-4 py-3 text-sm font-medium text-white bg-red-600/80 hover:bg-red-600 rounded-xl transition-all duration-200 shadow-lg hover:shadow-red-900/20">
                         <i class="fas fa-sign-out-alt"></i>
-                        <span>Keluar Aplikasi</span>
+                        <span>Sign Out</span>
                     </button>
                 </form>
             </div>
         </aside>
 
-        {{-- MAIN CONTENT WRAPPER --}}
         <main class="flex-1 flex flex-col min-w-0 h-screen overflow-hidden bg-surface">
             
-            {{-- 2. HEADER (Clean White) --}}
-            <header class="h-20 bg-white border-b border-slate-200 sticky top-0 z-30 px-4 lg:px-8 flex items-center justify-between shadow-sm">
-                
-                {{-- Left: Mobile Toggle & Title --}}
-                <div class="flex items-center gap-4">
-                    <button @click="isMobileSidebarOpen = true" class="lg:hidden p-2 text-slate-500 hover:bg-slate-100 rounded-lg transition-colors">
+
+            <header class="h-20 bg-white border-b border-slate-200 sticky top-0 z-30 px-4 lg:px-8 flex items-center justify-between shadow-sm relative">
+
+                {{-- BAGIAN KIRI: Toggle Menu + Logo --}}
+                <div class="flex items-center gap-4 z-20">
+                    {{-- Tombol Toggle (Hanya muncul di HP) --}}
+                    <button @click="isMobileSidebarOpen = true" class="lg:hidden p-2 text-slate-500 hover:bg-slate-100 rounded-lg transition-colors focus:outline-none">
                         <i class="fas fa-bars text-xl"></i>
                     </button>
-                    
-                    <div class="hidden sm:block">
-                        <h2 class="text-xl font-bold text-primary tracking-tight">
-                            @if(request()->routeIs('dashboard')) Dashboard
-                            @elseif(request()->routeIs('krs.*')) Kartu Rencana Studi
-                            @elseif(request()->routeIs('nilai')) Informasi Nilai
-                            @elseif(request()->routeIs('tugas')) Tugas
-                            @elseif(request()->routeIs('profile.mahasiswa')) Profile Mahasiswa
-                            @elseif(request()->routeIs('tugas.show')) Detail Tugas
-                            @elseif(request()->routeIs('material.index')) Materi Pembelajaran
-                            @else Halaman Akademik
-                            @endif
-                        </h2>
-                    </div>
+
+                    {{-- Logo Gambar (Sekarang di Kiri) --}}
+                    <img src="{{ asset('/img/lp3i-kotak.png') }}" alt="Logo" class="h-10 w-auto object-contain">
+                    <img src="{{ asset('/img/global.png') }}" alt="Logo" class="h-10 w-auto object-contain">
                 </div>
 
-                {{-- Right: Profile & Actions --}}
-                <div class="flex items-center gap-4 sm:gap-6" x-data="{ profileOpen: false }">
-                    
-                    {{-- Notifications --}}
-                    <button class="relative p-2 text-slate-400 hover:text-primary hover:bg-slate-50 rounded-full transition-colors">
-                        <i class="far fa-bell text-xl"></i>
-                        <span class="absolute top-2 right-2 w-2 h-2 bg-red-500 rounded-full border border-white"></span>
-                    </button>
+                {{-- BAGIAN TENGAH: Judul Halaman (Absolute Center Presisi) --}}
+                <div class="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 w-max text-center pointer-events-none">
+                    <h2 class="hidden sm:block text-lg md:text-xl font-bold text-primary tracking-tight whitespace-nowrap">
+                        @if(request()->routeIs('dashboard')) Dashboard
+                        @elseif(request()->routeIs('krs.*')) Kartu Rencana Studi
+                        @elseif(request()->routeIs('nilai')) Informasi Nilai
+                        @elseif(request()->routeIs('tugas')) Tugas
+                        @elseif(request()->routeIs('profile.mahasiswa')) Profile Mahasiswa
+                        @elseif(request()->routeIs('tugas.show')) Detail Tugas
+                        @elseif(request()->routeIs('material.index')) Materi Pembelajaran
+                        @elseif(request()->routeIs('infopembayaran.index')) Informasi Keuangan
+                        @elseif(request()->routeIs('pengumuman.index')) Informasi Perkuliahan
+                        @else Halaman Akademik
+                        @endif
+                    </h2>
+                </div>
 
+                {{-- BAGIAN KANAN: Profile & Notifikasi --}}
+                <div class="flex items-center gap-3 sm:gap-5 z-20" x-data="{ profileOpen: false }">
+                    
                     <div class="h-8 w-px bg-slate-200 hidden sm:block"></div>
 
                     {{-- Profile Menu --}}
                     <div class="relative">
                         <button @click="profileOpen = !profileOpen" class="flex items-center gap-3 focus:outline-none group">
+                            
+                            {{-- Teks Nama (Hidden di HP) --}}
                             <div class="text-right hidden md:block">
                                 <p class="text-sm font-bold text-slate-700 group-hover:text-primary transition-colors">
                                     {{ auth()->user()?->mahasiswa?->nama ?? 'Guest User' }}
@@ -237,20 +240,21 @@
                                 </p>
                             </div>
                             
+                            {{-- Foto Avatar --}}
                             <div class="relative">
-                                <div class="w-10 h-10 rounded-full bg-slate-100 overflow-hidden ring-2 ring-white shadow-md group-hover:ring-primary/20 transition-all">
+                                <div class="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-slate-100 overflow-hidden ring-2 ring-white shadow-md group-hover:ring-primary/20 transition-all">
                                     <img src="{{ auth()->user()?->mahasiswa?->foto
-                                        ? asset('storage/image/' . auth()->user()->mahasiswa->foto)
-                                        : 'https://ui-avatars.com/api/?name=' . (auth()->user()?->mahasiswa?->nama ?? 'Guest') . '&background=004269&color=fff' }}" 
+                                            ? asset('storage/image/' . auth()->user()->mahasiswa->foto)
+                                            : 'https://ui-avatars.com/api/?name=' . (auth()->user()?->mahasiswa?->nama ?? 'Guest') . '&background=004269&color=fff' }}" 
                                         class="w-full h-full object-cover" 
                                         alt="Profile">
                                 </div>
                             </div>
                             
-                            <i class="fas fa-chevron-down text-slate-400 text-xs transition-transform duration-200" :class="{ 'rotate-180': profileOpen }"></i>
+                            <i class="fas fa-chevron-down text-slate-400 text-xs hidden md:block transition-transform duration-200" :class="{ 'rotate-180': profileOpen }"></i>
                         </button>
 
-                        {{-- Profile Dropdown --}}
+                        {{-- Dropdown Profile --}}
                         <div 
                             x-show="profileOpen" 
                             @click.outside="profileOpen = false"
@@ -263,8 +267,8 @@
                             class="absolute right-0 top-full mt-4 w-60 bg-white rounded-xl shadow-2xl border border-slate-100 py-2 z-50 origin-top-right"
                             style="display: none;"
                         >
-                            <div class="px-5 py-4 border-b border-slate-50 bg-slate-50/50">
-                                <p class="text-xs text-slate-400 font-bold uppercase mb-1">Akun Aktif</p>
+                            <div class="px-5 py-4 border-b border-slate-50 bg-slate-50/50 block md:hidden">
+                                <p class="text-xs text-slate-400 font-bold uppercase mb-1">Login sebagai</p>
                                 <p class="text-sm font-bold text-primary truncate">{{ auth()->user()?->mahasiswa?->nama ?? 'Guest' }}</p>
                             </div>
 

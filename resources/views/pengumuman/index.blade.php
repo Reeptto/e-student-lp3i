@@ -29,16 +29,16 @@
 
             <div class="flex items-center justify-between mb-2">
                 <h2 class="text-base font-semibold text-gray-800">
-                    {{ $item->judul_informasi }}
+                    {{ $item->judul_pengumuman }}
                 </h2>
 
                 <span class="text-xs text-gray-400">
-                    {{ \Carbon\Carbon::parse($item->tanggal_terbit)->diffForHumans() }}
+                    {{ \Carbon\Carbon::parse($item->created_at)->diffForHumans() }}
                 </span>
             </div>
 
             <p class="text-sm text-gray-600 leading-relaxed">
-                {{ $item->deskripsi }}
+                {{ $item->isi }}
             </p>
 
             <div class="mt-4 flex justify-end">

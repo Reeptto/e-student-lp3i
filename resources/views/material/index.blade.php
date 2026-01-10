@@ -35,7 +35,7 @@
             <select name="semester"
                     onchange="this.form.submit()"
                     class="w-full md:w-1/3 border rounded-lg px-4 py-2 text-sm">
-                <option value="">Semester</option>
+                <option value="">Pilih Semester</option>
                 @for ($i = 1; $i <= 4; $i++)
                     <option value="{{ $i }}" {{ $semester == $i ? 'selected' : '' }}>
                         Semester {{ $i }}
@@ -46,7 +46,7 @@
             <select name="id_ma"
                     onchange="this.form.submit()"
                     class="w-full md:w-2/3 border rounded-lg px-4 py-2 text-sm">
-                <option value="">Mata Kuliah</option>
+                <option value="">Pilih Materi Ajar</option>
                 @foreach ($mataKuliah as $mk)
                     <option value="{{ $mk->id_ma }}" {{ $id_ma == $mk->id_ma ? 'selected' : '' }}>
                         {{ $mk->nama_mk }}
