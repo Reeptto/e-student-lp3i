@@ -2,6 +2,9 @@
 
     <div class="flex flex-col lg:flex-row min-h-screen bg-gray-100">
 
+        {{-- ========================================================== --}}
+        {{-- BAGIAN KIRI: FORM LOGIN (TIDAK DIUBAH) --}}
+        {{-- ========================================================== --}}
         <div class="w-full lg:w-1/2 min-h-[50vh] lg:min-h-screen flex items-center justify-center p-6 relative overflow-hidden">
             
             {{-- 1. LAYER BACKGROUND GAMBAR (DIBLUR) --}}
@@ -9,11 +12,10 @@
                  style="background-image: url('/img/gedung-lp3i.jpeg'); 
                         background-size: cover; 
                         background-position: center; 
-                        filter: blur(1px); /* Atur tingkat blur di sini */
+                        filter: blur(1px); 
                         transform: scale(1.05);"> </div>
 
-            {{-- 2. LAYER OVERLAY (OPSIONAL - AGAR TEKS LEBIH TERBACA) --}}
-            {{-- 3. KONTEN FORM (Z-INDEX LEBIH TINGGI AGAR TIDAK IKEUT BLUR) --}}
+            {{-- 2. KONTEN FORM --}}
             <div class="w-full max-w-md bg-white p-4 rounded-xl shadow-2xl relative z-10">
                 <div class="text-center mb-6">
                     <h1 class="text-3xl font-extrabold text-[#004269]">
@@ -54,43 +56,53 @@
             </div>
         </div>
 
-        <div class="relative overflow-hidden w-full lg:w-1/2 bg-white shadow-xl shadow-gray-300/40 rounded-2xl flex flex-col justify-center border border-gray-100" id="du">
+        {{-- ========================================================== --}}
+        {{-- BAGIAN KANAN: INFORMASI (SUDAH DIPERBAIKI POSISI LOGONYA) --}}
+        {{-- ========================================================== --}}
+        <div class="relative overflow-hidden w-full lg:w-1/2 bg-white shadow-xl shadow-gray-300/40 rounded-2xl flex flex-col border border-gray-100" id="du">
 
+            {{-- BACKGROUND DECORATION --}}
             <div class="absolute top-0 right-0 -mt-24 -mr-24 w-64 h-64 bg-[#009DA5] rounded-full z-0 opacity-90"></div>
             <div class="absolute bottom-0 left-0 -mb-20 -ml-20 w-48 h-48 bg-[#009DA5] rounded-full z-0 opacity-90"></div>
             <div class="absolute top-5 left-1 w-24 h-32 opacity-70 z-0" style="background-image: radial-gradient(#4b2aad 1.5px, transparent 1.5px); background-size: 12px 12px;"></div>
             <div class="absolute bottom-10 right-10 w-24 h-32 opacity-70 z-0" style="background-image: radial-gradient(#4b2aad 1.5px, transparent 1.5px); background-size: 12px 12px;"></div>
 
-            <div class="relative z-10 w-full p-10 lg:p-16">
-                
-                {{-- PERUBAHAN DI SINI: LOGO DI-GROUPING DALAM FLEX --}}
-                <div class="flex justify-between items-start mb-10">
+            {{-- 1. LOGO KIRI ATAS (GLOBAL) - SETENGAH LINGKARAN --}}
+            <div class="absolute top-0 left-8 z-20">
+                <!-- <div class="w-24 h-14 bg-[#009DA5] rounded-b-full flex items-center justify-center shadow-md pt-1"> -->
+                    <img src="{{ asset('/img/2.webp') }}" class="w-[140px] lg:w-[170px] drop-shadow-sm">
+                <!-- </div> -->
+            </div>
 
-                    <div>
-                        <div class="bg-white rounded-lg p-2 w-[170px] inline-block shadow-md border border-gray-50">
-                            <a href="{{ url('/') }}" class="text-2xl font-bold text-gray-900">
-                                <span class="text-yellow-400">E-</span>  <span class="text-blue-800">Student.</span> 
-                            </a>
-                            <span class="block text-sm text-gray-500 font-medium mt-2">Information System</span>
-                        </div>
+            {{-- 2. LOGO KANAN ATAS (2.WEBP) - RESPONSIVE DI POJOK --}}
+            <div class="absolute top-6 right-8 z-20">
+                <img src="{{ asset('img/global.png') }}" class="w-[96px] lg:w-[124px] drop-shadow-sm">
+            </div>
+
+            {{-- 3. KONTEN UTAMA (Diberi Padding Top Agar Tidak Ketutup Logo) --}}
+            <div class="relative z-10 w-full p-10 lg:p-16 pt-24 lg:pt-28">
+
+                {{-- Judul Kecil E-Student --}}
+                <div class="mb-8">
+                    <div class="bg-white rounded-lg p-3 inline-block shadow-md border border-gray-50">
+                        <a href="{{ url('/') }}" class="text-2xl font-bold text-gray-900 flex items-center gap-1">
+                            <span class="text-yellow-400">E-</span><span class="text-blue-800">Student.</span>
+                        </a>
+                        <span class="block text-xs text-gray-500 font-medium mt-1">Information System</span>
                     </div>
-
-                    {{-- Logo Global dan 2.webp sejajar --}}
-                    <div class="relative z-10 flex items-center gap-3">
-                        <img src="{{ asset('/img/global.png') }}" class="h-12 w-auto object-contain opacity-90 rounded-md">
-                        <img src="{{ asset('img/2.webp') }}" class="w-[170px]">
-                    </div>
-
                 </div>
 
                 <h2 class="text-3xl lg:text-4xl font-extrabold text-[#004269] mb-4">
                     Informasi E-Student
                 </h2>
+
                 <p class="text-black leading-relaxed text-justify">
                     Fasilitas ini ditujukan untuk seluruh mahasiswa LP3I yang aktif mengikuti perkuliahan. Di dalamnya terdapat berbagai layanan yang dapat mempermudah pengelolaan kegiatan akademik serta aktivitas lain yang berkaitan dengan proses pendidikan. Diharapkan E-Student dapat memberikan manfaat bagi seluruh mahasiswa. Adapun fasilitas yang tersedia di dalam E-Student adalah sebagai berikut:
                 </p>
                 
-                <div class="grid grid-cols-2 gap-x-6 gap-y-6 my-8">
+                {{-- Grid Icon --}}
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-6 my-8">
+                    {{-- Kolom Kiri --}}
                     <div class="space-y-5">
                         <span class="flex items-center text-black font-medium">
                             <svg class="w-6 h-6 text-[#004269] mr-3 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
@@ -123,6 +135,7 @@
                         </span>
                     </div>
 
+                    {{-- Kolom Kanan --}}
                     <div class="space-y-5">
                         <span class="flex items-center text-black font-medium">
                             <svg class="w-6 h-6 text-[#004269] mr-3 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
@@ -152,31 +165,31 @@
                 </p>
 
             </div>
+        </div>
     </div>
-</div>
 
-@push('styles')
-<style>
-    #du, * {
-        font-family: 'Poppins', sans-serif !important;
-    }
-    .input-style {
-        padding: 10px 14px;
-        border-radius: 8px;
-        border: 2px solid #e5e7eb;
-        transition: all 0.2s ease-in-out;
-        width: 100%;
-    }
-    .input-style::placeholder {
-        color: #9ca3af;
-        font-weight: 500;
-    }
-    .input-style:focus {
-        outline: none;
-        border-color: #004269; 
-        box-shadow: 0 0 0 3px #042d45ff;
-    }
-</style>
-@endpush
+    @push('styles')
+    <style>
+        #du, * {
+            font-family: 'Poppins', sans-serif !important;
+        }
+        .input-style {
+            padding: 10px 14px;
+            border-radius: 8px;
+            border: 2px solid #e5e7eb;
+            transition: all 0.2s ease-in-out;
+            width: 100%;
+        }
+        .input-style::placeholder {
+            color: #9ca3af;
+            font-weight: 500;
+        }
+        .input-style:focus {
+            outline: none;
+            border-color: #004269; 
+            box-shadow: 0 0 0 3px #042d45ff;
+        }
+    </style>
+    @endpush
 
 </x-guest-layout>

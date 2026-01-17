@@ -10,7 +10,7 @@ class NilaiSeeder extends Seeder
 {
     public function run(): void
     {
-        $krsList = Krs::with(['mahasiswa', 'dosen', 'mataKuliah'])->get();
+        $krsList = Krs::with(['mahasiswa', 'pendidik', 'materiAjar'])->get();
 
         foreach ($krsList as $krs) {
 

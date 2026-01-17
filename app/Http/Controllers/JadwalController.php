@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 use App\Models\Jadwal;
 use App\Models\Kelas;
+use App\Models\Khs;
+
 use Illuminate\Support\Facades\Auth;
 
 use Illuminate\Http\Request;
@@ -18,14 +20,15 @@ class JadwalController extends Controller
             ->get()
             ->groupBy('hari');
 
-        $graphData = $mahasiswa->khs()
-            ->orderBy('semester')
-            ->get()
-            ->map(fn ($k) => [
-                'label' => 'Sem ' . $k->semester,
-                'value' => (float) $k->ip_semester,
-            ]);
-
+         $graphData = Khs::where('id_mahasiswa', $mahasiswa->id)
+        ->orderBy('semester')
+        ->get()
+        ->map(function ($row) {
+            return [
+                'label' => 'Semester ' . $row->semester,
+                'value' => (float) $row->ip_semester
+            ];
+        });
         return view('dashboard', compact('jadwal', 'graphData'));
     }
 
