@@ -13,15 +13,17 @@ return new class extends Migration
     {
         Schema::create('materi', function (Blueprint $table) {
             $table->id('id_materi');
-            $table->foreignId('id_ma');
+            $table->foreignId('id_mk');
             $table->foreignId('id_kelas');
+            $table->foreignId('id_pendidik');
             $table->string('judul_materi');
-            $table->string('file_materi')->nullable();
             $table->text('deskripsi');
-            $table->string('pertemuan');
+            $table->enum('tipe_materi', ['file', 'link']);
+            $table->integer('pertemuan');
             $table->date('tgl_upload');
-            $table->foreign('id_ma')->references('id_ma')->on('materi_ajar')->onDelete('cascade');
+            $table->foreign('id_mk')->references('id_mk')->on('matakuliah')->onDelete('cascade');
             $table->foreign('id_kelas')->references('id_kelas')->on('kelas')->onDelete('cascade');
+            $table->foreign('id_pendidik')->references('id_pendidik')->on('pendidik')->onDelete('cascade');
             $table->timestamps();
         });
     }

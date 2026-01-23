@@ -11,13 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('materi_ajar', function (Blueprint $table) {
-            $table->id('id_ma');
+        Schema::create('matakuliah', function (Blueprint $table) {
+            $table->id('id_mk');
             $table->string('kode_mk');
             $table->string('nama_mk');
             $table->text('deskripsi');
-            $table->foreignId('id_bidang_keahlian')->nullable();
-            $table->foreign('id_bidang_keahlian')->references('id_bidang_keahlian')->on('bidang_keahlian')->onDelete('cascade');
+            $table->boolean('tipe_matakuliah')->default(0);
+            $table->foreignId('id_program_studi')->nullable();
+            $table->foreign('id_program_studi')->references('id_program_studi')->on('program_studi')->onDelete('cascade');
             $table->integer('semester');
             $table->integer('sks');
             $table->timestamps();
@@ -29,6 +30,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('materi_ajar');
+        Schema::dropIfExists('matakuliah');
     }
 };

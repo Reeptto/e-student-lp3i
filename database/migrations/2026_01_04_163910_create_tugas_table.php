@@ -14,14 +14,14 @@ return new class extends Migration
         Schema::create('tugas', function (Blueprint $table) {
             $table->id('id_tugas');
             $table->string('judul_tugas');
-            $table->string('file_materi')->nullable();
+            $table->string('file_tugas')->nullable();
             $table->text('deskripsi');
-            $table->dateTime('jam_mulai');
-            $table->dateTime('jam_selesai');
-            $table->enum('status', ['Aktif', 'Nonaktif']);
-            $table->foreignId('id_ma');
+            $table->dateTime('tanggal_upload')->useCurrent();
+            $table->dateTime('deadline');
+            $table->enum('status', ['Aktif', 'Nonaktif'])->default('Aktif');
+            $table->foreignId('id_mk');
             $table->foreignId('id_kelas');
-            $table->foreign('id_ma')->references('id_ma')->on('materi_ajar')->onDelete('cascade');
+            $table->foreign('id_mk')->references('id_mk')->on('matakuliah')->onDelete('cascade');
             $table->foreign('id_kelas')->references('id_kelas')->on('kelas')->onDelete('cascade');
             $table->timestamps();
         });

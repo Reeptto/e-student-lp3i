@@ -13,7 +13,8 @@ return new class extends Migration
     {
         Schema::create('pendidik', function (Blueprint $table) {
             $table->id('id_pendidik');
-            $table->string('nama');
+            $table->foreignId('id_user');
+            $table->string('nama_pendidik');
             $table->string('pendidikan');
             $table->string('bidang');
             $table->string('tempat_lahir');
@@ -25,6 +26,8 @@ return new class extends Migration
             $table->float('rate_gaji');
             $table->enum('status', ['Aktif', 'Tidak Aktif', 'Kontrak', 'Tetap', 'Honorer'])->default('Aktif');
             $table->string('foto')->nullable();
+            $table->integer('total_gaji_diterima')->default(0);
+            $table->foreign('id_user')->references('id_user')->on('users')->onDelete('cascade');
             $table->timestamps();
         });
     }

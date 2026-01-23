@@ -14,8 +14,9 @@
             Schema::create('kelas', function (Blueprint $table) {
                 $table->id('id_kelas');
                 $table->string('nama_kelas');
-                $table->foreignId('id_bidang_keahlian');
-                $table->foreign('id_bidang_keahlian')->references('id_bidang_keahlian')->on('bidang_keahlian')->onDelete('cascade');
+                $table->string('nama_pa')->nullable();
+                $table->foreignId('id_program_studi');
+                $table->foreign('id_program_studi')->references('id_program_studi')->on('program_studi')->onDelete('cascade');
                 $table->timestamps();
             });
         }
