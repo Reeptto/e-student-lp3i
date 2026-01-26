@@ -18,9 +18,9 @@ class MahasiswaSeeder extends Seeder
         $userOaa = User::where('email', 'esa@kampus.test')->firstOrFail();
 
         // Ambil bidang keahlian
-        $ais = BidangKeahlian::where('kode_bidang_keahlian', '002')->firstOrFail();
-        $ase = BidangKeahlian::where('kode_bidang_keahlian', '004')->firstOrFail();
-        $oaa = BidangKeahlian::where('kode_bidang_keahlian', '007')->firstOrFail();
+        $ais = BidangKeahlian::where('kode_program_studi', '002')->firstOrFail();
+        $ase = BidangKeahlian::where('kode_program_studi', '004')->firstOrFail();
+        $oaa = BidangKeahlian::where('kode_program_studi', '007')->firstOrFail();
 
         // Ambil kelas
         $kelasAis = Kelas::where('nama_kelas', 'AIS-12')->firstOrFail();
@@ -31,7 +31,7 @@ class MahasiswaSeeder extends Seeder
             [
                 'id_user' => $userAis->id_user,
                 'nipd' => '2407810030002',
-                'nama' => 'Novi Irnawati',
+                'nama_mhs' => 'Novi Irnawati',
                 'alamat' => 'Jl. Teknologi No. 1',
                 'domisili' => 'Bandung',
                 'tempat_lahir' => 'Bandung',
@@ -43,13 +43,13 @@ class MahasiswaSeeder extends Seeder
                 'no_tlp' => '081234567890',
                 'foto' => null,
                 'status' => 'Aktif',
-                'id_bidang_keahlian' => $ais->id_bidang_keahlian,
+                'id_program_studi' => $ais->id_program_studi,
                 'id_kelas' => $kelasAis->id_kelas,
             ],
             [
                 'id_user' => $userAse->id_user,
                 'nipd' => '2407810040004',
-                'nama' => 'Ari Aprianto',
+                'nama_mhs' => 'Ari Aprianto',
                 'alamat' => 'Jl. Coding No. 2',
                 'domisili' => 'Jakarta',
                 'tempat_lahir' => 'Jakarta',
@@ -61,13 +61,13 @@ class MahasiswaSeeder extends Seeder
                 'no_tlp' => '081234567891',
                 'foto' => null,
                 'status' => 'Aktif',
-                'id_bidang_keahlian' => $ase->id_bidang_keahlian,
+                'id_program_studi' => $ase->id_program_studi,
                 'id_kelas' => $kelasAse->id_kelas,
             ],
             [
                 'id_user' => $userOaa->id_user,
                 'nipd' => '2407810070044',
-                'nama' => 'Esa Nabila Cahyani',
+                'nama_mhs' => 'Esa Nabila Cahyani',
                 'alamat' => 'Jl. Administrasi No. 3',
                 'domisili' => 'Surabaya',
                 'tempat_lahir' => 'Surabaya',
@@ -79,7 +79,7 @@ class MahasiswaSeeder extends Seeder
                 'no_tlp' => '081234567892',
                 'foto' => null,
                 'status' => 'Aktif',
-                'id_bidang_keahlian' => $oaa->id_bidang_keahlian,
+                'id_program_studi' => $oaa->id_program_studi,
                 'id_kelas' => $kelasOaa->id_kelas,
             ],
         ];

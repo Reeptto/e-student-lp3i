@@ -16,7 +16,7 @@ class MaterialController extends Controller
         abort_if(!$user, 403);
 
         $semester = $request->semester;
-        $id_ma    = $request->id_ma;
+        $id_mk    = $request->id_mk;
 
         $mataKuliah = MataKuliah::query()
             ->when($semester, fn ($q) =>
@@ -26,8 +26,8 @@ class MaterialController extends Controller
             ->get();
 
         $materi = Material::with('materiAjar')
-            ->when($id_ma, fn ($q) =>
-                $q->where('id_ma', $id_ma)
+            ->when($id_mk, fn ($q) =>
+                $q->where('id_mk', $id_mk)
             )
             ->orderBy('tgl_upload', 'desc')
             ->get();
@@ -36,7 +36,7 @@ class MaterialController extends Controller
             'materi',
             'mataKuliah',
             'semester',
-            'id_ma'
+            'id_mk'
         ));
     }
 

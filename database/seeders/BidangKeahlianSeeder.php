@@ -13,16 +13,16 @@ class BidangKeahlianSeeder extends Seeder
     {
         $data = [
             [
-                'nama_bidang_keahlian' => 'Accounting Information System',
-                'kode_bidang_keahlian' => '002',
+                'nama_program_studi' => 'Accounting Information System',
+                'kode_program_studi' => '002',
             ],
             [
-                'nama_bidang_keahlian' => 'Application Software Engineering',
-                'kode_bidang_keahlian' => '004',
+                'nama_program_studi' => 'Application Software Engineering',
+                'kode_program_studi' => '004',
             ],
             [
-                'nama_bidang_keahlian' => 'Office Administration Automatization',
-                'kode_bidang_keahlian' => '007',
+                'nama_program_studi' => 'Office Administration Automatization',
+                'kode_program_studi' => '007',
             ],
         ];
 

@@ -11,9 +11,9 @@ class MateriAjarSeeder extends Seeder
     public function run(): void
     {
         // Ambil bidang keahlian
-        $ais = BidangKeahlian::where('kode_bidang_keahlian', '002')->firstOrFail();
-        $ase = BidangKeahlian::where('kode_bidang_keahlian', '004')->firstOrFail();
-        $oaa = BidangKeahlian::where('kode_bidang_keahlian', '007')->firstOrFail();
+        $ais = BidangKeahlian::where('kode_program_studi', '002')->firstOrFail();
+        $ase = BidangKeahlian::where('kode_program_studi', '004')->firstOrFail();
+        $oaa = BidangKeahlian::where('kode_program_studi', '007')->firstOrFail();
 
         // =========================
         // MATA KULIAH UMUM
@@ -23,7 +23,7 @@ class MateriAjarSeeder extends Seeder
                 'kode_mk' => 'MKU-001',
                 'nama_mk' => 'Pendidikan Pancasila',
                 'deskripsi' => 'Mata kuliah wajib nasional',
-                'id_bidang_keahlian' => null,
+                'id_program_studi' => null,
                 'semester' => 1,
                 'sks' => 2,
             ],
@@ -31,7 +31,7 @@ class MateriAjarSeeder extends Seeder
                 'kode_mk' => 'MKU-002',
                 'nama_mk' => 'Kewarganegaraan',
                 'deskripsi' => 'Mata kuliah kewarganegaraan',
-                'id_bidang_keahlian' => null,
+                'id_program_studi' => null,
                 'semester' => 1,
                 'sks' => 2,
             ],
@@ -39,7 +39,7 @@ class MateriAjarSeeder extends Seeder
                 'kode_mk' => 'MKU-003',
                 'nama_mk' => 'Bahasa Inggris',
                 'deskripsi' => 'Bahasa Inggris dasar',
-                'id_bidang_keahlian' => null,
+                'id_program_studi' => null,
                 'semester' => 1,
                 'sks' => 2,
             ],
@@ -53,7 +53,7 @@ class MateriAjarSeeder extends Seeder
                 'kode_mk' => 'ASE-101',
                 'nama_mk' => 'Pemrograman Dasar',
                 'deskripsi' => 'Dasar pemrograman aplikasi',
-                'id_bidang_keahlian' => $ase->id_bidang_keahlian,
+                'id_program_studi' => $ase->id_program_studi,
                 'semester' => 1,
                 'sks' => 3,
             ],
@@ -61,7 +61,7 @@ class MateriAjarSeeder extends Seeder
                 'kode_mk' => 'ASE-201',
                 'nama_mk' => 'Framework Web',
                 'deskripsi' => 'Pengembangan aplikasi web modern',
-                'id_bidang_keahlian' => $ase->id_bidang_keahlian,
+                'id_program_studi' => $ase->id_program_studi,
                 'semester' => 2,
                 'sks' => 3,
             ],
@@ -75,7 +75,7 @@ class MateriAjarSeeder extends Seeder
                 'kode_mk' => 'AIS-101',
                 'nama_mk' => 'Pengantar Sistem Informasi',
                 'deskripsi' => 'Konsep dasar sistem informasi',
-                'id_bidang_keahlian' => $ais->id_bidang_keahlian,
+                'id_program_studi' => $ais->id_program_studi,
                 'semester' => 1,
                 'sks' => 3,
             ],
@@ -89,7 +89,7 @@ class MateriAjarSeeder extends Seeder
                 'kode_mk' => 'OAA-101',
                 'nama_mk' => 'Administrasi Perkantoran',
                 'deskripsi' => 'Dasar administrasi perkantoran',
-                'id_bidang_keahlian' => $oaa->id_bidang_keahlian,
+                'id_program_studi' => $oaa->id_program_studi,
                 'semester' => 1,
                 'sks' => 3,
             ],

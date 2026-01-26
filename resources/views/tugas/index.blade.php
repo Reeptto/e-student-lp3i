@@ -40,7 +40,7 @@
                 class="border rounded px-3 py-2 text-sm">
                 <option value="">Pilih Materi Ajar</option>
                 @foreach($matkul as $mk)
-                    <option value="{{ $mk->id_ma }}" {{ request('matkul') == $mk->id_ma ? 'selected' : '' }}>
+                    <option value="{{ $mk->id_mk }}" {{ request('matkul') == $mk->id_mk ? 'selected' : '' }}>
                         {{ $mk->nama_mk }}
                     </option>
                 @endforeach
@@ -59,7 +59,7 @@
     <div class="space-y-4">
         @forelse($tugas as $item)
             @php
-                $deadline   = \Carbon\Carbon::parse($item->jam_selesai);
+                $deadline   = \Carbon\Carbon::parse($item->deadline);
                 $submission = $item->submissionByAuth;
                 $isLate     = now()->isAfter($deadline);
             @endphp

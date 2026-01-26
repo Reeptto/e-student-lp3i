@@ -11,7 +11,7 @@ class PendidikSeeder extends Seeder
     {
         $data = [
             [
-                'nama' => 'Dr. Andi Pratama, M.Kom',
+                'nama_pendidik' => 'Dr. Andi Pratama, M.Kom',
                 'pendidikan' => 'S2 Teknik Informatika',
                 'bidang' => 'Application Software Engineering',
                 'tempat_lahir' => 'Bandung',
@@ -25,7 +25,7 @@ class PendidikSeeder extends Seeder
                 'foto' => null,
             ],
             [
-                'nama' => 'Siti Rahmawati, S.E., M.Ak',
+                'nama_pendidik' => 'Siti Rahmawati, S.E., M.Ak',
                 'pendidikan' => 'S2 Akuntansi',
                 'bidang' => 'Accounting Information System',
                 'tempat_lahir' => 'Jakarta',
@@ -39,7 +39,7 @@ class PendidikSeeder extends Seeder
                 'foto' => null,
             ],
             [
-                'nama' => 'Budi Santoso, S.AP., M.AP',
+                'nama_pendidik' => 'Budi Santoso, S.AP., M.AP',
                 'pendidikan' => 'S2 Administrasi Publik',
                 'bidang' => 'Office Administration Automatization',
                 'tempat_lahir' => 'Surabaya',

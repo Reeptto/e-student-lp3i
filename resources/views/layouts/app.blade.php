@@ -233,7 +233,7 @@
                             {{-- Teks Nama (Hidden di HP) --}}
                             <div class="text-right hidden md:block">
                                 <p class="text-sm font-bold text-slate-700 group-hover:text-primary transition-colors">
-                                    {{ auth()->user()?->mahasiswa?->nama ?? 'Guest User' }}
+                                    {{ auth()->user()?->mahasiswa?->nama_mhs ?? 'Guest User' }}
                                 </p>
                                 <p class="text-[10px] font-bold text-accent uppercase">
                                     {{ auth()->user()?->mahasiswa?->nipd ?? 'Student' }}
@@ -245,7 +245,7 @@
                                 <div class="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-slate-100 overflow-hidden ring-2 ring-white shadow-md group-hover:ring-primary/20 transition-all">
                                     <img src="{{ auth()->user()?->mahasiswa?->foto
                                             ? asset('storage/image/' . auth()->user()->mahasiswa->foto)
-                                            : 'https://ui-avatars.com/api/?name=' . (auth()->user()?->mahasiswa?->nama ?? 'Guest') . '&background=004269&color=fff' }}" 
+                                            : 'https://ui-avatars.com/api/?name=' . (auth()->user()?->mahasiswa?->nama_mhs ?? 'Guest') . '&background=004269&color=fff' }}" 
                                         class="w-full h-full object-cover" 
                                         alt="Profile">
                                 </div>

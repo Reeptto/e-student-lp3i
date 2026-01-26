@@ -31,52 +31,50 @@ class JadwalSeeder extends Seeder
 
         
 
-        // =========================
-        // DATA JADWAL
-        // =========================
+      
         $jadwal = [
             // ===== AIS (PERTAMA)
-            // [
-            //     'hari' => 'Senin',
-            //     'jam_mulai' => '08:00',
-            //     'jam_selesai' => '10:30',
-            //     'semester' => 1,
-            //     'id_ma' => $mkAIS->id_ma,
-            //     'id_ruangan' => Ruangan::first()->id_ruangan,
-            //     'id_pendidik' => $dosenAIS->id_pendidik,
-            //     'id_kelas' => $kelasAIS->id_kelas,
-            // ],
+            [
+                'hari' => 'Senin',
+                'jam_mulai' => '08:00',
+                'jam_selesai' => '10:30',
+                'semester' => 1,
+                'id_mk' => $mkAIS->id_mk,
+                'id_ruangan' => Ruangan::first()->id_ruangan,
+                'id_pendidik' => $dosenAIS->id_pendidik,
+                'id_kelas' => $kelasAIS->id_kelas,
+            ],
 
             // // ===== ASE (KEDUA)
-            // [
-            //     'hari' => 'Selasa',
-            //     'jam_mulai' => '10:00',
-            //     'jam_selesai' => '12:30',
-            //     'semester' => 1,
-            //     'id_ma' => $mkASE->id_ma,
-            //     'id_ruangan' => Ruangan::first()->id_ruangan,
-            //     'id_pendidik' => $dosenASE->id_pendidik,
-            //     'id_kelas' => $kelasASE->id_kelas,
-            // ],
+            [
+                'hari' => 'Selasa',
+                'jam_mulai' => '10:00',
+                'jam_selesai' => '12:30',
+                'semester' => 1,
+                'id_mk' => $mkASE->id_mk,
+                'id_ruangan' => Ruangan::first()->id_ruangan,
+                'id_pendidik' => $dosenASE->id_pendidik,
+                'id_kelas' => $kelasASE->id_kelas,
+            ],
 
             // // ===== OAA (KETIGA)
-            // [
-            //     'hari' => 'Rabu',
-            //     'jam_mulai' => '13:00',
-            //     'jam_selesai' => '15:30',
-            //     'semester' => 1,
-            //     'id_ma' => $mkOAA->id_ma,
-            //     'id_ruangan' => Ruangan::first()->id_ruangan,
-            //     'id_pendidik' => $dosenOAA->id_pendidik,
-            //     'id_kelas' => $kelasOAA->id_kelas,
-            // ],
+            [
+                'hari' => 'Rabu',
+                'jam_mulai' => '13:00',
+                'jam_selesai' => '15:30',
+                'semester' => 1,
+                'id_mk' => $mkOAA->id_mk,
+                'id_ruangan' => Ruangan::first()->id_ruangan,
+                'id_pendidik' => $dosenOAA->id_pendidik,
+                'id_kelas' => $kelasOAA->id_kelas,
+            ],
 
                [
                 'hari' => 'Rabu',
                 'jam_mulai' => '10:00',
                 'jam_selesai' => '12:30',
                 'semester' => 1,
-                'id_ma' => $mkASE->id_ma,
+                'id_mk' => $mkASE->id_mk,
                 'id_ruangan' => Ruangan::first()->id_ruangan,
                 'id_pendidik' => $dosenASE->id_pendidik,
                 'id_kelas' => $kelasASE->id_kelas,
@@ -87,7 +85,7 @@ class JadwalSeeder extends Seeder
                 'jam_mulai' => '10:00',
                 'jam_selesai' => '12:30',
                 'semester' => 1,
-                'id_ma' => $mkASE->id_ma,
+                'id_mk' => $mkASE->id_mk,
                 'id_ruangan' => Ruangan::first()->id_ruangan,
                 'id_pendidik' => $dosenASE->id_pendidik,
                 'id_kelas' => $kelasASE->id_kelas,

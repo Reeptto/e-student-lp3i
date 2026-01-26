@@ -10,12 +10,13 @@ class Kelas extends Model
     protected $table = 'kelas';
     protected $fillable = [
         'nama_kelas',
-        'id_bidang_keahlian'
+        'nama_pa',
+        'id_program_studi',
     ];
 
     public function program_studi()
     {
-        return $this->belongsTo(BidangKeahlian::class, 'bidang_keahlian_id');
+        return $this->belongsTo(BidangKeahlian::class, 'id_program_studi');
     }
 
     public function mahasiswa()

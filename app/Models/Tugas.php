@@ -11,7 +11,7 @@ class Tugas extends Model
     public $incrementing = true;
     protected $keyType = 'int';
     protected $fillable = [
-        'id_ma',
+        'id_mk',
         'id_kelas',
         'judul_tugas',
         'file_materi',
@@ -23,7 +23,7 @@ class Tugas extends Model
 
     public function materiAjar()
     {
-        return $this->belongsTo(MataKuliah::class, 'id_ma', 'id_ma');
+        return $this->belongsTo(MataKuliah::class, 'id_mk', 'id_mk');
     }
 
     public function submissions()

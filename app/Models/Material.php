@@ -10,16 +10,18 @@ class Material extends Model
     protected $primaryKey = 'id_materi';
 
     protected $fillable = [
-        'id_ma',
+        'id_mk',
+        'id_kelas',
+        'id_pendidik',
         'judul_materi',
-        'file_materi',
         'deskripsi',
+        'tipe_materi',
         'pertemuan',
         'tgl_upload',
     ];
 
     public function materiAjar()
     {
-        return $this->belongsTo(MataKuliah::class, 'id_ma', 'id_ma');
+        return $this->belongsTo(MataKuliah::class, 'id_mk', 'id_mk');
     }
 }

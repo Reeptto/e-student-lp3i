@@ -130,7 +130,7 @@
         <div class="relative z-10 flex flex-col md:flex-row justify-between gap-6 items-start">
             <div class="flex-1 max-w-2xl">
                 <h1 class="text-3xl font-bold tracking-tight mb-3">
-                    Halo, {{ auth()->user()->mahasiswa->nama }} 👋
+                    Halo, {{ auth()->user()->mahasiswa->nama_mhs }} 👋
                 </h1>
                 
                 {{-- Paragraf Pengganti Detail --}}
@@ -146,7 +146,6 @@
         </div>
     </div>
 
-    {{-- ===== JADWAL KULIAH (ACCORDION) ===== --}}
     <div class="card">
         <div class="accordion-header" onclick="toggleSection('jadwalContent', 'jadwalIcon')">
             <h2 class="text-lg font-bold text-slate-800 flex items-center gap-2">
@@ -181,7 +180,7 @@
                                             </div>
                                             <div class="text-xs text-slate-500 mt-1 flex items-center gap-1">
                                                 <svg class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" /></svg>
-                                                {{ $j->dosen->nama }}
+                                                {{ $j->dosen->nama_pendidik }}
                                             </div>
                                             <div class="text-xs text-slate-500 flex items-center gap-1 mt-0.5">
                                                 <svg class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" /></svg>

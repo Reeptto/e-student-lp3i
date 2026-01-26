@@ -78,11 +78,11 @@
             
 
             <h2 class="mt-4 font-semibold text-lg text-slate-800">
-                {{ $mahasiswa->nama ?? '-' }}
+                {{ $mahasiswa->nama_mhs ?? '-' }}
             </h2>
 
             <p class="text-sm text-slate-500 mt-1">
-                {{ $mahasiswa->bidangKeahlian->nama_bidang_keahlian ?? '-' }}
+                {{ $mahasiswa->bidangKeahlian->nama_program_studi ?? '-' }}
             </p>
 
             <div class="mt-4 text-sm font-medium text-slate-700">
@@ -110,7 +110,7 @@
 
                     <div>
                         <div class="label">Nama Lengkap</div>
-                        <div class="value">{{ $mahasiswa->nama ?? '-' }}</div>
+                        <div class="value">{{ $mahasiswa->nama_mhs ?? '-' }}</div>
                     </div>
 
                     <div>
@@ -185,7 +185,7 @@
                     <div class="md:col-span-2">
                         <div class="label">Bidang Keahlian</div>
                         <div class="value">
-                            {{ $mahasiswa->bidangKeahlian?->nama_bidang_keahlian ?? '-' }}
+                            {{ $mahasiswa->bidangKeahlian?->nama_program_studi ?? '-' }}
                         </div>
                     </div>
 

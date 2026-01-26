@@ -7,28 +7,29 @@ use Illuminate\Database\Eloquent\Model;
 
 class MataKuliah extends Model
 {
-    protected $table = 'materi_ajar';
+    protected $table = 'matakuliah';
     protected $fillable = [
         'nama_mk',
         'kode_mk',
         'deskripsi',
-        'id_bidang_keahlian',
+        'tipe_matakuliah',
+        'id_program_studi',
         'semester',
         'sks',
     ];
 
     public function tugas()
     {
-        return $this->hasMany(Tugas::class, 'id_ma');
+        return $this->hasMany(Tugas::class, 'id_mk');
     }
 
     public function nilai()
     {
-        return $this->hasMany(Nilai::class, 'id_ma');
+        return $this->hasMany(Nilai::class, 'id_mk');
     }
 
     public function materi()
     {
-        return $this->hasMany(Material::class, 'id_ma', 'id_ma');
+        return $this->hasMany(Material::class, 'id_mk', 'id_mk');
     }
 }

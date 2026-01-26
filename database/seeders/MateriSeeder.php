@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Dosen;
 use Illuminate\Database\Seeder;
 use App\Models\Material;
 use App\Models\MataKuliah;
@@ -22,50 +23,57 @@ class MateriSeeder extends Seeder
         $kelasASE = Kelas::where('nama_kelas', 'ASE-10')->firstOrFail();
         $kelasOAA = Kelas::where('nama_kelas', 'OAA-13A')->firstOrFail();
 
+        // Ambil pendidik (contoh ambil yang pertama)
+        $pendidik = Dosen::firstOrFail();
+
         // =========================
         // DATA MATERI
         // =========================
         $materi = [
             // ===== AIS
             [
-                'id_ma' => $mkAIS->id_ma,
-                'id_kelas' => $kelasAIS->id_kelas,
+                'id_mk'        => $mkAIS->id_mk,
+                'id_kelas'     => $kelasAIS->id_kelas,
+                'id_pendidik'  => $pendidik->id_pendidik,
                 'judul_materi' => 'Pengantar Sistem Informasi',
-                'deskripsi' => 'Pengenalan konsep dasar sistem informasi',
-                'file_materi' => null,
-                'pertemuan' => 'Pertemuan 1',
-                'tgl_upload' => now()->toDateString(),
+                'deskripsi'    => 'Pengenalan konsep dasar sistem informasi',
+                'tipe_materi'  => 'file',
+                'pertemuan'    => 1,
+                'tgl_upload'   => now()->toDateString(),
             ],
             [
-                'id_ma' => $mkAIS->id_ma,
-                'id_kelas' => $kelasAIS->id_kelas,
+                'id_mk'        => $mkAIS->id_mk,
+                'id_kelas'     => $kelasAIS->id_kelas,
+                'id_pendidik'  => $pendidik->id_pendidik,
                 'judul_materi' => 'Komponen Sistem Informasi',
-                'deskripsi' => 'Hardware, software, brainware',
-                'file_materi' => null,
-                'pertemuan' => 'Pertemuan 2',
-                'tgl_upload' => now()->toDateString(),
+                'deskripsi'    => 'Hardware, software, brainware',
+                'tipe_materi'  => 'file',
+                'pertemuan'    => 2,
+                'tgl_upload'   => now()->toDateString(),
             ],
 
             // ===== ASE
             [
-                'id_ma' => $mkASE->id_ma,
-                'id_kelas' => $kelasASE->id_kelas,
+                'id_mk'        => $mkASE->id_mk,
+                'id_kelas'     => $kelasASE->id_kelas,
+                'id_pendidik'  => $pendidik->id_pendidik,
                 'judul_materi' => 'Dasar Pemrograman',
-                'deskripsi' => 'Logika dasar dan algoritma',
-                'file_materi' => null,
-                'pertemuan' => 'Pertemuan 1',
-                'tgl_upload' => now()->toDateString(),
+                'deskripsi'    => 'Logika dasar dan algoritma',
+                'tipe_materi'  => 'file',
+                'pertemuan'    => 1,
+                'tgl_upload'   => now()->toDateString(),
             ],
 
-            // ===== OAD
+            // ===== OAA
             [
-                'id_ma' => $mkOAA->id_ma,
-                'id_kelas' => $kelasOAA->id_kelas,
+                'id_mk'        => $mkOAA->id_mk,
+                'id_kelas'     => $kelasOAA->id_kelas,
+                'id_pendidik'  => $pendidik->id_pendidik,
                 'judul_materi' => 'Administrasi Perkantoran',
-                'deskripsi' => 'Konsep dasar administrasi perkantoran',
-                'file_materi' => null,
-                'pertemuan' => 'Pertemuan 1',
-                'tgl_upload' => now()->toDateString(),
+                'deskripsi'    => 'Konsep dasar administrasi perkantoran',
+                'tipe_materi'  => 'link',
+                'pertemuan'    => 1,
+                'tgl_upload'   => now()->toDateString(),
             ],
         ];
 

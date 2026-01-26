@@ -11,22 +11,22 @@ class KelasSeeder extends Seeder
     public function run(): void
     {
         // Ambil bidang keahlian
-        $ase = BidangKeahlian::where('kode_bidang_keahlian', '002')->firstOrFail();
-        $ais = BidangKeahlian::where('kode_bidang_keahlian', '004')->firstOrFail();
-        $oaa = BidangKeahlian::where('kode_bidang_keahlian', '007')->firstOrFail();
+        $ase = BidangKeahlian::where('kode_program_studi', '002')->firstOrFail();
+        $ais = BidangKeahlian::where('kode_program_studi', '004')->firstOrFail();
+        $oaa = BidangKeahlian::where('kode_program_studi', '007')->firstOrFail();
 
         $data = [
             [
                 'nama_kelas' => 'AIS-12',
-                'id_bidang_keahlian' => $ais->id_bidang_keahlian,
+                'id_program_studi' => $ais->id_program_studi,
             ],
             [
                 'nama_kelas' => 'ASE-10',
-                'id_bidang_keahlian' => $ase->id_bidang_keahlian,
+                'id_program_studi' => $ase->id_program_studi,
             ],
             [
                 'nama_kelas' => 'OAA-13A',
-                'id_bidang_keahlian' => $oaa->id_bidang_keahlian,
+                'id_program_studi' => $oaa->id_program_studi,
             ],
         ];
 

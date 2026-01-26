@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('kode_mk');
             $table->string('nama_mk');
             $table->text('deskripsi');
-            $table->boolean('tipe_matakuliah')->default(0);
+            $table->boolean('tipe_matakuliah')->default(0)->nullable();
             $table->foreignId('id_program_studi')->nullable();
             $table->foreign('id_program_studi')->references('id_program_studi')->on('program_studi')->onDelete('cascade');
             $table->integer('semester');

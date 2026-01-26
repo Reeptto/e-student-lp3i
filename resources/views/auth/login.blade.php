@@ -68,15 +68,15 @@
             <div class="absolute bottom-10 right-10 w-24 h-32 opacity-70 z-0" style="background-image: radial-gradient(#4b2aad 1.5px, transparent 1.5px); background-size: 12px 12px;"></div>
 
             {{-- 1. LOGO KIRI ATAS (GLOBAL) - SETENGAH LINGKARAN --}}
-            <div class="absolute top-0 left-8 z-20">
+            <div class="absolute top-10 left-14 z-20">
                 <!-- <div class="w-24 h-14 bg-[#009DA5] rounded-b-full flex items-center justify-center shadow-md pt-1"> -->
-                    <img src="{{ asset('/img/2.webp') }}" class="w-[140px] lg:w-[170px] drop-shadow-sm">
+                    <img src="{{ asset('img/global.png') }}" class="w-[96px] lg:w-[124px] drop-shadow-sm">
                 <!-- </div> -->
             </div>
 
             {{-- 2. LOGO KANAN ATAS (2.WEBP) - RESPONSIVE DI POJOK --}}
             <div class="absolute top-6 right-8 z-20">
-                <img src="{{ asset('img/global.png') }}" class="w-[96px] lg:w-[124px] drop-shadow-sm">
+                <img src="{{ asset('/img/2.webp') }}" class="w-[140px] lg:w-[170px] drop-shadow-sm">
             </div>
 
             {{-- 3. KONTEN UTAMA (Diberi Padding Top Agar Tidak Ketutup Logo) --}}

@@ -7,10 +7,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class BidangKeahlian extends Model
 {
-    protected $table = 'bidang_keahlian';
+    protected $table = 'program_studi';
     protected $fillable = [
-        'nama_bidang_keahlian',
-        'kode_bidang_keahlian'
+        'nama_program_studi',
+        'kode_program_studi'
     ];
 
     public function kelas()

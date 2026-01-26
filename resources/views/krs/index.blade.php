@@ -153,9 +153,9 @@
             <div class="mb-4 px-1">
                 <table class="w-full text-[13px] leading-snug font-medium">
                     <tr><td class="w-[160px] py-1">NIPD</td><td class="w-[10px] py-1">:</td><td class="py-1 font-semibold">{{ $mahasiswa->nipd }}</td></tr>
-                    <tr><td class="py-1">Nama Lengkap</td><td class="py-1">:</td><td class="py-1 font-semibold">{{ ucfirst($mahasiswa->nama) }}</td></tr>
+                    <tr><td class="py-1">Nama Lengkap</td><td class="py-1">:</td><td class="py-1 font-semibold">{{ ucfirst($mahasiswa->nama_mhs) }}</td></tr>
                     <tr><td class="py-1">Semester</td><td class="py-1">:</td><td><span id="semesterText"></span></td></tr>
-                    <tr><td class="py-1">Bidang Keahlian</td><td class="py-1">:</td><td>{{ ucfirst($mahasiswa->bidangKeahlian->nama_bidang_keahlian ?? '-') }}</td></tr>
+                    <tr><td class="py-1">Bidang Keahlian</td><td class="py-1">:</td><td>{{ ucfirst($mahasiswa->bidangKeahlian->nama_program_studi ?? '-') }}</td></tr>
                 </table>
             </div>
 

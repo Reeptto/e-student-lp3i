@@ -15,7 +15,7 @@ class Krs extends Model
         'id_mahasiswa',
         'id_pendidik',
         'id_kelas',
-        'id_ma',
+        'id_mk',
         'sks',
         'semester', // semester pengambilan
     ];
@@ -31,7 +31,7 @@ class Krs extends Model
 
     public function materiAjar()
     {
-        return $this->belongsTo(MataKuliah::class, 'id_ma', 'id_ma');
+        return $this->belongsTo(MataKuliah::class, 'id_mk', 'id_mk');
     }
 
     public function pendidik()

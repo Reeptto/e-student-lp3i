@@ -40,7 +40,7 @@ class Mahasiswa extends Model
 
     public function bidangKeahlian()
     {
-        return $this->belongsTo(BidangKeahlian::class, 'id_bidang_keahlian', 'id_bidang_keahlian');
+        return $this->belongsTo(BidangKeahlian::class, 'id_program_studi', 'id_program_studi');
     }
 
     public function user()

@@ -43,12 +43,12 @@
                 @endfor
             </select>
 
-            <select name="id_ma"
+            <select name="id_mk"
                     onchange="this.form.submit()"
                     class="w-full md:w-2/3 border rounded-lg px-4 py-2 text-sm">
                 <option value="">Pilih Materi Ajar</option>
                 @foreach ($mataKuliah as $mk)
-                    <option value="{{ $mk->id_ma }}" {{ $id_ma == $mk->id_ma ? 'selected' : '' }}>
+                    <option value="{{ $mk->id_mk }}" {{ $id_mk == $mk->id_mk ? 'selected' : '' }}>
                         {{ $mk->nama_mk }}
                     </option>
                 @endforeach

@@ -52,10 +52,10 @@ class NilaiSeeder extends Seeder
             Nilai::create([
                 'id_pendidik'     => $krs->id_pendidik,
                 'id_mahasiswa'    => $krs->id_mahasiswa,
-                'id_ma'           => $krs->id_ma,
+                'id_mk'           => $krs->id_mk,
                 'semester'        => $krs->semester,
                 'periode'         => 'Ganjil',
-                'tahun_ajaran'    => '2024/2025',
+                'tahun_akademik'    => '2024/2025',
                 'nilai_kehadiran' => $kehadiran,
                 'nilai_sikap'     => $sikap,
                 'nilai_formative' => $formatif,

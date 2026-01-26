@@ -16,8 +16,8 @@ class TugasController extends Controller
         $kelasId = $user->mahasiswa->id_kelas;
 
         // Ambil semester dari matkul yang BENAR-BENAR punya tugas di kelas ini
-        $semesters = MataKuliah::whereIn('id_ma', function ($q) use ($kelasId) {
-                $q->select('id_ma')
+        $semesters = MataKuliah::whereIn('id_mk', function ($q) use ($kelasId) {
+                $q->select('id_mk')
                   ->from('tugas')
                   ->where('id_kelas', $kelasId);
             })
@@ -28,8 +28,8 @@ class TugasController extends Controller
             ->pluck('semester');
 
         // Ambil matkul berdasarkan tugas di kelas ini (AMAN antar kelas)
-        $matkul = MataKuliah::whereIn('id_ma', function ($q) use ($kelasId) {
-                $q->select('id_ma')
+        $matkul = MataKuliah::whereIn('id_mk', function ($q) use ($kelasId) {
+                $q->select('id_mk')
                   ->from('tugas')
                   ->where('id_kelas', $kelasId);
             })
@@ -43,9 +43,9 @@ class TugasController extends Controller
         $tugas = Tugas::with('materiAjar')
             ->where('id_kelas', $kelasId)
             ->when($request->filled('matkul'), function ($q) use ($request) {
-                $q->where('id_ma', $request->matkul);
+                $q->where('id_mk', $request->matkul);
             })
-            ->orderBy('jam_selesai')
+            ->orderBy('deadline')
             ->get();
 
         return view('tugas.index', compact('semesters', 'matkul', 'tugas'));
@@ -56,7 +56,7 @@ class TugasController extends Controller
         $tugas->load('materiAjar');
 
         $submission = $tugas->submissionByAuth()->first();
-        $isExpired  = now()->isAfter($tugas->jam_selesai);
+        $isExpired  = now()->isAfter($tugas->deadline);
 
         return view('tugas.show', compact('tugas', 'submission', 'isExpired'));
     }

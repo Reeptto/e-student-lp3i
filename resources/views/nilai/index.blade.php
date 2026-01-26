@@ -256,7 +256,6 @@
             <div style="font-size: 14pt; font-weight: 700; text-decoration: underline; text-transform: uppercase; text-align: center; margin-bottom: 5px;" class="tegak">KARTU HASIL STUDI (KHS)</div>
             <div style="font-size: 11pt; font-weight: 600; text-align: center; margin-bottom: 20px; text-transform: uppercase;" class="tegak">TAHUN AKADEMIK 2025/2026</div>
 
-            {{-- BIODATA (FIXED: CONSISTENT SPACING) --}}
             <table class="table-biodata">
                 <tr>
                     <td class="col-label">NIPD</td>
@@ -264,19 +263,19 @@
                     <td class="col-value">{{ auth()->user()->mahasiswa->nipd }}</td>
                 </tr>
                 <tr>
-                    <td class="col-label">NAMA LENGKAP</td>
+                    <td class="col-label">Nama</td>
                     <td class="col-separator">:</td>
-                    <td class="col-value">{{ ucfirst(auth()->user()->mahasiswa->nama) }}</td>
+                    <td class="col-value">{{ ucfirst(auth()->user()->mahasiswa->nama_mhs) }}</td>
                 </tr>
                 <tr>
-                    <td class="col-label">TEMPAT/TGL LAHIR</td>
+                    <td class="col-label">Tempat, Tanggal Lahir</td>
                     <td class="col-separator">:</td>
                     <td class="col-value">{{ auth()->user()->mahasiswa->tempat_lahir }} / {{ \Carbon\Carbon::parse(auth()->user()->mahasiswa->tgl_lahir)->translatedFormat('d F Y') }}</td>
                 </tr>
                 <tr>
-                    <td class="col-label">BIDANG KEAHLIAN</td>
+                    <td class="col-label">Bidang Keahlian</td>
                     <td class="col-separator">:</td>
-                    <td class="col-value">{{ ucfirst(auth()->user()->mahasiswa->bidangKeahlian->nama_bidang_keahlian) }}</td>
+                    <td class="col-value">{{ ucfirst(auth()->user()->mahasiswa->bidangKeahlian->nama_program_studi ?? '-') }}</td>
                 </tr>
             </table>
 
@@ -284,12 +283,12 @@
             <table class="table-surat">
                 <thead>
                     <tr>
-                        <th style="width: 40px;">NO</th>
-                        <th style="text-align: left; padding-left: 10px;">MATA KULIAH</th>
+                        <th style="width: 40px;">No</th>
+                        <th style="text-align: left; padding-left: 10px;">Materi Ajar</th>
                         <th style="width: 50px;">SKS</th>
-                        <th style="width: 60px;">ANGKA</th>
-                        <th style="width: 60px;">HURUF</th>
-                        <th style="width: 80px;">MUTU</th>
+                        <th style="width: 60px;">Angka</th>
+                        <th style="width: 60px;">Huruf</th>
+                        <th style="width: 80px;">Mutu</th>
                     </tr>
                 </thead>
                 <tbody>

@@ -41,7 +41,7 @@ Route::middleware('auth')->group(function () {
             ->where('semester', $request->semester)
             ->orderBy('nama_mk')
             ->get([
-                'id_ma as id',
+                'id_mk as id',
                 'nama_mk'
             ]);
 

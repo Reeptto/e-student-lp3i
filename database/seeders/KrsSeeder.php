@@ -29,7 +29,7 @@ class KrsSeeder extends Seeder
         $dosenOAA = Dosen::where('bidang', 'Office Administration Automatization')->firstOrFail();
 
         // Mata kuliah umum
-        $mkUmum = MataKuliah::whereNull('id_bidang_keahlian')->get();
+        $mkUmum = MataKuliah::whereNull('id_program_studi')->get();
 
         // Mata kuliah inti
         $mkAIS = MataKuliah::where('kode_mk', 'AIS-101')->firstOrFail();
@@ -47,7 +47,7 @@ class KrsSeeder extends Seeder
                 'id_mahasiswa' => $mhsAIS->id_mahasiswa,
                 'id_pendidik' => $dosenAIS->id_pendidik,
                 'id_kelas' => $kelasAIS->id_kelas,
-                'id_ma' => $mk->id_ma,
+                'id_mk' => $mk->id_mk,
                 'semester' => 1,
                 'sks' => $mk->sks,
             ];
@@ -57,7 +57,7 @@ class KrsSeeder extends Seeder
             'id_mahasiswa' => $mhsAIS->id_mahasiswa,
             'id_pendidik' => $dosenAIS->id_pendidik,
             'id_kelas' => $kelasAIS->id_kelas,
-            'id_ma' => $mkAIS->id_ma,
+            'id_mk' => $mkAIS->id_mk,
             'semester' => 1,
             'sks' => $mkAIS->sks,
         ];
@@ -68,7 +68,7 @@ class KrsSeeder extends Seeder
                 'id_mahasiswa' => $mhsASE->id_mahasiswa,
                 'id_pendidik' => $dosenASE->id_pendidik,
                 'id_kelas' => $kelasASE->id_kelas,
-                'id_ma' => $mk->id_ma,
+                'id_mk' => $mk->id_mk,
                 'semester' => 1,
                 'sks' => $mk->sks,
             ];
@@ -78,7 +78,7 @@ class KrsSeeder extends Seeder
             'id_mahasiswa' => $mhsASE->id_mahasiswa,
             'id_pendidik' => $dosenASE->id_pendidik,
             'id_kelas' => $kelasASE->id_kelas,
-            'id_ma' => $mkASE->id_ma,
+            'id_mk' => $mkASE->id_mk,
             'semester' => 1,
             'sks' => $mkASE->sks,
         ];
@@ -89,7 +89,7 @@ class KrsSeeder extends Seeder
                 'id_mahasiswa' => $mhsOAA->id_mahasiswa,
                 'id_pendidik' => $dosenOAA->id_pendidik,
                 'id_kelas' => $kelasOAA->id_kelas,
-                'id_ma' => $mk->id_ma,
+                'id_mk' => $mk->id_mk,
                 'semester' => 1,
                 'sks' => $mk->sks,
             ];
@@ -99,7 +99,7 @@ class KrsSeeder extends Seeder
             'id_mahasiswa' => $mhsOAA->id_mahasiswa,
             'id_pendidik' => $dosenOAA->id_pendidik,
             'id_kelas' => $kelasOAA->id_kelas,
-            'id_ma' => $mkOAA->id_ma,
+            'id_mk' => $mkOAA->id_mk,
             'semester' => 1,
             'sks' => $mkOAA->sks,
         ];

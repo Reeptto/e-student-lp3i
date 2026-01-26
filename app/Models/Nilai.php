@@ -11,7 +11,7 @@ class Nilai extends Model
     protected $fillable = [
         'id_pendidik',
         'id_mahasiswa',
-        'id_ma',
+        'id_mk',
         'semester',
         'periode',
         'tahun_ajaran',
@@ -30,7 +30,7 @@ class Nilai extends Model
 
     public function materiAjar()
     {
-        return $this->belongsTo(Matakuliah::class, 'id_ma', 'id_ma');
+        return $this->belongsTo(Matakuliah::class, 'id_mk', 'id_mk');
     }
 
     public function mahasiswa()
