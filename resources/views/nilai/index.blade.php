@@ -30,13 +30,14 @@
         margin: 0 auto;
         padding: 10mm 15mm; 
         position: relative;
+        overflow: hidden; /* Tambahan agar gambar tidak keluar kertas */
         box-shadow: 0 0 15px rgba(0,0,0,0.15);
         color: black;
         box-sizing: border-box;
     }
 
     /* 1. TABLE BIODATA (FIX JARAK) */
-    .table-biodata { width: 100%; border-collapse: collapse; font-size: 10pt; margin-bottom: 20px; }
+    .table-biodata { width: 100%; border-collapse: collapse; font-size: 10pt; margin-bottom: 20px; position: relative; z-index: 10; }
     .table-biodata td { 
         padding: 4px 0;       /* Jarak atas-bawah konsisten 4px */
         vertical-align: top;  /* Teks selalu mulai dari atas */
@@ -47,13 +48,13 @@
     .col-value { font-weight: 700; }
 
     /* 2. TABLE NILAI (RESMI) */
-    .table-surat { width: 100%; border-collapse: collapse; font-size: 10pt; line-height: 1.3; margin-top: 10px; }
-    .table-surat th { background-color: #f0f0f0 !important; font-weight: 700; text-align: center; vertical-align: middle; padding: 8px 5px; border: 1px solid #000; }
+    .table-surat { width: 100%; border-collapse: collapse; font-size: 10pt; line-height: 1.3; margin-top: 10px; position: relative; z-index: 10; background: transparent; }
+    .table-surat th { background-color: rgba(240, 240, 240, 0.9) !important; font-weight: 700; text-align: center; vertical-align: middle; padding: 8px 5px; border: 1px solid #000; }
     .table-surat td { padding: 6px 8px; border: 1px solid #000; vertical-align: middle; }
     
-    .garis-kop { border-bottom: 4px double #000; margin-bottom: 2px; }
-    .garis-tipis { border-bottom: 1px solid #000; margin-bottom: 25px; }
-    .tegak { font-style: normal !important; }
+    .garis-kop { border-bottom: 4px double #000; margin-bottom: 2px; position: relative; z-index: 10; }
+    .garis-tipis { border-bottom: 1px solid #000; margin-bottom: 25px; position: relative; z-index: 10; }
+    .tegak { font-style: normal !important; position: relative; z-index: 10; }
 
     @media print {
         @page { size: A4; margin: 0; }
@@ -64,6 +65,9 @@
         #khsModal { position: fixed !important; inset: 0 !important; background: white !important; z-index: 9999; display: block !important; }
         #printWrapper { padding: 0 !important; margin: 0 !important; }
         .paper-a4 { width: 100% !important; height: auto !important; margin: 0 !important; padding: 15mm !important; box-shadow: none !important; border: none !important; }
+        
+        /* Pastikan background image tercetak */
+        * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
     }
 </style>
 
@@ -231,134 +235,147 @@
 
     {{-- KERTAS A4 --}}
     <div id="printWrapper" class="flex justify-center py-24 px-4 min-h-screen">
-        <div class="paper-a4 font-poppins text-black">
+        {{-- Added relative & overflow-hidden --}}
+        <div class="paper-a4 font-poppins text-black relative overflow-hidden">
             
-            {{-- KOP SURAT --}}
-            <div style="display: flex; align-items: center; gap: 20px; padding-bottom: 10px;">
-                <div style="width: 100px; flex-shrink: 0;">
-                    <img src="{{ asset('/img/lp3i-kotak.png') }}" style="width: 100%; height: auto; object-fit: contain;">
-                </div>
-                <div style="flex-grow: 1; text-align: center;">
-                    <h1 style="font-size: 20pt; font-weight: 800; color: #004269; margin: 0; line-height: 1;">LP3I COLLEGE KARAWANG</h1>
-                    <p style="font-size: 9pt; margin: 6px 0 0 0; line-height: 1.4; font-weight: 400;">
-                        Gedung Karawang Hijau, Jl. Tarumanegara No. 4-6, Desa Purwadana,<br>
-                        Kecamatan Telukjambe Timur, Kabupaten Karawang, Jawa Barat 41361<br>
-                        Telp (0267) 411286
-                    </p>
-                </div>
-                <div style="width: 100px;"></div> 
-            </div>
-            
-            <div class="garis-kop"></div>
-            <div class="garis-tipis"></div>
-
-            {{-- JUDUL --}}
-            <div style="font-size: 14pt; font-weight: 700; text-decoration: underline; text-transform: uppercase; text-align: center; margin-bottom: 5px;" class="tegak">KARTU HASIL STUDI (KHS)</div>
-            <div style="font-size: 11pt; font-weight: 600; text-align: center; margin-bottom: 20px; text-transform: uppercase;" class="tegak">TAHUN AKADEMIK 2025/2026</div>
-
-            <table class="table-biodata">
-                <tr>
-                    <td class="col-label">NIPD</td>
-                    <td class="col-separator">:</td>
-                    <td class="col-value">{{ auth()->user()->mahasiswa->nipd }}</td>
-                </tr>
-                <tr>
-                    <td class="col-label">Nama</td>
-                    <td class="col-separator">:</td>
-                    <td class="col-value">{{ ucfirst(auth()->user()->mahasiswa->nama_mhs) }}</td>
-                </tr>
-                <tr>
-                    <td class="col-label">Tempat, Tanggal Lahir</td>
-                    <td class="col-separator">:</td>
-                    <td class="col-value">{{ auth()->user()->mahasiswa->tempat_lahir }} / {{ \Carbon\Carbon::parse(auth()->user()->mahasiswa->tgl_lahir)->translatedFormat('d F Y') }}</td>
-                </tr>
-                <tr>
-                    <td class="col-label">Bidang Keahlian</td>
-                    <td class="col-separator">:</td>
-                    <td class="col-value">{{ ucfirst(auth()->user()->mahasiswa->bidangKeahlian->nama_program_studi ?? '-') }}</td>
-                </tr>
-            </table>
-
-            {{-- TABEL NILAI --}}
-            <table class="table-surat">
-                <thead>
-                    <tr>
-                        <th style="width: 40px;">No</th>
-                        <th style="text-align: left; padding-left: 10px;">Materi Ajar</th>
-                        <th style="width: 50px;">SKS</th>
-                        <th style="width: 60px;">Angka</th>
-                        <th style="width: 60px;">Huruf</th>
-                        <th style="width: 80px;">Mutu</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td colspan="6" style="padding: 6px 10px; font-weight: 700; background-color: #f9f9f9; text-transform: uppercase; font-size: 9pt;" class="tegak">
-                            Semester {{ request('semester', '1') }}
-                        </td>
-                    </tr>
-
-                    @php 
-                        $no = 1; $totalSks = 0; $totalMutu = 0; 
-                    @endphp
-                    
-                    @foreach ($nilai as $item)
-                    @php
-                        $sks = $item->materiAjar->sks;
-                        $huruf = ucfirst($item->grade);
-                        $angka = match($huruf) {
-                            'A' => 4.0, 'A-' => 3.7, 'B+' => 3.3, 'B' => 3.0, 'B-' => 2.7,
-                            'C+' => 2.3, 'C' => 2.0, 'D' => 1.0, default => 0
-                        };
-                        $mutu = $sks * $angka;
-                        $totalSks += $sks; $totalMutu += $mutu;
-                    @endphp
-                    <tr>
-                        <td style="text-align: center;">{{ $no++ }}</td>
-                        <td style="padding-left: 10px;">
-                            <div style="font-weight: 600; font-size: 9pt;">{{ $item->materiAjar->nama_mk }}</div>
-                        </td>
-                        <td style="text-align: center;">{{ $sks }}</td>
-                        <td style="text-align: center;">{{ number_format($angka, 1) }}</td>
-                        <td style="text-align: center; font-weight: 700;">{{ $huruf }}</td>
-                        <td style="text-align: center;">{{ number_format($mutu, 1) }}</td>
-                    </tr>
-                    @endforeach
-
-                    <tr style="background-color: #f5f5f5; font-weight: 700;">
-                        <td colspan="2" style="text-align: right; padding-right: 15px;">TOTAL</td>
-                        <td style="text-align: center;">{{ $totalSks }}</td>
-                        <td colspan="2" style="background-color: #e9ecef; border-bottom: 1px solid #000;"></td>
-                        <td style="text-align: center;">{{ number_format($totalMutu, 1) }}</td>
-                    </tr>
-                </tbody>
-            </table>
-
-            {{-- SUMMARY IPS --}}
-            <div style="margin-top: 20px; border: 1px solid #000; padding: 12px 20px; display: flex; justify-content: space-between; align-items: center; background-color: #fff;">
-                <div style="font-size: 10pt;">
-                    <strong>IPS (Indeks Prestasi Semester) :</strong> 
-                    <span style="font-size: 12pt; font-weight: 800; margin-left: 8px;">
-                        {{ $totalSks > 0 ? number_format($totalMutu / $totalSks, 2) : '0.00' }}
-                    </span>
-                </div>
-                <div style="font-size: 10pt;">
-                    <strong>Predikat :</strong> 
-                    <span style="font-weight: 600; margin-left: 5px;">
-                        Sangat Memuaskan
-                    </span>
-                </div>
+            {{-- === GAMBAR BACKGROUND (WATERMARK) === --}}
+            {{-- opacity-20, width 70%, no grayscale, z-0 --}}
+            <div class="absolute inset-0 flex items-center justify-center z-0 pointer-events-none">
+                <img src="{{ asset('/img/lp3i-putih.png') }}" class="w-[70%] h-auto object-contain opacity-15">
             </div>
 
-            {{-- TANDA TANGAN --}}
-            <div style="margin-top: 40px; display: grid; grid-template-columns: 1fr 1fr; gap: 40px;">
-                <div style="text-align: center;">
-                    <p style="margin-bottom: 60px;">Karawang, {{ now()->translatedFormat('d F Y') }}</p>
-                    <p style="font-weight: 700; text-decoration: underline; font-size: 10pt;">Eko Marmanto P.U, S.Kom.,M.Kom.,MOS. CDMP</p>
-                    <p style="font-size: 9pt;">Head of Education</p>
+            {{-- === KONTEN SURAT (WRAPPER z-10) === --}}
+            <div class="relative z-10">
+
+                {{-- KOP SURAT --}}
+                <div style="display: flex; align-items: center; gap: 20px; padding-bottom: 10px;">
+                    <div style="width: 100px; flex-shrink: 0;">
+                        <img src="{{ asset('/img/lp3i-putih.png') }}" style="width: 100%; height: auto; object-fit: contain;">
+                    </div>
+                    <div style="flex-grow: 1; text-align: center;">
+                        <h1 style="font-size: 20pt; font-weight: 800; color: #004269; margin: 0; line-height: 1;">LP3I COLLEGE KARAWANG</h1>
+                        <p style="font-size: 9pt; margin: 6px 0 0 0; line-height: 1.4; font-weight: 400;">
+                            Gedung Karawang Hijau, Jl. Tarumanegara No. 4-6, Desa Purwadana,<br>
+                            Kecamatan Telukjambe Timur, Kabupaten Karawang, Jawa Barat 41361<br>
+                            Telp (0267) 411286
+                        </p>
+                    </div>
+                    <div style="width: 100px;"></div> 
                 </div>
-                <div style="text-align: center;"></div> 
-            </div>
+                
+                <div class="garis-kop"></div>
+                <div class="garis-tipis"></div>
+
+                {{-- JUDUL --}}
+                <div style="font-size: 14pt; font-weight: 700; text-decoration: underline; text-transform: uppercase; text-align: center; margin-bottom: 5px;" class="tegak">KARTU HASIL STUDI (KHS)</div>
+                <div style="font-size: 11pt; font-weight: 600; text-align: center; margin-bottom: 20px; text-transform: uppercase;" class="tegak">TAHUN AKADEMIK 2025/2026</div>
+
+                <table class="table-biodata">
+                    <tr>
+                        <td class="col-label">NIPD</td>
+                        <td class="col-separator">:</td>
+                        <td class="col-value">{{ auth()->user()->mahasiswa->nipd }}</td>
+                    </tr>
+                    <tr>
+                        <td class="col-label">Nama</td>
+                        <td class="col-separator">:</td>
+                        <td class="col-value">{{ ucfirst(auth()->user()->mahasiswa->nama_mhs) }}</td>
+                    </tr>
+                    <tr>
+                        <td class="col-label">Tempat, Tanggal Lahir</td>
+                        <td class="col-separator">:</td>
+                        <td class="col-value">{{ auth()->user()->mahasiswa->tempat_lahir }} / {{ \Carbon\Carbon::parse(auth()->user()->mahasiswa->tgl_lahir)->translatedFormat('d F Y') }}</td>
+                    </tr>
+                    <tr>
+                        <td class="col-label">Bidang Keahlian</td>
+                        <td class="col-separator">:</td>
+                        <td class="col-value">{{ ucfirst(auth()->user()->mahasiswa->bidangKeahlian->nama_program_studi ?? '-') }}</td>
+                    </tr>
+                </table>
+
+                {{-- TABEL NILAI --}}
+                <table class="table-surat">
+                    <thead>
+                        <tr>
+                            <th style="width: 40px;">No</th>
+                            <th style="text-align: left; padding-left: 10px;">Materi Ajar</th>
+                            <th style="width: 50px;">SKS</th>
+                            <th style="width: 60px;">Angka</th>
+                            <th style="width: 60px;">Huruf</th>
+                            <th style="width: 80px;">Mutu</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            {{-- Menggunakan rgba untuk background agar sedikit transparan --}}
+                            <td colspan="6" style="padding: 6px 10px; font-weight: 700; background-color: rgba(249, 249, 249, 0.8); text-transform: uppercase; font-size: 9pt;" class="tegak">
+                                Semester {{ request('semester', '1') }}
+                            </td>
+                        </tr>
+
+                        @php 
+                            $no = 1; $totalSks = 0; $totalMutu = 0; 
+                        @endphp
+                        
+                        @foreach ($nilai as $item)
+                        @php
+                            $sks = $item->materiAjar->sks;
+                            $huruf = ucfirst($item->grade);
+                            $angka = match($huruf) {
+                                'A' => 4.0, 'A-' => 3.7, 'B+' => 3.3, 'B' => 3.0, 'B-' => 2.7,
+                                'C+' => 2.3, 'C' => 2.0, 'D' => 1.0, default => 0
+                            };
+                            $mutu = $sks * $angka;
+                            $totalSks += $sks; $totalMutu += $mutu;
+                        @endphp
+                        <tr>
+                            <td style="text-align: center;">{{ $no++ }}</td>
+                            <td style="padding-left: 10px;">
+                                <div style="font-weight: 600; font-size: 9pt;">{{ $item->materiAjar->nama_mk }}</div>
+                            </td>
+                            <td style="text-align: center;">{{ $sks }}</td>
+                            <td style="text-align: center;">{{ number_format($angka, 1) }}</td>
+                            <td style="text-align: center; font-weight: 700;">{{ $huruf }}</td>
+                            <td style="text-align: center;">{{ number_format($mutu, 1) }}</td>
+                        </tr>
+                        @endforeach
+
+                        <tr style="background-color: rgba(245, 245, 245, 0.8); font-weight: 700;">
+                            <td colspan="2" style="text-align: right; padding-right: 15px;">TOTAL</td>
+                            <td style="text-align: center;">{{ $totalSks }}</td>
+                            <td colspan="2" style="background-color: rgba(233, 236, 239, 0.8); border-bottom: 1px solid #000;"></td>
+                            <td style="text-align: center;">{{ number_format($totalMutu, 1) }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                {{-- SUMMARY IPS --}}
+                <div style="margin-top: 20px; border: 1px solid #000; padding: 12px 20px; display: flex; justify-content: space-between; align-items: center; background-color: rgba(255, 255, 255, 0.8);">
+                    <div style="font-size: 10pt;">
+                        <strong>IPS (Indeks Prestasi Semester) :</strong> 
+                        <span style="font-size: 12pt; font-weight: 800; margin-left: 8px;">
+                            {{ $totalSks > 0 ? number_format($totalMutu / $totalSks, 2) : '0.00' }}
+                        </span>
+                    </div>
+                    <div style="font-size: 10pt;">
+                        <strong>Predikat :</strong> 
+                        <span style="font-weight: 600; margin-left: 5px;">
+                            Sangat Memuaskan
+                        </span>
+                    </div>
+                </div>
+
+                {{-- TANDA TANGAN --}}
+                <div style="margin-top: 40px; display: grid; grid-template-columns: 1fr 1fr; gap: 40px;">
+                    <div style="text-align: center;">
+                        <p style="margin-bottom: 60px;">Karawang, {{ now()->translatedFormat('d F Y') }}</p>
+                        <p style="font-weight: 700; text-decoration: underline; font-size: 10pt;">Eko Marmanto P.U, S.Kom.,M.Kom.,MOS. CDMP</p>
+                        <p style="font-size: 9pt;">Head of Education</p>
+                    </div>
+                    <div style="text-align: center;"></div> 
+                </div>
+
+            </div> {{-- End Relative z-10 --}}
 
         </div>
     </div>

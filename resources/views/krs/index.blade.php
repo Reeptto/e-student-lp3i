@@ -91,7 +91,8 @@
             border: none !important; 
         }
 
-        * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; color: #000 !important; }
+        /* Pastikan background image tercetak */
+        * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
     }
     
     .border-double-bottom { border-bottom: 4px double #000; }
@@ -124,81 +125,94 @@
         </div>
     </div>
 
-    {{-- WRAPPER (Perhatikan ID printWrapper yang ditambahkan) --}}
+    {{-- WRAPPER --}}
     <div id="printWrapper" class="min-h-screen flex justify-center py-24 px-4"> 
-        <div id="printArea" class="paper-preview font-poppins text-black bg-white rounded-sm">
+        {{-- KERTAS (Tambahkan relative & overflow-hidden) --}}
+        <div id="printArea" class="paper-preview font-poppins text-black bg-white rounded-sm relative overflow-hidden">
             
-            {{-- KOP SURAT --}}
-            <div class="flex items-center gap-4 pb-2 mb-2 border-double-bottom">
-                <div class="w-[110px] flex-shrink-0">
-                     <img src="{{ asset('/img/lp3i-kotak.png') }}" class="w-full h-auto object-contain">
+            {{-- === GAMBAR BACKGROUND (WATERMARK) === --}}
+            {{-- Posisi absolute agar di belakang, opacity agar transparan --}}
+            <div class="absolute inset-0 flex items-center justify-center z-0 pointer-events-none">
+                {{-- PERUBAHAN DISINI: w-[70%] diubah menjadi w-full dan ditambah p-4 --}}
+                <img src="{{ asset('/img/lp3i-putih.png') }}" class="w-[70%] h-auto object-contain opacity-15  p-4">
+            </div>
+
+            {{-- === KONTEN SURAT (WRAPPER z-10) === --}}
+            <div class="relative z-10">
+                
+                {{-- KOP SURAT --}}
+                <div class="flex items-center gap-4 pb-2 mb-2 border-double-bottom">
+                    <div class="w-[110px] flex-shrink-0">
+                         <img src="{{ asset('/img/lp3i-putih.png') }}" class="w-full h-auto object-contain">
+                    </div>
+                    <div class="flex-1 text-center">
+                        <h1 class="text-3xl font-extrabold text-[#004269] tracking-wide mb-1 leading-none">LP3I COLLEGE KARAWANG</h1>
+                        <p class="text-[11px] text-black leading-tight font-medium">
+                            Gedung Karawang Hijau, Jl. Tarumanegara No. 4-6, Desa Purwadana,<br>
+                            Kecamatan Telukjambe Timur, Kabupaten Karawang, Jawa Barat 41361<br>
+                            Telp (0267) 411286
+                        </p>
+                    </div>
                 </div>
-                <div class="flex-1 text-center">
-                    <h1 class="text-3xl font-extrabold text-[#004269] tracking-wide mb-1 leading-none">LP3I COLLEGE KARAWANG</h1>
-                    <p class="text-[11px] text-black leading-tight font-medium">
-                        Gedung Karawang Hijau, Jl. Tarumanegara No. 4-6, Desa Purwadana,<br>
-                        Kecamatan Telukjambe Timur, Kabupaten Karawang, Jawa Barat 41361<br>
-                        Telp (0267) 411286
-                    </p>
+
+                {{-- JUDUL --}}
+                <div class="text-center mb-6 mt-6">
+                    <h2 class="text-lg font-bold underline underline-offset-4 uppercase">KARTU RENCANA STUDI (KRS)</h2>
+                    <p class="text-[12px] font-bold mt-1 uppercase">TAHUN AKADEMIK 2024/2025</p>
                 </div>
-            </div>
 
-            {{-- JUDUL --}}
-            <div class="text-center mb-6 mt-6">
-                <h2 class="text-lg font-bold underline underline-offset-4 uppercase">KARTU RENCANA STUDI (KRS)</h2>
-                <p class="text-[12px] font-bold mt-1 uppercase">TAHUN AKADEMIK 2024/2025</p>
-            </div>
-
-            {{-- BIODATA --}}
-            <div class="mb-4 px-1">
-                <table class="w-full text-[13px] leading-snug font-medium">
-                    <tr><td class="w-[160px] py-1">NIPD</td><td class="w-[10px] py-1">:</td><td class="py-1 font-semibold">{{ $mahasiswa->nipd }}</td></tr>
-                    <tr><td class="py-1">Nama Lengkap</td><td class="py-1">:</td><td class="py-1 font-semibold">{{ ucfirst($mahasiswa->nama_mhs) }}</td></tr>
-                    <tr><td class="py-1">Semester</td><td class="py-1">:</td><td><span id="semesterText"></span></td></tr>
-                    <tr><td class="py-1">Bidang Keahlian</td><td class="py-1">:</td><td>{{ ucfirst($mahasiswa->bidangKeahlian->nama_program_studi ?? '-') }}</td></tr>
-                </table>
-            </div>
-
-            {{-- TABEL --}}
-            <div class="w-full mb-2">
-                <table class="w-full border-collapse border border-black text-[12px]">
-                    <thead>
-                        <tr class="bg-gray-200 text-black">
-                            <th class="border border-black py-2 w-12 text-center">NO</th>
-                            <th class="border border-black py-2 w-32 text-center">Kode</th>
-                            <th class="border border-black py-2 px-4 text-left">Materi Ajar</th>
-                            <th class="border border-black py-2 w-16 text-center">SKS</th>
-                        </tr>
-                    </thead>
-                    <tbody id="krsBody"></tbody>
-                    <tfoot>
-                        <tr class="font-bold bg-gray-100">
-                            <td colspan="3" class="border border-black py-2 px-4 text-right uppercase text-[11px]">Total Kredit Semester</td>
-                            <td class="border border-black py-2 text-center" id="totalSks">0</td>
-                        </tr>
-                    </tfoot>
-                </table>
-            </div>
-
-            <div class="text-[11px] italic text-gray-600 mb-8 mt-2 px-1">
-                * Jadwal waktu dan tempat perkuliahan dapat dilihat pada Sistem Informasi Akademik (E-Student).
-            </div>
-
-            {{-- TANDA TANGAN --}}
-            <div class="grid grid-cols-2 gap-10 text-[12px] mt-4 px-4">
-                <div class="text-left">
-                    <p class="mb-1">Menyetujui,</p>
-                    <p class="mb-20 font-medium">Pembimbing Akademik (PA)</p>
-                    <p class="font-bold border-b border-black inline-block min-w-[200px]">Eko Marmanto P.U, M.Kom.,MOS.</p>
-                    <p class="mt-1">NIP/NIDN. ....................</p>
+                {{-- BIODATA --}}
+                <div class="mb-4 px-1">
+                    <table class="w-full text-[13px] leading-snug font-medium">
+                        <tr><td class="w-[160px] py-1">NIPD</td><td class="w-[10px] py-1">:</td><td class="py-1 font-semibold">{{ $mahasiswa->nipd }}</td></tr>
+                        <tr><td class="py-1">Nama Lengkap</td><td class="py-1">:</td><td class="py-1 font-semibold">{{ ucfirst($mahasiswa->nama_mhs) }}</td></tr>
+                        <tr><td class="py-1">Semester</td><td class="py-1">:</td><td><span id="semesterText"></span></td></tr>
+                        <tr><td class="py-1">Bidang Keahlian</td><td class="py-1">:</td><td>{{ ucfirst($mahasiswa->bidangKeahlian->nama_program_studi ?? '-') }}</td></tr>
+                    </table>
                 </div>
-                <div class="text-left ml-auto w-full max-w-[250px]">
-                    <p class="mb-1">Karawang, {{ now()->translatedFormat('d F Y') }}</p>
-                    <p class="mb-20 font-medium">Mahasiswa yang bersangkutan,</p>
-                    <p class="font-bold border-b border-black inline-block min-w-[200px]">{{ ucfirst($mahasiswa->nama) }}</p>
-                    <p class="mt-1">NIPD. {{ $mahasiswa->nipd }}</p>
+
+                {{-- TABEL --}}
+                <div class="w-full mb-2">
+                    <table class="w-full border-collapse border border-black text-[12px] bg-transparent">
+                        <thead>
+                            <tr class="bg-gray-200/80 text-black">
+                                <th class="border border-black py-2 w-12 text-center">NO</th>
+                                <th class="border border-black py-2 w-32 text-center">Kode</th>
+                                <th class="border border-black py-2 px-4 text-left">Materi Ajar</th>
+                                <th class="border border-black py-2 w-16 text-center">SKS</th>
+                            </tr>
+                        </thead>
+                        <tbody id="krsBody"></tbody>
+                        <tfoot>
+                            <tr class="font-bold bg-gray-100/80">
+                                <td colspan="3" class="border border-black py-2 px-4 text-right uppercase text-[11px]">Total Kredit Semester</td>
+                                <td class="border border-black py-2 text-center" id="totalSks">0</td>
+                            </tr>
+                        </tfoot>
+                    </table>
                 </div>
-            </div>
+
+                <div class="text-[11px] italic text-gray-600 mb-8 mt-2 px-1">
+                    * Jadwal waktu dan tempat perkuliahan dapat dilihat pada Sistem Informasi Akademik (E-Student).
+                </div>
+
+                {{-- TANDA TANGAN --}}
+                <div class="grid grid-cols-2 gap-10 text-[12px] mt-4 px-4">
+                    <div class="text-left">
+                        <p class="mb-1">Menyetujui,</p>
+                        <p class="mb-20 font-medium">Pembimbing Akademik (PA)</p>
+                        <p class="font-bold border-b border-black inline-block min-w-[200px]">Eko Marmanto P.U, M.Kom.,MOS.</p>
+                        <p class="mt-1">NIP/NIDN. ....................</p>
+                    </div>
+                    <div class="text-left ml-auto w-full max-w-[250px]">
+                        <p class="mb-1">Karawang, {{ now()->translatedFormat('d F Y') }}</p>
+                        <p class="mb-20 font-medium">Mahasiswa yang bersangkutan,</p>
+                        <p class="font-bold border-b border-black inline-block min-w-[200px]"></p>
+                        <p class="mt-1"><b>{{ ucfirst($mahasiswa->nama_mhs) }}</b></p>
+                    </div>
+                </div>
+
+            </div> {{-- END RELATIVE Z-10 --}}
         </div>
     </div>
 </div>

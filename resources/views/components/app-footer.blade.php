@@ -1,17 +1,35 @@
 <style>
-    /* === TECH GEOMETRIC FOOTER (FIXED) === */
-    .tech-footer {
-        background-color: transparent; /* Transparan agar menyatu */
-        margin-top: auto;
+    /* === PENTING: TAMBAHKAN INI KE STRUKTUR UTAMA === */
+    /* Ini kuncinya biar footer turun ke bawah kalau konten dikit */
+    body {
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh; /* Tinggi minimal seukuran layar */
+        margin: 0;
+    }
+
+    /* Ini class untuk konten utamamu (di atas footer) */
+    /* Pastikan div kontenmu dikasih class ini atau sifat ini */
+    .main-content {
+        flex: 1; /* Ini yang akan "mendorong" footer ke bawah */
+    }
+
+    /* === TECH GEOMETRIC FOOTER (STICKY / RELATIVE) === */
+   .tech-footer {
+        background-color: transparent;
+        /* margin-top: auto; <--- Hapus atau biarkan, tapi lebih baik diatur flex parent */
         font-family: 'Poppins', sans-serif;
         padding-bottom: 20px;
+        width: 100%;
+        position: relative;
+        z-index: 10;
     }
 
     /* --- HEADER BAR STYLE --- */
     .tech-bar-container {
         display: flex;
         height: 60px;
-        margin-bottom: 10px; /* Dikurangi karena tidak ada konten bawah */
+        margin-bottom: 10px;
         position: relative;
         filter: drop-shadow(0 4px 2px rgba(0,0,0,0.1));
     }
@@ -20,11 +38,11 @@
     .tech-logo-box {
         background-color: #004269;
         color: white;
-        padding: 0 40px;
+        padding: 0 30px; /* Saya kurangi dikit biar ga kepanjangan */
         display: flex;
         align-items: center;
         font-weight: 800;
-        font-size: 1.2rem;
+        font-size: 1.1rem;
         position: relative;
         z-index: 2;
     }
@@ -33,7 +51,7 @@
         position: absolute;
         top: 0; right: -15px;
         width: 30px; height: 100%;
-        background-color: #02304bff;
+        background-color: #004269;
         transform: skewX(-30deg);
         z-index: -1;
     }
@@ -55,7 +73,7 @@
         align-items: center;
         padding-left: 30px;
         background: white;
-        font-size: 0.9rem;
+        font-size: 0.85rem; /* Font diperkecil sedikit agar rapi */
         font-weight: 600;
         color: #333;
     }
@@ -70,7 +88,7 @@
         height: 8px; background-color: #009da5; z-index: 0;
     }
 
-    /* 4. Dekorasi Kanan (WAJIB ADA BIAR SESUAI GAMBAR) */
+    /* 4. Dekorasi Kanan */
     .tech-right-decor {
         position: absolute; bottom: 0; right: 0;
         width: 15%; height: 100%; overflow: visible;
@@ -108,29 +126,29 @@
 </style>
 
 <footer class="tech-footer">
-    <div class="max-w-7xl mx-auto pt-10 px-4">
-        
-        <div class="tech-bar-container">
+        <div class="max-w-7xl mx-auto pt-10 px-4">
             
-            <div class="tech-logo-box">
-                E-STUDENT
-            </div>
-            
-            <div class="tech-connector"></div>
+            <div class="tech-bar-container">
+                
+                <div class="tech-logo-box">
+                    E-STUDENT
+                </div>
+                
+                <div class="tech-connector"></div>
 
-            <div class="tech-main-bar">
-                <span class="uppercase tracking-wide text-blue-700">
-                    &copy; {{ date('Y') }} E-STUDENT Information System <b>|</b> Created By ASE-10 <b>|</b> Rev. 03 <b>|</b> v1.0
-                </span>
-            </div>
+                <div class="tech-main-bar">
+                    <span class="uppercase tracking-wide text-blue-700">
+                        &copy; {{ date('Y') }} E-STUDENT <b>|</b> Created By ASE-10 <b>|</b> v1.0 <b>|</b> Rev.v3
+                    </span>
+                </div>
 
-            <div class="tech-right-decor">
-                <div class="tech-dashed"></div>
-                <div class="tech-elbow"></div>
-                <div class="tech-end-block"></div>
+                <div class="tech-right-decor">
+                    <div class="tech-dashed"></div>
+                    <div class="tech-elbow"></div>
+                    <div class="tech-end-block"></div>
+                </div>
+
             </div>
 
         </div>
-
-    </div>
-</footer>
+    </footer>

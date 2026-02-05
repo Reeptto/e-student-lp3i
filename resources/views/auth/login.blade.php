@@ -1,195 +1,165 @@
 <x-guest-layout>
+    {{-- WRAPPER UTAMA --}}
+    <div class="min-h-screen w-full flex items-center justify-center p-4 lg:p-8 font-poppins relative overflow-hidden">
+        
+        {{-- 1. BACKGROUND IMAGE --}}
+        <div class="absolute inset-0 z-0">
+            <div class="absolute inset-0 bg-black/40 z-10"></div>
+            <img src="{{ asset('/img/gedung-lp3i.jpeg') }}" class="w-full h-full object-cover" alt="Background Gedung">
+        </div>
 
-    <div class="flex flex-col lg:flex-row min-h-screen bg-gray-100">
+        {{-- 2. MAIN CARD (UBAH DISINI: max-w-6xl jadi max-w-4xl) --}}
+        {{-- min-h-[600px] dikurangi jadi min-h-[500px] --}}
+        <div x-data="{ step: 1 }" class="relative z-20 w-full max-w-4xl bg-white rounded-3xl shadow-2xl overflow-hidden flex flex-col lg:flex-row min-h-[500px] border border-white/20 transition-all duration-300">
 
-        {{-- ========================================================== --}}
-        {{-- BAGIAN KIRI: FORM LOGIN (TIDAK DIUBAH) --}}
-        {{-- ========================================================== --}}
-        <div class="w-full lg:w-1/2 min-h-[50vh] lg:min-h-screen flex items-center justify-center p-6 relative overflow-hidden">
-            
-            {{-- 1. LAYER BACKGROUND GAMBAR (DIBLUR) --}}
-            <div class="absolute inset-0 z-0" 
-                 style="background-image: url('/img/gedung-lp3i.jpeg'); 
-                        background-size: cover; 
-                        background-position: center; 
-                        filter: blur(1px); 
-                        transform: scale(1.05);"> </div>
-
-            {{-- 2. KONTEN FORM --}}
-            <div class="w-full max-w-md bg-white p-4 rounded-xl shadow-2xl relative z-10">
-                <div class="text-center mb-6">
-                    <h1 class="text-3xl font-extrabold text-[#004269]">
+            {{-- ========================================================== --}}
+            {{-- KOLOM KIRI: FORM LOGIN --}}
+            {{-- Padding dikurangi jadi lg:p-8 agar muat di kotak kecil --}}
+            {{-- ========================================================== --}}
+            <div class="w-full lg:w-[45%] bg-white p-8 lg:p-10 flex-col justify-center relative lg:flex"
+                 :class="step === 1 ? 'flex' : 'hidden'">
+                
+                {{-- HEADER LOGIN --}}
+                <div class="text-center mb-6"> {{-- Margin bottom dikurangi --}}
+                    <h1 class="text-2xl lg:text-3xl font-extrabold text-[#004269] mb-1"> {{-- Font size disesuaikan --}}
                         Selamat Datang
                     </h1>
-                    <p class="mt-1 text-lg text-gray-600">
-                        Di Sistem E-Student
-                    </p>
+                    <p class="text-gray-400 italic text-xs lg:text-sm mb-2">di</p>
+                    
+                    <div class="inline-flex items-center gap-1 border-b-2 border-yellow-400 pb-1">
+                        <span class="text-xl lg:text-2xl font-black text-gray-800">E-</span><span class="text-xl lg:text-2xl font-black text-[#004269]">Student.</span>
+                    </div>
+                    <p class="text-[9px] font-bold tracking-[0.3em] text-gray-400 uppercase mt-1">Information System</p>
                 </div>
 
-                <form method="POST" action="{{ route('login') }}" class="space-y-6">
+                {{-- FORM --}}
+                <form method="POST" action="{{ route('login') }}" class="space-y-4"> {{-- Spasi antar input dikurangi (space-y-5 jadi space-y-4) --}}
                     @csrf
                     
-                    <div>
-                        <x-input-label for="nipd" :value="__('NIPD')" class="text-base font-semibold text-gray-700 mb-1" />
-                        <x-text-input id="nipd" class="input-style block mt-1 w-full" type="tel" name="nipd" :value="old('nipd')" required autofocus autocomplete="username" placeholder="Masukkan NIPD Anda" />
-                        <x-input-error :messages="$errors->get('nipd')" class="mt-2" />
+                    <div class="space-y-1">
+                        <label class="text-[10px] lg:text-xs font-bold text-[#004269] uppercase ml-1">NIPD</label>
+                        <div class="relative">
+                            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                <svg class="h-4 w-4 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" /></svg>
+                            </div>
+                            {{-- Padding input dikurangi (py-3 jadi py-2.5) --}}
+                            <input id="nipd" class="w-full pl-9 pr-4 py-2.5 bg-gray-50 border border-gray-200 rounded-lg focus:bg-white focus:border-[#004269] focus:ring-4 focus:ring-[#004269]/10 transition-all font-medium text-sm text-gray-800 placeholder-gray-400" type="tel" name="nipd" :value="old('nipd')" required autofocus placeholder="Nomor Induk" />
+                        </div>
                     </div>
 
-                    <div class="mt-4">
-                        <x-input-label for="password" :value="__('Password')" class="text-base font-semibold text-gray-700 mb-1" />
-                        <x-text-input id="password" class="input-style block mt-1 w-full" type="password" name="password" required autocomplete="current-password" placeholder="Masukkan Password Anda" />
-                        <x-input-error :messages="$errors->get('password')" class="mt-2" />
+                    <div class="space-y-1">
+                        <label class="text-[10px] lg:text-xs font-bold text-[#004269] uppercase ml-1">Password</label>
+                        <div class="relative">
+                            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                <svg class="h-4 w-4 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" /></svg>
+                            </div>
+                            <input id="password" class="w-full pl-9 pr-4 py-2.5 bg-gray-50 border border-gray-200 rounded-lg focus:bg-white focus:border-[#004269] focus:ring-4 focus:ring-[#004269]/10 transition-all font-medium text-sm text-gray-800 placeholder-gray-400" type="password" name="password" required placeholder="Kata Sandi" />
+                        </div>
                     </div>
 
-                    <button type="submit" class="submit-button bg-[#004269] hover:bg-[#042d45ff] text-white py-3 px-6 rounded-lg font-bold uppercase tracking-wide shadow-lg w-full transition duration-300">
-                        Login
+                    <button type="submit" class="w-full bg-[#004269] hover:bg-[#002e4d] text-white font-bold py-3 rounded-lg shadow-lg shadow-blue-900/20 transition-all transform active:scale-[0.98] mt-2 text-sm lg:text-base">
+                        MASUK SEKARANG
                     </button>
-                    
-                    <div class="flex justify-between items-center text-sm pt-2">
+
+                    <div class="text-center mt-3">
                         @if (Route::has('password.request'))
-                            <a href="{{ route('password.request') }}" class="font-medium text-[#004269] hover:underline">
-                                Forgot Password?
-                            </a>
+                            <a href="{{ route('password.request') }}" class="text-xs font-semibold text-gray-500 hover:text-[#004269]">Lupa Password?</a>
                         @endif
                     </div>
                 </form>
-            </div>
-        </div>
 
-        {{-- ========================================================== --}}
-        {{-- BAGIAN KANAN: INFORMASI (SUDAH DIPERBAIKI POSISI LOGONYA) --}}
-        {{-- ========================================================== --}}
-        <div class="relative overflow-hidden w-full lg:w-1/2 bg-white shadow-xl shadow-gray-300/40 rounded-2xl flex flex-col border border-gray-100" id="du">
-
-            {{-- BACKGROUND DECORATION --}}
-            <div class="absolute top-0 right-0 -mt-24 -mr-24 w-64 h-64 bg-[#009DA5] rounded-full z-0 opacity-90"></div>
-            <div class="absolute bottom-0 left-0 -mb-20 -ml-20 w-48 h-48 bg-[#009DA5] rounded-full z-0 opacity-90"></div>
-            <div class="absolute top-5 left-1 w-24 h-32 opacity-70 z-0" style="background-image: radial-gradient(#4b2aad 1.5px, transparent 1.5px); background-size: 12px 12px;"></div>
-            <div class="absolute bottom-10 right-10 w-24 h-32 opacity-70 z-0" style="background-image: radial-gradient(#4b2aad 1.5px, transparent 1.5px); background-size: 12px 12px;"></div>
-
-            {{-- 1. LOGO KIRI ATAS (GLOBAL) - SETENGAH LINGKARAN --}}
-            <div class="absolute top-10 left-14 z-20">
-                <!-- <div class="w-24 h-14 bg-[#009DA5] rounded-b-full flex items-center justify-center shadow-md pt-1"> -->
-                    <img src="{{ asset('img/global.png') }}" class="w-[96px] lg:w-[124px] drop-shadow-sm">
-                <!-- </div> -->
-            </div>
-
-            {{-- 2. LOGO KANAN ATAS (2.WEBP) - RESPONSIVE DI POJOK --}}
-            <div class="absolute top-6 right-8 z-20">
-                <img src="{{ asset('/img/2.webp') }}" class="w-[140px] lg:w-[170px] drop-shadow-sm">
-            </div>
-
-            {{-- 3. KONTEN UTAMA (Diberi Padding Top Agar Tidak Ketutup Logo) --}}
-            <div class="relative z-10 w-full p-10 lg:p-16 pt-24 lg:pt-28">
-
-                {{-- Judul Kecil E-Student --}}
-                <div class="mb-8">
-                    <div class="bg-white rounded-lg p-3 inline-block shadow-md border border-gray-50">
-                        <a href="{{ url('/') }}" class="text-2xl font-bold text-gray-900 flex items-center gap-1">
-                            <span class="text-yellow-400">E-</span><span class="text-blue-800">Student.</span>
-                        </a>
-                        <span class="block text-xs text-gray-500 font-medium mt-1">Information System</span>
-                    </div>
+                {{-- NAVIGASI MOBILE --}}
+                <div class="mt-6 pt-4 border-t border-gray-100 lg:hidden">
+                    <button @click="step = 2" class="w-full flex items-center justify-center gap-2 text-[#004269] font-bold text-xs bg-blue-50 py-2.5 rounded-lg hover:bg-blue-100 transition-colors">
+                        <span>Lihat Informasi Layanan</span>
+                        <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                    </button>
                 </div>
 
-                <h2 class="text-3xl lg:text-4xl font-extrabold text-[#004269] mb-4">
-                    Informasi E-Student
-                </h2>
-
-                <p class="text-black leading-relaxed text-justify">
-                    Fasilitas ini ditujukan untuk seluruh mahasiswa LP3I yang aktif mengikuti perkuliahan. Di dalamnya terdapat berbagai layanan yang dapat mempermudah pengelolaan kegiatan akademik serta aktivitas lain yang berkaitan dengan proses pendidikan. Diharapkan E-Student dapat memberikan manfaat bagi seluruh mahasiswa. Adapun fasilitas yang tersedia di dalam E-Student adalah sebagai berikut:
-                </p>
-                
-                {{-- Grid Icon --}}
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-6 my-8">
-                    {{-- Kolom Kiri --}}
-                    <div class="space-y-5">
-                        <span class="flex items-center text-black font-medium">
-                            <svg class="w-6 h-6 text-[#004269] mr-3 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
-                              <path stroke-linecap="round" stroke-linejoin="round" d="M10 6H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V8a2 2 0 00-2-2h-5m-4 0V5a2 2 0 114 0v1m-4 0a2 2 0 104 0m-5 8a2 2 0 100-4 2 2 0 000 4zm0 0c1.306 0 2.417.835 2.83 2M9 14a3.001 3.001 0 00-2.83 2M15 11h3m-3 4h3m-3 4h3m-6-4h.01M9 16h.01" />
-                            </svg>
-                            Biodata Mahasiswa
-                        </span>
-                        
-                        <span class="flex items-center text-black font-medium">
-                            <svg class="w-6 h-6 text-[#004269] mr-3 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
-                              <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a2 2 0 01-2 2H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8z" />
-                            </svg>
-                            Komponen Penilaian
-                        </span>
-
-                        <span class="flex items-center text-black font-medium">
-                            <svg class="w-6 h-6 text-[#004269] mr-3 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
-                              <path d="M12 14l9-5-9-5-9 5 9 5z" />
-                              <path d="M12 14l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0112 20.055a11.952 11.952 0 01-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z" />
-                              <path stroke-linecap="round" stroke-linejoin="round" d="M12 14v6" />
-                            </svg>
-                            Kartu Hasil Studi
-                        </span>
-
-                        <span class="flex items-center text-black font-medium">
-                            <svg class="w-6 h-6 text-[#004269] mr-3 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
-                              <path stroke-linecap="round" stroke-linejoin="round" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
-                            </svg>
-                            Edit Profil
-                        </span>
-                    </div>
-
-                    {{-- Kolom Kanan --}}
-                    <div class="space-y-5">
-                        <span class="flex items-center text-black font-medium">
-                            <svg class="w-6 h-6 text-[#004269] mr-3 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
-                              <path stroke-linecap="round" stroke-linejoin="round" d="M11 5.882V19.24a1.76 1.76 0 01-3.417.592l-2.147-6.15M18 13a3 3 0 100-6M5.436 13.682A4.01 4.01 0 017 6h1.832c4.1 0 7.625-1.234 9.168-3.432C19.18 1.468 20 1.132 20 3.868v16.264c0 2.736-.82 2.4-2 1.432C16.457 20.034 12.9 18.8 8.832 18.8H7a4.01 4.01 0 01-1.564-.318l-2.147-6.15m0 0l2.147 6.15M5.436 13.682l-2.147-6.15m0 0a3.001 3.001 0 00-1.4 5.434" />
-                            </svg>
-                            Pengumuman
-                        </span>
-
-                        <span class="flex items-center text-black font-medium">
-                            <svg class="w-6 h-6 text-[#004269] mr-3 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
-                              <path stroke-linecap="round" stroke-linejoin="round" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z" />
-                            </svg>
-                            Informasi Pembayaran
-                        </span>
-
-                        <span class="flex items-center text-black font-medium">
-                            <svg class="w-6 h-6 text-[#004269] mr-3 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
-                              <path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                            </svg>
-                            Kalender Akademik
-                        </span>
-                    </div>
+                <div class="mt-6 lg:absolute lg:bottom-4 lg:left-0 w-full text-center">
+                    <span class="text-[9px] text-gray-300 font-medium">© {{ date('Y') }} LP3I College</span>
                 </div>
-                
-                <p class="text-black leading-relaxed text-justify">
-                    Untuk dapat mengakses fasilitas tersebut, mahasiswa harus melakukan login terlebih dahulu menggunakan NIPD dan password masing-masing. Bagi mahasiswa yang belum dapat masuk ke E-Student, diharapkan untuk melakukan pendaftaran terlebih dahulu.
-                </p>
-
             </div>
+
+            {{-- ========================================================== --}}
+            {{-- KOLOM KANAN: INFORMASI --}}
+            {{-- Padding dikurangi jadi lg:p-10 --}}
+            {{-- ========================================================== --}}
+            <div class="w-full lg:w-[55%] bg-[#F1F8FF] p-8 lg:p-10 relative flex-col justify-center overflow-hidden lg:flex"
+                 :class="step === 2 ? 'flex' : 'hidden'">
+                
+                {{-- DEKORASI (Tetap sama) --}}
+                <div class="absolute top-0 right-0 -mt-20 -mr-20 w-56 h-56 bg-[#009DA5] rounded-full opacity-10 blur-2xl"></div>
+                <div class="absolute bottom-0 left-0 -mb-20 -ml-20 w-56 h-56 bg-[#004269] rounded-full opacity-10 blur-2xl"></div>
+                <div class="absolute top-8 right-8 opacity-20" style="background-image: radial-gradient(#004269 2px, transparent 2px); background-size: 20px 20px; width: 80px; height: 80px;"></div>
+
+                <div class="relative z-10">
+                    
+                    {{-- Navigasi Back Mobile --}}
+                    <div class="mb-6 lg:hidden">
+                        <button @click="step = 1" class="flex items-center gap-2 text-gray-500 font-semibold text-xs hover:text-[#004269] transition-colors">
+                            <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
+                            <span>Kembali ke Login</span>
+                        </button>
+                    </div>
+
+                    {{-- Header Logo --}}
+                    <div class="flex items-center gap-4 mb-6">
+                        <img src="{{ asset('img/global.png') }}" class="h-10 lg:h-12 w-auto object-contain drop-shadow-sm">
+                        <div class="w-[2px] h-8 bg-gray-300 rounded-full"></div>
+                        <img src="{{ asset('/img/2.webp') }}" class="h-8 lg:h-10 w-auto object-contain drop-shadow-sm">
+                    </div>
+
+                    <h2 class="text-xl lg:text-2xl font-bold text-[#004269] mb-3">Informasi Layanan</h2>
+                    <p class="text-gray-600 mb-6 leading-relaxed text-xs lg:text-sm text-justify">
+                        Platform akademik terintegrasi untuk mahasiswa LP3I. Akses data perkuliahan, nilai, dan administrasi dengan mudah.
+                    </p>
+
+                    {{-- GRID FITUR --}}
+                    <div class="grid grid-cols-2 gap-3">
+                        {{-- Item 1 --}}
+                        <div class="bg-white p-3 rounded-lg shadow-sm border border-blue-50 flex flex-col items-center text-center gap-2 hover:shadow-md transition-shadow group">
+                            <div class="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center text-[#004269] group-hover:bg-[#004269] group-hover:text-white transition-colors">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path></svg>
+                            </div>
+                            <span class="text-xs font-bold text-gray-700">Biodata</span>
+                        </div>
+
+                        {{-- Item 2 --}}
+                        <div class="bg-white p-3 rounded-lg shadow-sm border border-blue-50 flex flex-col items-center text-center gap-2 hover:shadow-md transition-shadow group">
+                            <div class="w-8 h-8 rounded-full bg-teal-100 flex items-center justify-center text-teal-700 group-hover:bg-teal-700 group-hover:text-white transition-colors">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path></svg>
+                            </div>
+                            <span class="text-xs font-bold text-gray-700">Nilai</span>
+                        </div>
+
+                        {{-- Item 3 --}}
+                        <div class="bg-white p-3 rounded-lg shadow-sm border border-blue-50 flex flex-col items-center text-center gap-2 hover:shadow-md transition-shadow group">
+                            <div class="w-8 h-8 rounded-full bg-orange-100 flex items-center justify-center text-orange-700 group-hover:bg-orange-700 group-hover:text-white transition-colors">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"></path></svg>
+                            </div>
+                            <span class="text-xs font-bold text-gray-700">Info</span>
+                        </div>
+
+                        {{-- Item 4 --}}
+                        <div class="bg-white p-3 rounded-lg shadow-sm border border-blue-50 flex flex-col items-center text-center gap-2 hover:shadow-md transition-shadow group">
+                            <div class="w-8 h-8 rounded-full bg-green-100 flex items-center justify-center text-green-700 group-hover:bg-green-700 group-hover:text-white transition-colors">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"></path></svg>
+                            </div>
+                            <span class="text-xs font-bold text-gray-700">Keuangan</span>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
         </div>
     </div>
-
+    
     @push('styles')
     <style>
-        #du, * {
-            font-family: 'Poppins', sans-serif !important;
-        }
-        .input-style {
-            padding: 10px 14px;
-            border-radius: 8px;
-            border: 2px solid #e5e7eb;
-            transition: all 0.2s ease-in-out;
-            width: 100%;
-        }
-        .input-style::placeholder {
-            color: #9ca3af;
-            font-weight: 500;
-        }
-        .input-style:focus {
-            outline: none;
-            border-color: #004269; 
-            box-shadow: 0 0 0 3px #042d45ff;
-        }
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap');
+        .font-poppins, * { font-family: 'Poppins', sans-serif !important; }
     </style>
     @endpush
-
 </x-guest-layout>

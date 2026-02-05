@@ -12,6 +12,7 @@
                 extend: {
                     colors: {
                         primary: '#004269',      // Navy Blue Asli
+                        'primary-light': '#005C8F', // Biru Sedikit Lebih Muda (Untuk Gradasi)
                         secondary: '#002845',    // Darker Navy
                         accent: '#009DA5',       // Teal Asli
                         surface: '#f3f4f6',      // Light Gray Background
@@ -34,11 +35,12 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
     <style>
-    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
 
         body { font-family: 'Poppins', sans-serif; background-color: #f3f4f6; }
         [x-cloak] { display: none !important; }
         
+        /* Custom Scrollbar yang lebih halus */
         .sidebar-scroll::-webkit-scrollbar { width: 4px; }
         .sidebar-scroll::-webkit-scrollbar-track { background: transparent; }
         .sidebar-scroll::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.2); border-radius: 10px; }
@@ -50,6 +52,7 @@
 
     <div x-data="{ isMobileSidebarOpen: false, activeDropdown: null }" class="min-h-screen flex flex-col lg:flex-row">
         
+        {{-- Mobile Overlay --}}
         <div 
             x-show="isMobileSidebarOpen" 
             @click="isMobileSidebarOpen = false" 
@@ -59,24 +62,28 @@
             x-transition:leave="transition-opacity ease-linear duration-300"
             x-transition:leave-start="opacity-100"
             x-transition:leave-end="opacity-0"
-            class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm z-40 lg:hidden"
+            class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-40 lg:hidden"
             style="display: none;"
         ></div>
 
-        {{-- 1. SIDEBAR (Warna Asli Navy #004269, tapi Desain Clean) --}}
+        {{-- 
+            1. SIDEBAR DENGAN GRADASI FORMAL
+            Perubahan: bg-primary diubah menjadi bg-gradient-to-br from-primary to-primary-light
+        --}}
         <aside 
-            class="fixed inset-y-0 left-0 z-50 w-72 bg-primary text-white transform transition-transform duration-300 ease-in-out lg:translate-x-0 lg:static lg:h-screen flex flex-col shadow-2xl"
+            class="fixed inset-y-0 left-0 z-50 w-72 bg-gradient-to-br from-primary to-primary-light text-white transform transition-transform duration-300 ease-in-out lg:translate-x-0 lg:static lg:h-screen flex flex-col shadow-2xl"
             :class="isMobileSidebarOpen ? 'translate-x-0' : '-translate-x-full'"
         >
             {{-- Logo Section --}}
-            <div class="h-20 flex items-center px-6 border-b border-white/10">
+            <div class="h-24 flex items-center px-6 border-b border-white/10 bg-white/5">
                 <a href="{{ route('dashboard') }}" class="flex items-center gap-3 group w-full">
-                    <div class="w-10 h-10 bg-white rounded-xl flex items-center justify-center text-primary shadow-lg transition-transform group-hover:scale-105">
-                        <i class="fas fa-graduation-cap text-lg"></i>
+                    {{-- Logo Box Putih agar kontras dengan gradasi biru --}}
+                    <div class="w-20 h-20  rounded-xl flex items-center justify-center text-primary shadow-lg transition-transform group-hover:scale-105">
+                        <img src="{{ asset('/img/lp3i-biru.png') }}" alt="Logo" class="h-full w-full object-contain">
                     </div>
                     <div class="flex flex-col">
-                        <span class="text-lg font-bold text-white tracking-tight leading-none">E-Student</span>
-                        <span class="text-[11px] font-medium text-accent uppercase tracking-wider mt-1">Information System</span>
+                        <span class="text-lg font-bold text-white tracking-tight leading-none drop-shadow-sm">E-Student</span>
+                        <span class="text-[10px] font-semibold text-sky-200 uppercase tracking-wider mt-1">Information System</span>
                     </div>
                 </a>
             </div>
@@ -87,13 +94,17 @@
                 @php
                     $currentRoute = Route::currentRouteName() ?? 'dashboard';
                     
-                    $linkBase = "group flex items-center w-full px-4 py-3 text-sm font-medium rounded-xl transition-all duration-200 ease-in-out";
+                    // Base Link Style
+                    $linkBase = "group flex items-center w-full px-4 py-3 text-sm font-medium rounded-xl transition-all duration-200 ease-in-out border border-transparent";
                     
-                    $linkInactive = "text-slate-300 hover:text-white hover:bg-white/10";
+                    // Inactive Link (Hover effect lebih halus di atas gradasi)
+                    $linkInactive = "text-slate-200 hover:text-white hover:bg-white/10 hover:shadow-inner hover:border-white/5";
                     
-                    $linkActive = "bg-white text-primary shadow-md font-bold";
+                    // Active Link (Putih Solid untuk formalitas dan kontras tinggi)
+                    $linkActive = "bg-white text-primary shadow-lg font-bold ring-1 ring-white/50";
                     
-                    $linkDropdownActive = "bg-secondary text-white shadow-inner"; 
+                    // Dropdown Active (Darker navy transparan)
+                    $linkDropdownActive = "bg-secondary/40 text-white shadow-inner border-white/10"; 
 
                     $academicRoutes = ['krs.menu', 'score.index', 'krs.index', 'nilai'];
                     $isAcademicActive = in_array($currentRoute, $academicRoutes);
@@ -102,84 +113,85 @@
                     $isLearningActive = in_array($currentRoute, $learningRoutes);
                 @endphp
 
-                <div class="px-4 mb-2 mt-2 text-[10px] font-bold text-slate-400/80 uppercase tracking-widest">Menu Utama</div>
+                <div class="px-4 mb-3 mt-1 text-[10px] font-bold text-sky-200/70 uppercase tracking-widest">Menu Utama</div>
 
                 {{-- Dashboard Link --}}
                 <a href="{{ route('dashboard') }}" 
                    class="{{ $linkBase }} {{ $currentRoute == 'dashboard' ? $linkActive : $linkInactive }}">
-                    <i class="fas fa-th-large w-5 text-center mr-3 text-lg {{ $currentRoute == 'dashboard' ? 'text-primary' : 'text-slate-400 group-hover:text-white' }}"></i>
+                    <i class="fas fa-th-large w-5 text-center mr-3 text-lg {{ $currentRoute == 'dashboard' ? 'text-primary' : 'text-sky-200 group-hover:text-white' }}"></i>
                     Dashboard
                 </a>
 
                 {{-- Academic Dropdown --}}
-                <div class="relative">
+                <div class="relative mt-1">
                     <button 
                         @click="activeDropdown = (activeDropdown === 'academicDropdown' ? null : 'academicDropdown')"
                         class="{{ $linkBase }} {{ $isAcademicActive ? $linkDropdownActive : $linkInactive }} justify-between">
                         <div class="flex items-center">
-                            <i class="fas fa-graduation-cap w-5 text-center mr-3 text-lg {{ $isAcademicActive ? 'text-accent' : 'text-slate-400 group-hover:text-white' }}"></i>
+                            <i class="fas fa-graduation-cap w-5 text-center mr-3 text-lg {{ $isAcademicActive ? 'text-accent' : 'text-sky-200 group-hover:text-white' }}"></i>
                             Akademik
                         </div>
                         <i class="fas fa-chevron-down text-xs transition-transform duration-200 opacity-70" 
                            :class="activeDropdown === 'academicDropdown' ? 'rotate-180' : ''"></i>
                     </button>
                     
-                    <div x-show="activeDropdown === 'academicDropdown'" x-collapse class="pl-4 pr-2 space-y-1 mt-1 bg-black/10 rounded-xl py-2 mx-2">
-                        <a href="{{ route('krs.index') }}" class="block px-4 py-2 text-sm rounded-lg hover:text-white transition-colors {{ request()->routeIs('krs.*') ? 'text-accent font-bold' : 'text-slate-400' }}">
+                    <div x-show="activeDropdown === 'academicDropdown'" x-collapse class="pl-4 pr-2 space-y-1 mt-1 bg-black/20 rounded-xl py-2 mx-2 border border-white/5">
+                        <a href="{{ route('krs.index') }}" class="block px-4 py-2 text-sm rounded-lg hover:text-white hover:bg-white/5 transition-colors {{ request()->routeIs('krs.*') ? 'text-accent font-bold' : 'text-slate-300' }}">
                             Kartu Rencana Studi
                         </a>
-                        <a href="{{ route('nilai') }}" class="block px-4 py-2 text-sm rounded-lg hover:text-white transition-colors {{ request()->routeIs('nilai') ? 'text-accent font-bold' : 'text-slate-400' }}">
+                        <a href="{{ route('nilai') }}" class="block px-4 py-2 text-sm rounded-lg hover:text-white hover:bg-white/5 transition-colors {{ request()->routeIs('nilai') ? 'text-accent font-bold' : 'text-slate-300' }}">
                             Nilai (KHS)
                         </a>
                     </div>
                 </div>
 
                 {{-- Learning Dropdown --}}
-                <div class="relative">
+                <div class="relative mt-1">
                     <button 
                         @click="activeDropdown = (activeDropdown === 'learningDropdown' ? null : 'learningDropdown')"
                         class="{{ $linkBase }} {{ $isLearningActive ? $linkDropdownActive : $linkInactive }} justify-between">
                         <div class="flex items-center">
-                            <i class="fas fa-book-open w-5 text-center mr-3 text-lg {{ $isLearningActive ? 'text-accent' : 'text-slate-400 group-hover:text-white' }}"></i>
+                            <i class="fas fa-book-open w-5 text-center mr-3 text-lg {{ $isLearningActive ? 'text-accent' : 'text-sky-200 group-hover:text-white' }}"></i>
                             Pembelajaran
                         </div>
                         <i class="fas fa-chevron-down text-xs transition-transform duration-200 opacity-70" 
                            :class="activeDropdown === 'learningDropdown' ? 'rotate-180' : ''"></i>
                     </button>
                     
-                    <div x-show="activeDropdown === 'learningDropdown'" x-collapse class="pl-4 pr-2 space-y-1 mt-1 bg-black/10 rounded-xl py-2 mx-2">
-                        <a href="{{ route('tugas') }}" class="block px-4 py-2 text-sm rounded-lg hover:text-white transition-colors {{ request()->routeIs('tugas') ? 'text-accent font-bold' : 'text-slate-400' }}">
+                    <div x-show="activeDropdown === 'learningDropdown'" x-collapse class="pl-4 pr-2 space-y-1 mt-1 bg-black/20 rounded-xl py-2 mx-2 border border-white/5">
+                        <a href="{{ route('tugas') }}" class="block px-4 py-2 text-sm rounded-lg hover:text-white hover:bg-white/5 transition-colors {{ request()->routeIs('tugas') ? 'text-accent font-bold' : 'text-slate-300' }}">
                             Tugas
                         </a>
-                        <a href="{{ route('material.index') }}" class="block px-4 py-2 text-sm rounded-lg hover:text-white transition-colors {{ request()->routeIs('material.*') ? 'text-accent font-bold' : 'text-slate-400' }}">
+                        <a href="{{ route('material.index') }}" class="block px-4 py-2 text-sm rounded-lg hover:text-white hover:bg-white/5 transition-colors {{ request()->routeIs('material.*') ? 'text-accent font-bold' : 'text-slate-300' }}">
                             Materi Perkuliahan
                         </a>
                     </div>
                 </div>
 
-                <div class="px-4 mb-2 mt-8 text-[10px] font-bold text-slate-400/80 uppercase tracking-widest">Keuangan & Info</div>
+                <div class="px-4 mb-3 mt-8 text-[10px] font-bold text-sky-200/70 uppercase tracking-widest">Keuangan & Info</div>
 
                 {{-- Finance --}}
                 <a href="{{ route('infopembayaran.index') }}" 
                    class="{{ $linkBase }} {{ $currentRoute == 'infopembayaran.index' ? $linkActive : $linkInactive }}">
-                    <i class="fas fa-wallet w-5 text-center mr-3 text-lg {{ $currentRoute == 'infopembayaran.index' ? 'text-primary' : 'text-slate-400 group-hover:text-white' }}"></i>
+                    <i class="fas fa-wallet w-5 text-center mr-3 text-lg {{ $currentRoute == 'infopembayaran.index' ? 'text-primary' : 'text-sky-200 group-hover:text-white' }}"></i>
                     Pembayaran
                 </a>
 
                 {{-- Announcement --}}
                 <a href="{{ route('pengumuman.index') }}" 
                    class="{{ $linkBase }} {{ $currentRoute == 'pengumuman.index' ? $linkActive : $linkInactive }}">
-                    <i class="fas fa-bullhorn w-5 text-center mr-3 text-lg {{ $currentRoute == 'pengumuman.index' ? 'text-primary' : 'text-slate-400 group-hover:text-white' }}"></i>
+                    <i class="fas fa-bullhorn w-5 text-center mr-3 text-lg {{ $currentRoute == 'pengumuman.index' ? 'text-primary' : 'text-sky-200 group-hover:text-white' }}"></i>
                     Pengumuman
                 </a>
 
             </nav>
 
             {{-- Sidebar Footer (Logout) --}}
-            <div class="p-4 border-t border-white/10 bg-secondary/50">
+            <div class="p-4 border-t border-white/10 bg-black/10">
                 <form method="POST" action="{{ route('logout') }}">
                     @csrf
-                    <button type="submit" class="flex items-center justify-center w-full gap-2 px-4 py-3 text-sm font-medium text-white bg-red-600/80 hover:bg-red-600 rounded-xl transition-all duration-200 shadow-lg hover:shadow-red-900/20">
+                    {{-- Tombol Logout dengan Gradasi Merah --}}
+                    <button type="submit" class="flex items-center justify-center w-full gap-2 px-4 py-3 text-sm font-bold text-white bg-gradient-to-r from-red-600 to-red-700 hover:from-red-500 hover:to-red-600 rounded-xl transition-all duration-200 shadow-lg hover:shadow-red-900/30 ring-1 ring-red-400/30">
                         <i class="fas fa-sign-out-alt"></i>
                         <span>Sign Out</span>
                     </button>
@@ -187,24 +199,21 @@
             </div>
         </aside>
 
+        {{-- MAIN CONTENT --}}
         <main class="flex-1 flex flex-col min-w-0 h-screen overflow-hidden bg-surface">
             
-
             <header class="h-20 bg-white border-b border-slate-200 sticky top-0 z-30 px-4 lg:px-8 flex items-center justify-between shadow-sm relative">
 
                 {{-- BAGIAN KIRI: Toggle Menu + Logo --}}
                 <div class="flex items-center gap-4 z-20">
-                    {{-- Tombol Toggle (Hanya muncul di HP) --}}
                     <button @click="isMobileSidebarOpen = true" class="lg:hidden p-2 text-slate-500 hover:bg-slate-100 rounded-lg transition-colors focus:outline-none">
                         <i class="fas fa-bars text-xl"></i>
                     </button>
 
-                    {{-- Logo Gambar (Sekarang di Kiri) --}}
-                    <img src="{{ asset('/img/lp3i-kotak.png') }}" alt="Logo" class="h-10 w-auto object-contain">
-                    <img src="{{ asset('/img/global.png') }}" alt="Logo" class="h-10 w-auto object-contain">
+                    <img src="{{ asset('/img/global.png') }}" alt="Logo" class="h-10 w-auto object-contain hidden lg:block">
                 </div>
 
-                {{-- BAGIAN TENGAH: Judul Halaman (Absolute Center Presisi) --}}
+                {{-- BAGIAN TENGAH: Judul Halaman --}}
                 <div class="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 w-max text-center pointer-events-none">
                     <h2 class="hidden sm:block text-lg md:text-xl font-bold text-primary tracking-tight whitespace-nowrap">
                         @if(request()->routeIs('dashboard')) Dashboard
@@ -221,16 +230,12 @@
                     </h2>
                 </div>
 
-                {{-- BAGIAN KANAN: Profile & Notifikasi --}}
+                {{-- BAGIAN KANAN: Profile --}}
                 <div class="flex items-center gap-3 sm:gap-5 z-20" x-data="{ profileOpen: false }">
-                    
                     <div class="h-8 w-px bg-slate-200 hidden sm:block"></div>
 
-                    {{-- Profile Menu --}}
                     <div class="relative">
                         <button @click="profileOpen = !profileOpen" class="flex items-center gap-3 focus:outline-none group">
-                            
-                            {{-- Teks Nama (Hidden di HP) --}}
                             <div class="text-right hidden md:block">
                                 <p class="text-sm font-bold text-slate-700 group-hover:text-primary transition-colors">
                                     {{ auth()->user()?->mahasiswa?->nama_mhs ?? 'Guest User' }}
@@ -240,9 +245,8 @@
                                 </p>
                             </div>
                             
-                            {{-- Foto Avatar --}}
                             <div class="relative">
-                                <div class="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-slate-100 overflow-hidden ring-2 ring-white shadow-md group-hover:ring-primary/20 transition-all">
+                                <div class="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-gradient-to-br from-slate-100 to-slate-200 overflow-hidden ring-2 ring-white shadow-md group-hover:ring-primary/20 transition-all">
                                     <img src="{{ auth()->user()?->mahasiswa?->foto
                                             ? asset('storage/image/' . auth()->user()->mahasiswa->foto)
                                             : 'https://ui-avatars.com/api/?name=' . (auth()->user()?->mahasiswa?->nama_mhs ?? 'Guest') . '&background=004269&color=fff' }}" 
@@ -285,15 +289,30 @@
                 </div>
             </header>
             
-            {{-- Content Area --}}
-            <div class="flex-1 overflow-y-auto bg-surface p-4 lg:p-8">
-                <div class="max-w-7xl mx-auto space-y-6">
-                    {{ $slot ?? '' }}
-                    @yield('content')
-                </div>
+           {{-- Tambahkan 'flex flex-col' agar layout menjadi kolom flex --}}
+{{-- AREA SCROLLABLE --}}
+            {{-- Hapus padding (p-4) dari sini, pindahkan ke dalam agar min-h-full bekerja --}}
+            <div class="flex-1 overflow-y-auto bg-surface relative">
                 
-                <div class="mt-8 max-w-7xl mx-auto">
-                    <x-app-footer /> 
+                {{-- WRAPPER FLEX UTAMA --}}
+                {{-- KUNCI: min-h-full memaksanya setinggi area scroll, flex-col untuk dorong footer --}}
+                <div class="min-h-full flex flex-col justify-between">
+
+                    {{-- 1. KONTEN (flex-1 akan mendorong footer ke bawah) --}}
+                    <div class="flex-1 p-4 lg:p-8">
+                        <div class="max-w-7xl mx-auto space-y-6">
+                            {{ $slot ?? '' }}
+                            @yield('content')
+                        </div>
+                    </div>
+                    
+                    {{-- 2. FOOTER (Akan selalu di dasar wrapper) --}}
+                    <div class="p-4 lg:p-8 pt-0"> 
+                        <div class="max-w-7xl mx-auto">
+                            <x-app-footer /> 
+                        </div>
+                    </div>
+
                 </div>
             </div>
 
