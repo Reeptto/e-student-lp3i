@@ -207,9 +207,6 @@
     </div>
 </div>
 
-{{-- ==================================================================== --}}
-{{-- MODAL PREVIEW & PRINT --}}
-{{-- ==================================================================== --}}
 <div id="khsModal" class="fixed inset-0 bg-gray-900/90 hidden z-[9999] overflow-y-auto backdrop-blur-sm transition-opacity">
     
     {{-- TOOLBAR ATAS --}}

@@ -3,33 +3,13 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>{{ config('app.name', 'E-Student LP3I') }}</title>
+    <title>E-Student | LP3I Karawang</title>
     
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        primary: '#004269',      // Navy Blue Asli
-                        'primary-light': '#005C8F', // Biru Sedikit Lebih Muda (Untuk Gradasi)
-                        secondary: '#002845',    // Darker Navy
-                        accent: '#009DA5',       // Teal Asli
-                        surface: '#f3f4f6',      // Light Gray Background
-                    },
-                    fontFamily: {
-                        sans: ['Inter', 'Poppins', 'sans-serif'], 
-                    }
-                }
-            }
-        }
-    </script>
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     
     <script src="https://unpkg.com/lucide@latest"></script>
 
-    <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -37,7 +17,7 @@
     <style>
     @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
 
-        body { font-family: 'Poppins', sans-serif; background-color: #f3f4f6; }
+        body { font-family: 'Poppins', sans-serif; background-color: primary; }
         [x-cloak] { display: none !important; }
         
         /* Custom Scrollbar yang lebih halus */
@@ -46,6 +26,8 @@
         .sidebar-scroll::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.2); border-radius: 10px; }
         .sidebar-scroll:hover::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.4); }
     </style>
+    @livewireStyles
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 
 <body class="text-slate-600 antialiased bg-surface">
@@ -76,14 +58,19 @@
         >
             {{-- Logo Section --}}
             <div class="h-24 flex items-center px-6 border-b border-white/10 bg-white/5">
-                <a href="{{ route('dashboard') }}" class="flex items-center gap-3 group w-full">
+                <a href="https://www.lp3i.ac.id" class="flex items-center gap-3 group w-full" target="_blank">
                     {{-- Logo Box Putih agar kontras dengan gradasi biru --}}
                     <div class="w-20 h-20  rounded-xl flex items-center justify-center text-primary shadow-lg transition-transform group-hover:scale-105">
                         <img src="{{ asset('/img/lp3i-biru.png') }}" alt="Logo" class="h-full w-full object-contain">
                     </div>
-                    <div class="flex flex-col">
-                        <span class="text-lg font-bold text-white tracking-tight leading-none drop-shadow-sm">E-Student</span>
-                        <span class="text-[10px] font-semibold text-sky-200 uppercase tracking-wider mt-1">Information System</span>
+                <div class="flex flex-col">
+                        <div class="text-lg font-bold tracking-tight drop-shadow-sm text-white">
+                            <span class="text-red-600">E |</span> Student
+                        </div>
+                        
+                        <span class="text-[10px] font-semibold text-sky-200 uppercase tracking-wider -mt-1">
+                            Information System
+                        </span>
                     </div>
                 </a>
             </div>
@@ -117,8 +104,8 @@
 
                 {{-- Dashboard Link --}}
                 <a href="{{ route('dashboard') }}" 
-                   class="{{ $linkBase }} {{ $currentRoute == 'dashboard' ? $linkActive : $linkInactive }}">
-                    <i class="fas fa-th-large w-5 text-center mr-3 text-lg {{ $currentRoute == 'dashboard' ? 'text-primary' : 'text-sky-200 group-hover:text-white' }}"></i>
+                class="{{ $linkBase }} {{ $currentRoute == 'dashboard' ? $linkActive : $linkInactive }}" wire:navigate>
+                    <i class="fas fa-th-large w-5 text-center mr-3 text-lg {{ $currentRoute == 'dashboard' ? 'text-primary' : 'text-sky-200 group-hover:text-white' }}" ></i>
                     Dashboard
                 </a>
 
@@ -136,10 +123,10 @@
                     </button>
                     
                     <div x-show="activeDropdown === 'academicDropdown'" x-collapse class="pl-4 pr-2 space-y-1 mt-1 bg-black/20 rounded-xl py-2 mx-2 border border-white/5">
-                        <a href="{{ route('krs.index') }}" class="block px-4 py-2 text-sm rounded-lg hover:text-white hover:bg-white/5 transition-colors {{ request()->routeIs('krs.*') ? 'text-accent font-bold' : 'text-slate-300' }}">
+                        <a href="{{ route('krs.index') }}" class="block px-4 py-2 text-sm rounded-lg hover:text-white hover:bg-white/5 transition-colors {{ request()->routeIs('krs.*') ? 'text-accent font-bold' : 'text-slate-300' }}" wire:navigate>
                             Kartu Rencana Studi
                         </a>
-                        <a href="{{ route('nilai') }}" class="block px-4 py-2 text-sm rounded-lg hover:text-white hover:bg-white/5 transition-colors {{ request()->routeIs('nilai') ? 'text-accent font-bold' : 'text-slate-300' }}">
+                        <a href="{{ route('nilai') }}" class="block px-4 py-2 text-sm rounded-lg hover:text-white hover:bg-white/5 transition-colors {{ request()->routeIs('nilai') ? 'text-accent font-bold' : 'text-slate-300' }}" wire:navigate>
                             Nilai (KHS)
                         </a>
                     </div>
@@ -159,10 +146,10 @@
                     </button>
                     
                     <div x-show="activeDropdown === 'learningDropdown'" x-collapse class="pl-4 pr-2 space-y-1 mt-1 bg-black/20 rounded-xl py-2 mx-2 border border-white/5">
-                        <a href="{{ route('tugas') }}" class="block px-4 py-2 text-sm rounded-lg hover:text-white hover:bg-white/5 transition-colors {{ request()->routeIs('tugas') ? 'text-accent font-bold' : 'text-slate-300' }}">
+                        <a href="{{ route('tugas') }}" class="block px-4 py-2 text-sm rounded-lg hover:text-white hover:bg-white/5 transition-colors {{ request()->routeIs('tugas') ? 'text-accent font-bold' : 'text-slate-300' }}" wire:navigate>
                             Tugas
                         </a>
-                        <a href="{{ route('material.index') }}" class="block px-4 py-2 text-sm rounded-lg hover:text-white hover:bg-white/5 transition-colors {{ request()->routeIs('material.*') ? 'text-accent font-bold' : 'text-slate-300' }}">
+                        <a href="{{ route('material.index') }}" class="block px-4 py-2 text-sm rounded-lg hover:text-white hover:bg-white/5 transition-colors {{ request()->routeIs('material.*') ? 'text-accent font-bold' : 'text-slate-300' }}" wire:navigate>
                             Materi Perkuliahan
                         </a>
                     </div>
@@ -172,14 +159,14 @@
 
                 {{-- Finance --}}
                 <a href="{{ route('infopembayaran.index') }}" 
-                   class="{{ $linkBase }} {{ $currentRoute == 'infopembayaran.index' ? $linkActive : $linkInactive }}">
+                   class="{{ $linkBase }} {{ $currentRoute == 'infopembayaran.index' ? $linkActive : $linkInactive }}" wire:navigate>
                     <i class="fas fa-wallet w-5 text-center mr-3 text-lg {{ $currentRoute == 'infopembayaran.index' ? 'text-primary' : 'text-sky-200 group-hover:text-white' }}"></i>
                     Pembayaran
                 </a>
 
                 {{-- Announcement --}}
                 <a href="{{ route('pengumuman.index') }}" 
-                   class="{{ $linkBase }} {{ $currentRoute == 'pengumuman.index' ? $linkActive : $linkInactive }}">
+                class="{{ $linkBase }} {{ $currentRoute == 'pengumuman.index' ? $linkActive : $linkInactive }}" wire:navigate>
                     <i class="fas fa-bullhorn w-5 text-center mr-3 text-lg {{ $currentRoute == 'pengumuman.index' ? 'text-primary' : 'text-sky-200 group-hover:text-white' }}"></i>
                     Pengumuman
                 </a>
@@ -193,7 +180,7 @@
                     {{-- Tombol Logout dengan Gradasi Merah --}}
                     <button type="submit" class="flex items-center justify-center w-full gap-2 px-4 py-3 text-sm font-bold text-white bg-gradient-to-r from-red-600 to-red-700 hover:from-red-500 hover:to-red-600 rounded-xl transition-all duration-200 shadow-lg hover:shadow-red-900/30 ring-1 ring-red-400/30">
                         <i class="fas fa-sign-out-alt"></i>
-                        <span>Sign Out</span>
+                        <span>LogOut</span>
                     </button>
                 </form>
             </div>
@@ -324,5 +311,7 @@
             lucide.createIcons();
         }
     </script>
+
+    @livewireScripts
 </body>
 </html>

@@ -10,34 +10,9 @@ use Illuminate\Support\Facades\Auth;
 
 class MaterialController extends Controller
 {
-    public function index(Request $request)
+    public function index()
     {
-        $user = auth()->user();
-        abort_if(!$user, 403);
-
-        $semester = $request->semester;
-        $id_mk    = $request->id_mk;
-
-        $mataKuliah = MataKuliah::query()
-            ->when($semester, fn ($q) =>
-                $q->where('semester', $semester)
-            )
-            ->orderBy('nama_mk')
-            ->get();
-
-        $materi = Material::with('materiAjar')
-            ->when($id_mk, fn ($q) =>
-                $q->where('id_mk', $id_mk)
-            )
-            ->orderBy('tgl_upload', 'desc')
-            ->get();
-
-        return view('material.index', compact(
-            'materi',
-            'mataKuliah',
-            'semester',
-            'id_mk'
-        ));
+        return view('material.index');
     }
 
 

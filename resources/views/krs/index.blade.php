@@ -8,8 +8,7 @@
     {{-- CARD SEMESTER --}}
     <div class="grid grid-cols-1 md:grid-cols-3 gap-6 no-print">
         @foreach ($semesters as $s)
-            <div onclick="openKrs({{ $s['semester'] }})"
-                 class="group cursor-pointer bg-white rounded-xl border border-gray-200 p-6 shadow-sm hover:shadow-lg hover:border-blue-400 hover:-translate-y-1 transition-all duration-300">
+            <div onclick="openKrs({{ $s['semester'] }})" class="group cursor-pointer bg-white rounded-xl border border-gray-200 p-6 shadow-sm hover:shadow-lg hover:border-blue-400 hover:-translate-y-1 transition-all duration-300">
                 
                 <div class="flex justify-between items-start mb-2">
                     <p class="text-xs font-bold text-gray-400 uppercase tracking-wider">Semester</p>
@@ -40,7 +39,6 @@
     
     .font-poppins { font-family: 'Poppins', sans-serif !important; }
 
-    /* Tampilan di Layar (Preview Mode) */
     .paper-preview {
         width: 210mm;
         min-height: 297mm;
@@ -51,17 +49,14 @@
         box-shadow: 0 4px 20px rgba(0,0,0,0.15); 
     }
 
-    /* === CSS FIX UNTUK PRINT === */
     @media print {
         @page { size: A4; margin: 0; }
         
         /* Reset Body */
         body, html { width: 100%; height: 100%; margin: 0; padding: 0; background: white !important; }
         
-        /* Sembunyikan elemen web */
         .no-print, header, nav, footer, .sidebar, .print-toolbar { display: none !important; }
         
-        /* Modal Menjadi Container Utama */
         #krsModal { 
             position: absolute !important; 
             inset: 0 !important; 
@@ -71,27 +66,24 @@
             overflow: visible !important;
         }
 
-        /* FIX UTAMA: Reset Wrapper agar tidak ada padding */
         #printWrapper {
-            display: block !important; /* Matikan Flexbox */
-            padding: 0 !important;     /* Matikan padding (py-24) */
+            display: block !important; 
+            padding: 0 !important; 
             margin: 0 !important;
             height: auto !important;
             min-height: 0 !important;
         }
         
-        /* Reset Area Kertas */
         #printArea { 
             width: 100% !important; 
             height: auto !important; 
             min-height: 0 !important;
             margin: 0 !important; 
-            padding: 10mm 15mm !important; /* Padding kertas saat print */
+            padding: 10mm 15mm !important;
             box-shadow: none !important; 
             border: none !important; 
         }
 
-        /* Pastikan background image tercetak */
         * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
     }
     
@@ -202,7 +194,6 @@
                         <p class="mb-1">Menyetujui,</p>
                         <p class="mb-20 font-medium">Pembimbing Akademik (PA)</p>
                         <p class="font-bold border-b border-black inline-block min-w-[200px]">Eko Marmanto P.U, M.Kom.,MOS.</p>
-                        <p class="mt-1">NIP/NIDN. ....................</p>
                     </div>
                     <div class="text-left ml-auto w-full max-w-[250px]">
                         <p class="mb-1">Karawang, {{ now()->translatedFormat('d F Y') }}</p>
@@ -233,26 +224,42 @@ function openKrs(semester) {
 
     fetch(`/krs/${semester}`)
         .then(res => res.ok ? res.json() : Promise.reject(res))
-        .then(res => {
-            const jenisSem = semester % 2 !== 0 ? 'GANJIL' : 'GENAP';
-            const labelSemester = `${jenisSem} ( ${semester} )`;
-            document.getElementById('semesterText').innerText = labelSemester; 
-            document.getElementById('totalSks').innerText = res.total_sks || '0';
-            toolbarInfo.innerText = `Semester ${labelSemester}`;
+        // ... kode fetch sebelumnya ...
+.then(res => {
+    const jenisSem = semester % 2 !== 0 ? 'GANJIL' : 'GENAP';
+    const labelSemester = `${jenisSem} ( ${semester} )`;
+    document.getElementById('semesterText').innerText = labelSemester; 
+    toolbarInfo.innerText = `Semester ${labelSemester}`;
 
-            let body = '';
+    let body = '';
+    let totalSksDihitung = 0; // 1. Inisialisasi variabel penghitung
+
             if(res.data && res.data.length > 0) {
                 res.data.forEach((item, i) => {
                     let kode = item.materi_ajar?.kode_mk ?? 'MK-00' + (i+1); 
                     let namaMk = item.materi_ajar?.nama_mk ?? 'MATA KULIAH TIDAK DITEMUKAN';
-                    let sks = item.sks ?? 0;
-                    body += `<tr class="border-b border-black last:border-0"><td class="border-r border-black px-2 py-1.5 text-center align-middle">${i+1}</td><td class="border-r border-black px-2 py-1.5 text-center align-middle font-medium">${kode}</td><td class="border-r border-black px-3 py-1.5 align-middle uppercase">${namaMk}</td><td class="px-2 py-1.5 text-center font-bold align-middle">${sks}</td></tr>`;
+                    let sks = parseInt(item.materi_ajar?.sks ?? 0); // 2. Pastikan jadi angka
+                    
+                    totalSksDihitung += sks; // 3. Tambahkan ke total
+
+                    body += `<tr class="border-b border-black last:border-0">
+                                <td class="border-r border-black px-2 py-1.5 text-center align-middle">${i+1}</td>
+                                <td class="border-r border-black px-2 py-1.5 text-center align-middle font-medium">${kode}</td>
+                                <td class="border-r border-black px-3 py-1.5 align-middle uppercase">${namaMk}</td>
+                                <td class="px-2 py-1.5 text-center font-bold align-middle">${sks}</td>
+                            </tr>`;
                 });
+
                 krsBody.innerHTML = body;
+                
+                // 4. Masukkan hasil hitungan ke elemen HTML
+                document.getElementById('totalSks').innerText = totalSksDihitung;
+
                 btnCetak.classList.remove('hidden');
                 btnCetak.classList.add('flex');
             } else {
                 krsBody.innerHTML = `<tr><td colspan="4" class="text-center py-8 border border-black italic text-red-500">Data Mata Kuliah Belum Tersedia.</td></tr>`;
+                document.getElementById('totalSks').innerText = '0'; // Reset jika kosong
                 toolbarInfo.innerText = `Data Kosong`;
             }
         })

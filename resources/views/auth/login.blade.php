@@ -1,39 +1,30 @@
 <x-guest-layout>
-    {{-- WRAPPER UTAMA --}}
     <div class="min-h-screen w-full flex items-center justify-center p-4 lg:p-8 font-poppins relative overflow-hidden">
         
-        {{-- 1. BACKGROUND IMAGE --}}
         <div class="absolute inset-0 z-0">
             <div class="absolute inset-0 bg-black/40 z-10"></div>
             <img src="{{ asset('/img/gedung-lp3i.jpeg') }}" class="w-full h-full object-cover" alt="Background Gedung">
         </div>
 
-        {{-- 2. MAIN CARD (UBAH DISINI: max-w-6xl jadi max-w-4xl) --}}
-        {{-- min-h-[600px] dikurangi jadi min-h-[500px] --}}
+ 
         <div x-data="{ step: 1 }" class="relative z-20 w-full max-w-4xl bg-white rounded-3xl shadow-2xl overflow-hidden flex flex-col lg:flex-row min-h-[500px] border border-white/20 transition-all duration-300">
 
-            {{-- ========================================================== --}}
-            {{-- KOLOM KIRI: FORM LOGIN --}}
-            {{-- Padding dikurangi jadi lg:p-8 agar muat di kotak kecil --}}
-            {{-- ========================================================== --}}
             <div class="w-full lg:w-[45%] bg-white p-8 lg:p-10 flex-col justify-center relative lg:flex"
                  :class="step === 1 ? 'flex' : 'hidden'">
                 
-                {{-- HEADER LOGIN --}}
-                <div class="text-center mb-6"> {{-- Margin bottom dikurangi --}}
-                    <h1 class="text-2xl lg:text-3xl font-extrabold text-[#004269] mb-1"> {{-- Font size disesuaikan --}}
+                <div class="text-center mb-6"> 
+                    <h1 class="text-2xl lg:text-3xl font-extrabold text-[#004269] mb-1"> 
                         Selamat Datang
                     </h1>
-                    <p class="text-gray-400 italic text-xs lg:text-sm mb-2">di</p>
+                    <p class="text-gray-400 text-xs font-bold lg:text-sm mb-2">di</p>
                     
                     <div class="inline-flex items-center gap-1 border-b-2 border-yellow-400 pb-1">
-                        <span class="text-xl lg:text-2xl font-black text-gray-800">E-</span><span class="text-xl lg:text-2xl font-black text-[#004269]">Student.</span>
+                        <span class="text-xl lg:text-2xl font-black text-red-600">E | </span><span class="text-xl lg:text-2xl font-black text-[#004269]">Student.</span>
                     </div>
                     <p class="text-[9px] font-bold tracking-[0.3em] text-gray-400 uppercase mt-1">Information System</p>
                 </div>
 
-                {{-- FORM --}}
-                <form method="POST" action="{{ route('login') }}" class="space-y-4"> {{-- Spasi antar input dikurangi (space-y-5 jadi space-y-4) --}}
+                <form method="POST" action="{{ route('login') }}" class="space-y-4"> 
                     @csrf
                     
                     <div class="space-y-1">
@@ -43,7 +34,7 @@
                                 <svg class="h-4 w-4 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" /></svg>
                             </div>
                             {{-- Padding input dikurangi (py-3 jadi py-2.5) --}}
-                            <input id="nipd" class="w-full pl-9 pr-4 py-2.5 bg-gray-50 border border-gray-200 rounded-lg focus:bg-white focus:border-[#004269] focus:ring-4 focus:ring-[#004269]/10 transition-all font-medium text-sm text-gray-800 placeholder-gray-400" type="tel" name="nipd" :value="old('nipd')" required autofocus placeholder="Nomor Induk" />
+                            <input id="nipd" class="w-full pl-9 pr-4 py-2.5 bg-gray-50 border border-gray-200 rounded-lg focus:bg-white focus:border-[#004269] focus:ring-4 focus:ring-[#004269]/10 transition-all font-medium text-sm text-gray-800 placeholder-gray-400" type="tel" name="nipd" required autofocus placeholder="Nomor Induk" />
                         </div>
                     </div>
 
@@ -57,9 +48,20 @@
                         </div>
                     </div>
 
+                    <i class="fas fa-sign-in-alt"></i>
                     <button type="submit" class="w-full bg-[#004269] hover:bg-[#002e4d] text-white font-bold py-3 rounded-lg shadow-lg shadow-blue-900/20 transition-all transform active:scale-[0.98] mt-2 text-sm lg:text-base">
-                        MASUK SEKARANG
+                        Login
                     </button>
+
+                    @if ($errors->any())
+                        <div class="alert alert-danger" style="color: red; background: #ffcccc; padding: 10px; margin-bottom: 10px;">
+                            <ul>
+                                @foreach ($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    @endif
 
                     <div class="text-center mt-3">
                         @if (Route::has('password.request'))
@@ -81,10 +83,6 @@
                 </div>
             </div>
 
-            {{-- ========================================================== --}}
-            {{-- KOLOM KANAN: INFORMASI --}}
-            {{-- Padding dikurangi jadi lg:p-10 --}}
-            {{-- ========================================================== --}}
             <div class="w-full lg:w-[55%] bg-[#F1F8FF] p-8 lg:p-10 relative flex-col justify-center overflow-hidden lg:flex"
                  :class="step === 2 ? 'flex' : 'hidden'">
                 

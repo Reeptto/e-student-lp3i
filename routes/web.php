@@ -27,26 +27,6 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-    Route::get('/ajax/matkul', function (Request $request) {
-
-        $user = auth()->user();
-
-        // VALIDASI
-        if (!$request->filled('semester')) {
-            return response()->json([], 200);
-        }
-
-        $matkul = MataKuliah::query()
-            ->where('id_kelas', $user->id_kelas) // 🔒 KUNCI ANTI BOCOR
-            ->where('semester', $request->semester)
-            ->orderBy('nama_mk')
-            ->get([
-                'id_mk as id',
-                'nama_mk'
-            ]);
-
-        return response()->json($matkul, 200);
-});
 });
 
 Route::get('/profile/mahasiswa', [ProfileMahasiswaController::class, 'edit'])->middleware('auth')->name('profile.mahasiswa');
@@ -81,7 +61,7 @@ Route::get('/krs/{semester}/print', [KrsController::class, 'print'])->name('krs.
 
 
 Route::get('/material', [MaterialController::class, 'index'])->name('material.index');
-Route::get('/materi/{id}/download', [MaterialController::class, 'download'])->name('materi.download');
+Route::get('/materi/{id}/download', [MaterialController::class, 'download'])->name('material.download');
 
 
 

@@ -24,4 +24,10 @@ class Material extends Model
     {
         return $this->belongsTo(MataKuliah::class, 'id_mk', 'id_mk');
     }
+
+    public function kelas()
+    {
+        return $this->belongsTo(Kelas::class, 'id_kelas', 'id_kelas');
+
+    }
 }

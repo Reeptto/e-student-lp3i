@@ -41,6 +41,7 @@ class ProfileMahasiswaController extends Controller
 
         $mahasiswa->domisili = $request->domisili;
 
+
         if($request->hasFile('foto')){
             // Hapus foto lama
             if($mahasiswa->foto && Storage::exists('public/image/'.$mahasiswa->foto)){
