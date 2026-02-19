@@ -65,7 +65,7 @@
                     </div>
                 <div class="flex flex-col">
                         <div class="text-lg font-bold tracking-tight drop-shadow-sm text-white">
-                            <span class="text-red-600">E |</span> Student
+                            <span class="text-white">E |</span> Student
                         </div>
                         
                         <span class="text-[10px] font-semibold text-sky-200 uppercase tracking-wider -mt-1">

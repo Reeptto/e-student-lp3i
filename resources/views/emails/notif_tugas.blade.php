@@ -5,7 +5,7 @@
     <title>Notifikasi Tugas Baru</title>
     <style>
         body { 
-                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+                font-family: 'Poppins', Tahoma, Geneva, Verdana, sans-serif; 
                 line-height: 1.6; 
                 color: #333; 
             }
@@ -13,7 +13,7 @@
                 width: 100%; 
                 max-width: 600px; 
                 margin: 0 auto; 
-                border: 1px solid #e0e0e0; 
+                border: 1px solid #e0e0e0;
                 border-radius: 8px; 
                 overflow: hidden; 
             }

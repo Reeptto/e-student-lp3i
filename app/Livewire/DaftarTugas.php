@@ -3,14 +3,13 @@
 namespace App\Livewire;
 
 use Livewire\Component;
-use Livewire\WithPagination; // Agar halaman tidak reload saat ganti page
-use App\Models\Material;
+use App\Models\Tugas;
 use App\Models\MataKuliah;
-use Illuminate\Support\Facades\Auth;
+use Livewire\WithPagination;    
 
-class MaterialFilter extends Component 
+class DaftarTugas extends Component
 {
-    use WithPagination;
+use WithPagination;
 
     public $semester = '';
     public $id_mk = '';
@@ -25,9 +24,9 @@ class MaterialFilter extends Component
     {
         $this->resetPage();
     }
-
     public function render()
     {
+
         $user = auth()->user()->mahasiswa->id_kelas;
         abort_if(!$user, 403);
 
@@ -46,21 +45,18 @@ class MaterialFilter extends Component
                 ->get();
         }
 
+        $tugas = Tugas::with('materiAjar')
+            ->where('id_kelas', $kelas)
+            ->when($this->id_mk, function ($q)  {
+                $q->where('id_mk', $this->id_mk);
+            })
+            ->orderBy('deadline')
+            ->latest()->paginate(10);
 
-        $materi = Material::with(['kelas', 'materiAjar'])
-            ->where('id_kelas', $kelas)->when($this->semester, function ($query) {
-                return $query->whereHas('materiAjar', function ($q) {
-                    $q->where('semester', $this->semester);
-                });
-            })->when($this->id_mk, function ($query) {
-                return $query->where('id_mk', $this->id_mk);
-            })->orderBy('tgl_upload', 'desc')->paginate(10);
-
-
-    return view('livewire.material-filter', [
-            'materi' => $materi,
-            'list_semester' => $list_semester, 
-            'list_matkul' => $list_matkul,        
-        ]);
+        return view('livewire.daftar-tugas', [
+            'semua_tugas' => $tugas,
+            'list_semester' => $list_semester,
+            'list_matkul' => $list_matkul
+            ]);
     }
 }

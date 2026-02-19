@@ -3,15 +3,13 @@
 namespace App\Livewire;
 
 use Livewire\Component;
+use App\Models\Matakuliah;
+use App\Models\Material;
 use Livewire\WithPagination;
-use App\Models\Tugas;
-use App\Models\MataKuliah;
-use Illuminate\Support\Facades\Auth;
 
-class TugasFilter extends Component 
+class DaftarMateri extends Component
 {
     use WithPagination;
-
     public $semester = '';
     public $id_mk = '';
 
@@ -46,18 +44,18 @@ class TugasFilter extends Component
                 ->get();
         }
 
+        $materi = Material::with(['kelas', 'materiAjar'])
+            ->where('id_kelas', $kelas)->when($this->semester, function ($query) {
+                return $query->whereHas('materiAjar', function ($q) {
+                    $q->where('semester', $this->semester);
+                });
+            })->when($this->id_mk, function ($query) {
+                return $query->where('id_mk', $this->id_mk);
+            })->orderBy('tgl_upload', 'desc')->latest()->paginate(10);
 
-    $tugas = Tugas::with('materiAjar')
-                ->where('id_kelas', $kelas)
-                ->when($this->id_mk, function ($q)  {
-                    $q->where('id_mk', $this->id_mk);
-                })
-                ->orderBy('deadline')
-                ->paginate(10);
 
-
-    return view('livewire.tugas-filter', [
-            'tugas' => $tugas,
+    return view('livewire.daftar-materi', [
+            'materi' => $materi,
             'list_semester' => $list_semester, 
             'list_matkul' => $list_matkul,        
         ]);

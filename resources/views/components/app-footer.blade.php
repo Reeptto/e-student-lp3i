@@ -138,7 +138,7 @@
 
                 <div class="tech-main-bar">
                     <span class="uppercase tracking-wide text-blue-700">
-                        &copy; {{ date('Y') }} E-STUDENT <b>|</b> Created By ASE-10 <b>|</b> v1.0 <b>|</b> Rev.v3
+                        &copy; {{ date('Y') }} E-STUDENT <b>|</b> Created By ASE-10 <b>|</b> v1.0 <b>|</b> Rev.04
                     </span>
                 </div>
 

@@ -91,7 +91,7 @@
                 <div class="bg-[#004269] w-8 h-8 rounded-full flex items-center justify-center text-white shadow-sm"><i class="fas fa-filter text-sm"></i></div>
                 <div class="flex flex-col">
                    <label class="text-[0.65rem] font-bold text-[#009DA5] uppercase tracking-wider">Filter Semester</label>
-                   <select name="semester" onchange="this.form.submit()" class="font-bold text-gray-700 bg-transparent border-none p-0 pr-8 focus:ring-0 cursor-pointer text-sm outline-none -mt-0.5">
+                    <select name="semester" onchange="this.form.submit()" class="font-bold text-gray-700 bg-transparent border-none p-0 pr-8 focus:ring-0 cursor-pointer text-sm outline-none -mt-0.5">
                         <option value="">-- Semua Semester --</option>
                         @for ($i = 1; $i <= 8; $i++)
                             <option value="{{ $i }}" {{ request('semester') == $i ? 'selected' : '' }}>
@@ -323,7 +323,8 @@
                                 'C+' => 2.3, 'C' => 2.0, 'D' => 1.0, default => 0
                             };
                             $mutu = $sks * $angka;
-                            $totalSks += $sks; $totalMutu += $mutu;
+                            $totalSks += $sks; 
+                            $totalMutu += $mutu;
                         @endphp
                         <tr>
                             <td style="text-align: center;">{{ $no++ }}</td>
@@ -346,7 +347,6 @@
                     </tbody>
                 </table>
 
-                {{-- SUMMARY IPS --}}
                 <div style="margin-top: 20px; border: 1px solid #000; padding: 12px 20px; display: flex; justify-content: space-between; align-items: center; background-color: rgba(255, 255, 255, 0.8);">
                     <div style="font-size: 10pt;">
                         <strong>IPS (Indeks Prestasi Semester) :</strong> 

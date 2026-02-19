@@ -64,6 +64,14 @@ Route::get('/material', [MaterialController::class, 'index'])->name('material.in
 Route::get('/materi/{id}/download', [MaterialController::class, 'download'])->name('material.download');
 
 
+Route::get('/test-email', function () {
+    $tugas = \App\Models\Tugas::first();
+    $mhs = auth()->user()->mahasiswa;
+    
+    Mail::to('pesmobilep898@gmail.com')->send(new \App\Mail\NotifTugasBaru($tugas, $mhs));
+    
+    return "Email berhasil dikirim! Cek inbox ya.";
+});
 
 
 Route::post('/submission', [SubmissionController::class, 'store'])->name('submission.store');
