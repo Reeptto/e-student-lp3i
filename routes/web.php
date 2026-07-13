@@ -27,58 +27,63 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-});
-
-Route::get('/profile/mahasiswa', [ProfileMahasiswaController::class, 'edit'])->middleware('auth')->name('profile.mahasiswa');
-Route::patch('/profile/mahasiswa', [ProfileMahasiswaController::class, 'update'])->name('profile.updates');
-
-
-Route::get('/dashboard', [JadwalController::class, 'index'])->name('dashboard');
-
-
-Route::get('/pengumuman', [PengumumanController::class, 'index'])->middleware('auth')->name('pengumuman.index');
-
-
-Route::get('/tugas', [TugasController::class, 'index'])->name('tugas');
-Route::get('/tugas/{tugas}', [TugasController::class, 'show'])->name('tugas.show');
-
-Route::get('/materi', function () {
-    return view('materi.index');
-});
-
-Route::get('/jadwal_guru', function () {
-    return view('jadwal_guru.index');
-});
-
-Route::get('/infopembayaran', function () {
-    return view('infopembayaran.index');
-})->name('infopembayaran.index');
-
-
-Route::get('/krs', [KrsController::class, 'index'])->name('krs.index');
-Route::get('/krs/{semester}', [KrsController::class, 'show'])->name('krs.show');
-Route::get('/krs/{semester}/print', [KrsController::class, 'print'])->name('krs.print');
-
-
-Route::get('/material', [MaterialController::class, 'index'])->name('material.index');
-Route::get('/materi/{id}/download', [MaterialController::class, 'download'])->name('material.download');
-
-
-Route::get('/test-email', function () {
-    $tugas = \App\Models\Tugas::first();
-    $mhs = auth()->user()->mahasiswa;
+    Route::get('/profile/mahasiswa', [ProfileMahasiswaController::class, 'edit'])->middleware('auth')->name('profile.mahasiswa');
+    Route::patch('/profile/mahasiswa', [ProfileMahasiswaController::class, 'update'])->name('profile.updates');
     
-    Mail::to('pesmobilep898@gmail.com')->send(new \App\Mail\NotifTugasBaru($tugas, $mhs));
+    // Route dashboard duplikat dihapus, sudah didefinisikan di luar group
+    // Full-Page Livewire Component — SPA murni
+    Route::get('/pengumuman', \App\Livewire\DaftarPengumuman::class)->name('pengumuman.index');
     
-    return "Email berhasil dikirim! Cek inbox ya.";
+    // Full-Page Livewire Component — SPA murni tanpa controller wrapper
+    Route::get('/tugas', \App\Livewire\DaftarTugas::class)->name('tugas');
+    Route::get('/tugas/{tugas}', [TugasController::class, 'show'])->name('tugas.show');
+    
+    // Full-Page Livewire Component — SPA murni
+    Route::get('/materi', \App\Livewire\DaftarMateri::class);
+    
+    Route::get('/jadwal_guru', function () {
+        return view('jadwal_guru.index');
+    });
+    
+    Route::get('/infopembayaran', function () {
+        return view('infopembayaran.index');
+    })->name('infopembayaran.index');
+    
+    Route::get('/krs', [KrsController::class, 'index'])->name('krs.index');
+    Route::get('/krs/{semester}', [KrsController::class, 'show'])->name('krs.show');
+    Route::get('/krs/{semester}/print', [KrsController::class, 'print'])->name('krs.print');
+    
+    Route::get('/material', \App\Livewire\DaftarMateri::class)->name('material.index');
+    Route::get('/materi/{id}/download', [MaterialController::class, 'download'])->name('material.download');
+    
+    Route::get('/test-email', function () {
+        $tugas = \App\Models\Tugas::first();
+        $mhs = auth()->user()->mahasiswa;
+        
+        Mail::to('pesmobilep898@gmail.com')->send(new \App\Mail\NotifTugasBaru($tugas, $mhs));
+        
+        return "Email berhasil dikirim! Cek inbox ya.";
+    });
+    
+    Route::post('/submission', [SubmissionController::class, 'store'])->name('submission.store');
+    Route::get('/submission', function () {
+        abort(404);
+    });
+    
+    Route::get('/nilai', [NilaiController::class, 'index'])->name('nilai');
 });
 
 
-Route::post('/submission', [SubmissionController::class, 'store'])->name('submission.store');
-Route::get('/submission', function () {
-    abort(404);
-});
 
-Route::get('/nilai', [NilaiController::class, 'index'])->name('nilai');
+
+
+
+
+
+
+
+
+
+
 
 require __DIR__.'/auth.php';

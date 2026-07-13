@@ -16,6 +16,9 @@ return new class extends Migration
             $table->string('file_tugas');
             $table->foreignId('id_tugas');
             $table->foreignId('id_mahasiswa');
+            $table->enum('status', ['Dikumpulkan', 'Terlambat', 'Belum Mengumpulkan','Sudah Dinilai'])->default('Belum Mengumpulkan');
+            $table->integer('nilai')->nullable();
+            $table->text('catatan')->nullable();
             $table->dateTime('submitted_at');
             $table->foreign('id_tugas')->references('id_tugas')->on('tugas')->onDelete('cascade');
             $table->foreign('id_mahasiswa')->references('id_mahasiswa')->on('mahasiswa')->onDelete('cascade');

@@ -36,5 +36,10 @@ class Tugas extends Model
         return $this->hasOne(Submission::class, 'id_tugas', 'id_tugas')->where('id_mahasiswa', auth()->user()->id_user);
     }
 
+    public function notif()
+    {
+        return $this->hasMany(Notification::class, 'id_tugas', 'id_tugas');
+    }
+
 
 }

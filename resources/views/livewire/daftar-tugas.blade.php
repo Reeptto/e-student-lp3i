@@ -1,6 +1,6 @@
-<div wire:poll 5s>
+<div>
     <div class="space-y-6">
-        <div class="bg-white rounded-xl border border-slate-200 shadow-sm p-4 relative z-30">
+        <div class="bg-white rounded-xl border border-slate-200 shadow-sm p-4 relative z-10">
             <div class="flex flex-col md:flex-row gap-3 items-center">
                 
                 <div class="w-full md:w-1/4 relative">
@@ -103,7 +103,7 @@
                                     <i class="fas fa-lock"></i> <span>Terkunci</span>
                                 </button>
                             @else
-                                <a href="{{ route('tugas.show', $item->id_tugas) }}" class="flex items-center gap-2 px-5 py-2 rounded-lg bg-[#009da5] text-white text-sm font-medium shadow-md shadow-cyan-700/10 hover:shadow-cyan-700/20 hover:bg-[#008a91] transition-all transform hover:-translate-y-0.5">
+                                <a href="{{ route('tugas.show', $item->id_tugas) }}" wire:navigate class="flex items-center gap-2 px-5 py-2 rounded-lg bg-[#009da5] text-white text-sm font-medium shadow-md shadow-cyan-700/10 hover:shadow-cyan-700/20 hover:bg-[#008a91] transition-all transform hover:-translate-y-0.5">
                                     <span>Kerjakan</span> <i class="fas fa-arrow-right text-[10px]"></i>
                                 </a>
                             @endif

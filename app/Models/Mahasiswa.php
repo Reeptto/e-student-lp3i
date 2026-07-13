@@ -15,9 +15,9 @@ class Mahasiswa extends Model
     protected $keyType = 'int';
     protected $fillable = [
         'nipd',
-        'user_id',
-        'kelas_id',
-        'bidang_keahlian_id', // jangan lupa ditambah kalau kolomnya ada
+        'id_user',
+        'id_kelas',
+        'id_program_studi', // jangan lupa ditambah kalau kolomnya ada
         'nama_mhs',
         'alamat',
         'tempat_lahir',
@@ -56,5 +56,10 @@ class Mahasiswa extends Model
     public function khs()
     {
         return $this->hasMany(Khs::class, 'id_mahasiswa', 'id_mahasiswa');
+    }
+
+    public function notif()
+    {
+        return $this->hasMany(Notification::class, 'id_mahasiswa', 'id_mahasiswa');
     }
 }

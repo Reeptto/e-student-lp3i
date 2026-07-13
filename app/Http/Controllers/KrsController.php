@@ -14,7 +14,6 @@ public function index()
 
     $mahasiswa = Mahasiswa::where('id_user', $user->id_user)->firstOrFail();
 
-    // Ambil data KRS beserta relasi materiAjar (sesuaikan nama relasi di Model)
     $krsBySemester = Krs::with('materiAjar') 
         ->where('id_mahasiswa', $mahasiswa->id_mahasiswa)
         ->orderBy('semester')

@@ -26,7 +26,7 @@ class MatkulController extends Controller
         try {
             $matkul = MataKuliah::query()
                 ->where('semester', $semester)
-                // Isolasi: Hanya ambil matkul sesuai jurusan user atau matkul umum
+                # Hanya ambil matkul sesuai jurusan user atau matkul umum
                 ->where(function ($q) use ($bidangKeahlianId) {
                     $q->where('bidang_keahlian_id', $bidangKeahlianId)
                       ->orWhereNull('bidang_keahlian_id');
@@ -35,6 +35,7 @@ class MatkulController extends Controller
                 ->get();
 
             return response()->json($matkul);
+            
         } catch (\Exception $e) {
             return response()->json(['error' => $e->getMessage()], 500);
         }

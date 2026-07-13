@@ -1,36 +1,14 @@
-@extends('layouts.app')
-
-@section('content')
-<style>
-    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
-    
-    .font-poppins { font-family: 'Poppins', sans-serif; }
-
-    .announcement-card {
-        border: 1px solid #e5e7eb;
-        transition: all 0.2s ease-in-out;
-    }
-    .announcement-card:hover {
-        border-color: #004269;
-        background-color: #f8fafc;
-        transform: translateY(-2px);
-    }
-</style>
-
-<div class="max-w-4xl mx-auto px-4 sm:px-6 py-10 font-poppins">
+<x-app-layout>
+<div class="max-w-4xl mx-auto px-4 sm:px-6 py-10">
 
     <div class="relative w-full h-48 bg-[#004269] rounded-xl overflow-hidden mb-10 shadow-md group">
         
         <div class="absolute inset-0 z-0">
             <svg class="w-full h-full" preserveAspectRatio="none" viewBox="0 0 800 300" fill="none" xmlns="http://www.w3.org/2000/svg">
-                
-                {{-- Aksen Garis Miring di Kanan (Tegas & Runcing) --}}
                 <path d="M600 0L550 300H800V0H600Z" fill="white" fill-opacity="0.05"/>
                 <path d="M650 0L600 300H800V0H650Z" fill="white" fill-opacity="0.05"/>
-                
                 <line x1="530" y1="0" x2="480" y2="300" stroke="white" stroke-opacity="0.1" stroke-width="1"/>
                 <line x1="545" y1="0" x2="495" y2="300" stroke="white" stroke-opacity="0.05" stroke-width="1"/>
-
                 <rect x="25" y="25" width="750" height="250" rx="8" stroke="white" stroke-opacity="0.2" stroke-width="1.5"/>
             </svg>
         </div>
@@ -62,7 +40,6 @@
     </div>
 
     @livewire('daftar-pengumuman')
-    
 
 </div>
-@endsection
+</x-app-layout>

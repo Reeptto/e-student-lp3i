@@ -1,7 +1,7 @@
-<div wire:poll>
+<div>
     <div class="space-y-6">
     
-    <div class="bg-white rounded-xl border border-slate-200 shadow-sm p-4 relative z-30">
+    <div class="bg-white rounded-xl border border-slate-200 shadow-sm p-4 relative z-10">
         <div class="flex flex-col md:flex-row gap-3 items-center">
             
             <div class="w-full md:w-1/4 relative">

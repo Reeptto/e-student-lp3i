@@ -1,6 +1,4 @@
-@extends('layouts.app')
-
-@section('content')
+<x-app-layout>
 <div class="max-w-6xl mx-auto">
     {{-- JUDUL HALAMAN (Tidak dicetak) --}}
     <h1 class="text-2xl font-bold mb-6 text-gray-800 no-print">Kartu Rencana Studi</h1>
@@ -34,62 +32,6 @@
     </div>
 </div>
 
-<style>
-    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap');
-    
-    .font-poppins { font-family: 'Poppins', sans-serif !important; }
-
-    .paper-preview {
-        width: 210mm;
-        min-height: 297mm;
-        background: white;
-        margin: 0 auto;
-        padding: 10mm 15mm; 
-        position: relative;
-        box-shadow: 0 4px 20px rgba(0,0,0,0.15); 
-    }
-
-    @media print {
-        @page { size: A4; margin: 0; }
-        
-        /* Reset Body */
-        body, html { width: 100%; height: 100%; margin: 0; padding: 0; background: white !important; }
-        
-        .no-print, header, nav, footer, .sidebar, .print-toolbar { display: none !important; }
-        
-        #krsModal { 
-            position: absolute !important; 
-            inset: 0 !important; 
-            background: white !important; 
-            display: block !important; 
-            z-index: 9999; 
-            overflow: visible !important;
-        }
-
-        #printWrapper {
-            display: block !important; 
-            padding: 0 !important; 
-            margin: 0 !important;
-            height: auto !important;
-            min-height: 0 !important;
-        }
-        
-        #printArea { 
-            width: 100% !important; 
-            height: auto !important; 
-            min-height: 0 !important;
-            margin: 0 !important; 
-            padding: 10mm 15mm !important;
-            box-shadow: none !important; 
-            border: none !important; 
-        }
-
-        * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
-    }
-    
-    .border-double-bottom { border-bottom: 4px double #000; }
-</style>
-
 {{-- MODAL --}}
 <div id="krsModal" class="fixed inset-0 bg-gray-900/80 hidden z-[9999] overflow-y-auto backdrop-blur-sm transition-opacity">
     
@@ -118,18 +60,16 @@
     </div>
 
     {{-- WRAPPER --}}
-    <div id="printWrapper" class="min-h-screen flex justify-center py-24 px-4"> 
-        {{-- KERTAS (Tambahkan relative & overflow-hidden) --}}
+    <div id="printWrapper" class="min-h-screen flex justify-center py-24 px-4">
+        {{-- KERTAS --}}
         <div id="printArea" class="paper-preview font-poppins text-black bg-white rounded-sm relative overflow-hidden">
             
-            {{-- === GAMBAR BACKGROUND (WATERMARK) === --}}
-            {{-- Posisi absolute agar di belakang, opacity agar transparan --}}
+            {{-- WATERMARK --}}
             <div class="absolute inset-0 flex items-center justify-center z-0 pointer-events-none">
-                {{-- PERUBAHAN DISINI: w-[70%] diubah menjadi w-full dan ditambah p-4 --}}
-                <img src="{{ asset('/img/lp3i-putih.png') }}" class="w-[70%] h-auto object-contain opacity-15  p-4">
+                <img src="{{ asset('/img/lp3i-putih.png') }}" class="w-[70%] h-auto object-contain opacity-15 p-4">
             </div>
 
-            {{-- === KONTEN SURAT (WRAPPER z-10) === --}}
+            {{-- KONTEN SURAT --}}
             <div class="relative z-10">
                 
                 {{-- KOP SURAT --}}
@@ -224,23 +164,22 @@ function openKrs(semester) {
 
     fetch(`/krs/${semester}`)
         .then(res => res.ok ? res.json() : Promise.reject(res))
-        // ... kode fetch sebelumnya ...
-.then(res => {
-    const jenisSem = semester % 2 !== 0 ? 'GANJIL' : 'GENAP';
-    const labelSemester = `${jenisSem} ( ${semester} )`;
-    document.getElementById('semesterText').innerText = labelSemester; 
-    toolbarInfo.innerText = `Semester ${labelSemester}`;
+        .then(res => {
+            const jenisSem = semester % 2 !== 0 ? 'GANJIL' : 'GENAP';
+            const labelSemester = `${jenisSem} ( ${semester} )`;
+            document.getElementById('semesterText').innerText = labelSemester; 
+            toolbarInfo.innerText = `Semester ${labelSemester}`;
 
-    let body = '';
-    let totalSksDihitung = 0; // 1. Inisialisasi variabel penghitung
+            let body = '';
+            let totalSksDihitung = 0;
 
             if(res.data && res.data.length > 0) {
                 res.data.forEach((item, i) => {
                     let kode = item.materi_ajar?.kode_mk ?? 'MK-00' + (i+1); 
                     let namaMk = item.materi_ajar?.nama_mk ?? 'MATA KULIAH TIDAK DITEMUKAN';
-                    let sks = parseInt(item.materi_ajar?.sks ?? 0); // 2. Pastikan jadi angka
+                    let sks = parseInt(item.materi_ajar?.sks ?? 0);
                     
-                    totalSksDihitung += sks; // 3. Tambahkan ke total
+                    totalSksDihitung += sks;
 
                     body += `<tr class="border-b border-black last:border-0">
                                 <td class="border-r border-black px-2 py-1.5 text-center align-middle">${i+1}</td>
@@ -251,15 +190,13 @@ function openKrs(semester) {
                 });
 
                 krsBody.innerHTML = body;
-                
-                // 4. Masukkan hasil hitungan ke elemen HTML
                 document.getElementById('totalSks').innerText = totalSksDihitung;
 
                 btnCetak.classList.remove('hidden');
                 btnCetak.classList.add('flex');
             } else {
                 krsBody.innerHTML = `<tr><td colspan="4" class="text-center py-8 border border-black italic text-red-500">Data Mata Kuliah Belum Tersedia.</td></tr>`;
-                document.getElementById('totalSks').innerText = '0'; // Reset jika kosong
+                document.getElementById('totalSks').innerText = '0';
                 toolbarInfo.innerText = `Data Kosong`;
             }
         })
@@ -278,4 +215,4 @@ document.addEventListener('keydown', function(event) {
     if (event.key === "Escape") closeModal();
 });
 </script>
-@endsection
+</x-app-layout>

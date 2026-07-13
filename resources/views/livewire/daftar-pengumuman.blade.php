@@ -1,4 +1,4 @@
-<div wire:poll>
+<div>
     <div class="space-y-4">
         @forelse ($pengumuman as $item)
         <div class="announcement-card bg-white rounded-lg p-6 relative overflow-hidden group">

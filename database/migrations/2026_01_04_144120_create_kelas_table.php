@@ -16,7 +16,7 @@
                 $table->string('nama_kelas');
                 $table->string('nama_pa')->nullable();
                 $table->foreignId('id_program_studi');
-                $table->integer('semester');
+                $table->integer('semester')->nullable();
                 $table->foreign('id_program_studi')->references('id_program_studi')->on('program_studi')->onDelete('cascade');
                 $table->timestamps();
             });

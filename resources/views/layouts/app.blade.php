@@ -8,23 +8,10 @@
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     
-    <script src="https://unpkg.com/lucide@latest"></script>
 
     
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-
     <style>
-    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
-
-        body { font-family: 'Poppins', sans-serif; background-color: primary; }
         [x-cloak] { display: none !important; }
-        
-        /* Custom Scrollbar yang lebih halus */
-        .sidebar-scroll::-webkit-scrollbar { width: 4px; }
-        .sidebar-scroll::-webkit-scrollbar-track { background: transparent; }
-        .sidebar-scroll::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.2); border-radius: 10px; }
-        .sidebar-scroll:hover::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.4); }
     </style>
     @livewireStyles
     @vite(['resources/css/app.css', 'resources/js/app.js'])
@@ -32,9 +19,30 @@
 
 <body class="text-slate-600 antialiased bg-surface">
 
+<div id="loader">
+    <div class="spinner"></div>
+</div>
+
+
+<script>
+    document.addEventListener("livewire:navigating", () => {
+        const loader = document.getElementById("loader");
+        loader.style.display = "flex";
+        loader.classList.remove("fade-out");
+    });
+
+    document.addEventListener("livewire:navigated", () => {
+        const loader = document.getElementById("loader");
+        loader.classList.add("fade-out");
+
+        setTimeout(() => {
+            loader.style.display = "none";
+        }, 300);
+    });
+</script>
+
     <div x-data="{ isMobileSidebarOpen: false, activeDropdown: null }" class="min-h-screen flex flex-col lg:flex-row">
         
-        {{-- Mobile Overlay --}}
         <div 
             x-show="isMobileSidebarOpen" 
             @click="isMobileSidebarOpen = false" 
@@ -48,14 +56,9 @@
             style="display: none;"
         ></div>
 
-        {{-- 
-            1. SIDEBAR DENGAN GRADASI FORMAL
-            Perubahan: bg-primary diubah menjadi bg-gradient-to-br from-primary to-primary-light
-        --}}
         <aside 
             class="fixed inset-y-0 left-0 z-50 w-72 bg-gradient-to-br from-primary to-primary-light text-white transform transition-transform duration-300 ease-in-out lg:translate-x-0 lg:static lg:h-screen flex flex-col shadow-2xl"
-            :class="isMobileSidebarOpen ? 'translate-x-0' : '-translate-x-full'"
-        >
+            :class="isMobileSidebarOpen ? 'translate-x-0' : '-translate-x-full'">
             {{-- Logo Section --}}
             <div class="h-24 flex items-center px-6 border-b border-white/10 bg-white/5">
                 <a href="https://www.lp3i.ac.id" class="flex items-center gap-3 group w-full" target="_blank">
@@ -81,16 +84,12 @@
                 @php
                     $currentRoute = Route::currentRouteName() ?? 'dashboard';
                     
-                    // Base Link Style
                     $linkBase = "group flex items-center w-full px-4 py-3 text-sm font-medium rounded-xl transition-all duration-200 ease-in-out border border-transparent";
                     
-                    // Inactive Link (Hover effect lebih halus di atas gradasi)
                     $linkInactive = "text-slate-200 hover:text-white hover:bg-white/10 hover:shadow-inner hover:border-white/5";
                     
-                    // Active Link (Putih Solid untuk formalitas dan kontras tinggi)
                     $linkActive = "bg-white text-primary shadow-lg font-bold ring-1 ring-white/50";
                     
-                    // Dropdown Active (Darker navy transparan)
                     $linkDropdownActive = "bg-secondary/40 text-white shadow-inner border-white/10"; 
 
                     $academicRoutes = ['krs.menu', 'score.index', 'krs.index', 'nilai'];
@@ -103,8 +102,8 @@
                 <div class="px-4 mb-3 mt-1 text-[10px] font-bold text-sky-200/70 uppercase tracking-widest">Menu Utama</div>
 
                 {{-- Dashboard Link --}}
-                <a href="{{ route('dashboard') }}" 
-                class="{{ $linkBase }} {{ $currentRoute == 'dashboard' ? $linkActive : $linkInactive }}" wire:navigate>
+                <a href="{{ route('dashboard') }}" wire:navigate.hover wire:current="bg-white text-primary font-bold"
+                class="{{ $linkBase }} {{ $currentRoute == 'dashboard' ? $linkActive : $linkInactive }}">
                     <i class="fas fa-th-large w-5 text-center mr-3 text-lg {{ $currentRoute == 'dashboard' ? 'text-primary' : 'text-sky-200 group-hover:text-white' }}" ></i>
                     Dashboard
                 </a>
@@ -124,10 +123,10 @@
                     
                     <div x-show="activeDropdown === 'academicDropdown'" x-collapse class="pl-4 pr-2 space-y-1 mt-1 bg-black/20 rounded-xl py-2 mx-2 border border-white/5">
                         <a href="{{ route('krs.index') }}" class="block px-4 py-2 text-sm rounded-lg hover:text-white hover:bg-white/5 transition-colors {{ request()->routeIs('krs.*') ? 'text-accent font-bold' : 'text-slate-300' }}" wire:navigate>
-                            Kartu Rencana Studi
+                            Kartu Rencana Studi (KRS)
                         </a>
-                        <a href="{{ route('nilai') }}" class="block px-4 py-2 text-sm rounded-lg hover:text-white hover:bg-white/5 transition-colors {{ request()->routeIs('nilai') ? 'text-accent font-bold' : 'text-slate-300' }}" wire:navigate>
-                            Nilai (KHS)
+                        <a href="{{ route('nilai') }}" wire:navigate class="block px-4 py-2 text-sm rounded-lg hover:text-white hover:bg-white/5 transition-colors {{ request()->routeIs('nilai') ? 'text-accent font-bold' : 'text-slate-300' }}" wire:navigate>
+                            Nilai dan Kartu Hasil Studi (KHS)
                         </a>
                     </div>
                 </div>
@@ -146,10 +145,10 @@
                     </button>
                     
                     <div x-show="activeDropdown === 'learningDropdown'" x-collapse class="pl-4 pr-2 space-y-1 mt-1 bg-black/20 rounded-xl py-2 mx-2 border border-white/5">
-                        <a href="{{ route('tugas') }}" class="block px-4 py-2 text-sm rounded-lg hover:text-white hover:bg-white/5 transition-colors {{ request()->routeIs('tugas') ? 'text-accent font-bold' : 'text-slate-300' }}" wire:navigate>
+                        <a href="{{ route('tugas') }}" wire:navigate class="block px-4 py-2 text-sm rounded-lg hover:text-white hover:bg-white/5 transition-colors {{ request()->routeIs('tugas') ? 'text-accent font-bold' : 'text-slate-300' }}" wire:navigate>
                             Tugas
                         </a>
-                        <a href="{{ route('material.index') }}" class="block px-4 py-2 text-sm rounded-lg hover:text-white hover:bg-white/5 transition-colors {{ request()->routeIs('material.*') ? 'text-accent font-bold' : 'text-slate-300' }}" wire:navigate>
+                        <a href="{{ route('material.index') }}" wire:navigate class="block px-4 py-2 text-sm rounded-lg hover:text-white hover:bg-white/5 transition-colors {{ request()->routeIs('material.*') ? 'text-accent font-bold' : 'text-slate-300' }}" wire:navigate>
                             Materi Perkuliahan
                         </a>
                     </div>
@@ -158,14 +157,14 @@
                 <div class="px-4 mb-3 mt-8 text-[10px] font-bold text-sky-200/70 uppercase tracking-widest">Keuangan & Info</div>
 
                 {{-- Finance --}}
-                <a href="{{ route('infopembayaran.index') }}" 
+                <a href="{{ route('infopembayaran.index') }}"  wire:navigate
                    class="{{ $linkBase }} {{ $currentRoute == 'infopembayaran.index' ? $linkActive : $linkInactive }}" wire:navigate>
                     <i class="fas fa-wallet w-5 text-center mr-3 text-lg {{ $currentRoute == 'infopembayaran.index' ? 'text-primary' : 'text-sky-200 group-hover:text-white' }}"></i>
                     Pembayaran
                 </a>
 
                 {{-- Announcement --}}
-                <a href="{{ route('pengumuman.index') }}" 
+                <a href="{{ route('pengumuman.index') }}" wire:navigate
                 class="{{ $linkBase }} {{ $currentRoute == 'pengumuman.index' ? $linkActive : $linkInactive }}" wire:navigate>
                     <i class="fas fa-bullhorn w-5 text-center mr-3 text-lg {{ $currentRoute == 'pengumuman.index' ? 'text-primary' : 'text-sky-200 group-hover:text-white' }}"></i>
                     Pengumuman
@@ -219,8 +218,8 @@
 
                 {{-- BAGIAN KANAN: Profile --}}
                 <div class="flex items-center gap-3 sm:gap-5 z-20" x-data="{ profileOpen: false }">
+                    @livewire('notification')
                     <div class="h-8 w-px bg-slate-200 hidden sm:block"></div>
-
                     <div class="relative">
                         <button @click="profileOpen = !profileOpen" class="flex items-center gap-3 focus:outline-none group">
                             <div class="text-right hidden md:block">
@@ -260,32 +259,26 @@
                         >
                             <div class="px-5 py-4 border-b border-slate-50 bg-slate-50/50 block md:hidden">
                                 <p class="text-xs text-slate-400 font-bold uppercase mb-1">Login sebagai</p>
-                                <p class="text-sm font-bold text-primary truncate">{{ auth()->user()?->mahasiswa?->nama ?? 'Guest' }}</p>
+                                <p class="text-sm font-bold text-primary truncate">{{ auth()->user()?->mahasiswa->nama ?? 'Guest' }}</p>
                             </div>
 
                             <div class="p-2 space-y-1">
-                                <a href="{{ route('profile.mahasiswa') }}" class="flex items-center px-3 py-2 text-sm font-medium text-slate-600 hover:text-primary hover:bg-slate-50 rounded-lg transition-colors">
+                                <a href="{{ route('profile.mahasiswa') }}" wire:navigate class="flex items-center px-3 py-2 text-sm font-medium text-slate-600 hover:text-primary hover:bg-slate-50 rounded-lg transition-colors">
                                     <i class="far fa-user w-5 mr-2 text-slate-400"></i> Profil Saya
                                 </a>
-                                <a href="{{ route('profile.edit') }}" class="flex items-center px-3 py-2 text-sm font-medium text-slate-600 hover:text-primary hover:bg-slate-50 rounded-lg transition-colors">
+                                <!-- <a href="{{ route('profile.edit') }}" class="flex items-center px-3 py-2 text-sm font-medium text-slate-600 hover:text-primary hover:bg-slate-50 rounded-lg transition-colors">
                                     <i data-lucide="settings" class="w-4 h-4 mr-3 text-slate-400"></i> Pengaturan
-                                </a>
+                                </a> -->
                             </div>
                         </div>
                     </div>
                 </div>
             </header>
             
-           {{-- Tambahkan 'flex flex-col' agar layout menjadi kolom flex --}}
-{{-- AREA SCROLLABLE --}}
-            {{-- Hapus padding (p-4) dari sini, pindahkan ke dalam agar min-h-full bekerja --}}
             <div class="flex-1 overflow-y-auto bg-surface relative">
                 
-                {{-- WRAPPER FLEX UTAMA --}}
-                {{-- KUNCI: min-h-full memaksanya setinggi area scroll, flex-col untuk dorong footer --}}
                 <div class="min-h-full flex flex-col justify-between">
 
-                    {{-- 1. KONTEN (flex-1 akan mendorong footer ke bawah) --}}
                     <div class="flex-1 p-4 lg:p-8">
                         <div class="max-w-7xl mx-auto space-y-6">
                             {{ $slot ?? '' }}
@@ -293,7 +286,6 @@
                         </div>
                     </div>
                     
-                    {{-- 2. FOOTER (Akan selalu di dasar wrapper) --}}
                     <div class="p-4 lg:p-8 pt-0"> 
                         <div class="max-w-7xl mx-auto">
                             <x-app-footer /> 
@@ -306,12 +298,6 @@
         </main>
     </div>
     
-    <script>
-        if (typeof lucide !== 'undefined') {
-            lucide.createIcons();
-        }
-    </script>
-
     @livewireScripts
 </body>
 </html>

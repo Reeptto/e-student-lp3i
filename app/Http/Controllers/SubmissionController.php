@@ -11,11 +11,20 @@ class SubmissionController extends Controller
 {
     public function store(Request $request)
     {
-        $request->validate([
-            'id_tugas' => 'required|exists:tugas,id_tugas',
-            'file_tugas' => 'required|file|mimes:pdf,docx,zip|max:5120',
-        ]);
-
+        if (!$request->hasFile('file_tugas')) {
+            return back()->with('error', 'File gagal diupload! Kemungkinan ukuran terlalu besar.')->withInput();
+            }
+            
+            $request->validate([
+                'id_tugas' => 'required|exists:tugas,id_tugas',
+                'file_tugas' => 'required|file|mimes:pdf,docx,zip,xlsx|max:2048',
+                ],
+                [
+                    'file_tugas.required' => 'File Wajib Diupload',
+                    'file_tugas.mimes' => 'File harus pdf, docx, zip, atau xlsx!',
+                    'file_tugas.max' => 'File gak boleh lebih dari 2MB'
+                    ]);
+                    
         $tugas = Tugas::where('id_tugas', $request->id_tugas)->firstOrFail();
 
         $existing = Submission::where('id_tugas', $tugas->id_tugas)
@@ -36,6 +45,6 @@ class SubmissionController extends Controller
             'submitted_at' => Carbon::now(),
         ]);
 
-        return back()->with('success', 'Tugas berhasil dikumpulkan');
+return back()->with('success', 'Tugas berhasil dikumpulkan');
     }
 }

@@ -22,7 +22,7 @@ class MaterialController extends Controller
         $materi = Material::findOrFail($id);
 
         // Validasi tambahan: Pastikan user yang download satu kelas dengan materi
-        if(auth()->user()->id_kelas != $materi->id_kelas) {
+        if(auth()->user()->id_kelas !== $materi->id_kelas) {
             abort(403, 'Akses ditolak. Materi ini bukan untuk kelas Anda.');
         }
 

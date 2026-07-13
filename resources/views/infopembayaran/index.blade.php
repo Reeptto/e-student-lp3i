@@ -1,12 +1,5 @@
-@extends('layouts.app')
-
-@section('content')
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+<x-app-layout>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
-
-<style>
-    body { font-family: 'Poppins', sans-serif; background:#f5f7fb; color:#1f2937; }
-</style>
 
 <div class="max-w-6xl mx-auto px-4 py-10">
 
@@ -125,4 +118,4 @@ function downloadReport() {
     }).save();
 }
 </script>
-@endsection
+</x-app-layout>
