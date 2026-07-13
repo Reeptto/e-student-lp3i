@@ -87,4 +87,3 @@ Semua rute utama kini menggunakan **Full-Page Livewire Components** dengan navig
    Aplikasi akan berjalan di `http://127.0.0.1:8000`.
 
 ---
-*Dikembangkan dengan ❤️ oleh Tim Pengembang LMS & Portal Akademik LP3I.*
