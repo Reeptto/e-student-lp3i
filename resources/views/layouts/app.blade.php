@@ -4,12 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>E-Student | LP3I Karawang</title>
-    
-
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    
-
-    
     <style>
         [x-cloak] { display: none !important; }
     </style>
@@ -22,7 +17,6 @@
 <div id="loader">
     <div class="spinner"></div>
 </div>
-
 
 <script>
     document.addEventListener("livewire:navigating", () => {
@@ -42,7 +36,6 @@
 </script>
 
     <div x-data="{ isMobileSidebarOpen: false, activeDropdown: null }" class="min-h-screen flex flex-col lg:flex-row">
-        
         <div 
             x-show="isMobileSidebarOpen" 
             @click="isMobileSidebarOpen = false" 
@@ -108,7 +101,6 @@
                     Dashboard
                 </a>
 
-                {{-- Academic Dropdown --}}
                 <div class="relative mt-1">
                     <button 
                         @click="activeDropdown = (activeDropdown === 'academicDropdown' ? null : 'academicDropdown')"
@@ -131,7 +123,6 @@
                     </div>
                 </div>
 
-                {{-- Learning Dropdown --}}
                 <div class="relative mt-1">
                     <button 
                         @click="activeDropdown = (activeDropdown === 'learningDropdown' ? null : 'learningDropdown')"
