@@ -153,7 +153,7 @@
             <button onclick="closeModal()" class="px-3 sm:px-4 py-1.5 sm:py-2 text-xs sm:text-sm font-bold text-gray-600 hover:bg-gray-100 rounded-lg transition-colors">
                 Tutup <span class="hidden sm:inline">(Esc)</span>
             </button>
-            <button onclick="window.print()" class="px-3 sm:px-5 py-1.5 sm:py-2 text-xs sm:text-sm font-bold text-white bg-[#004269] hover:bg-[#003355] rounded-lg shadow-lg flex items-center gap-2 transition-transform hover:scale-105">
+            <button onclick="window.print()" class="px-3 sm:px-5 py-1.5 sm:py-2 text-xs sm:text-sm font-bold text-white bg-[#004269] hover:bg-[#003355] rounded-lg shadow-lg flex items-center gap-2 transition-transform    hover:scale-105">
                 <i class="fas fa-print"></i> <span class="hidden sm:inline">Cetak Dokumen</span><span class="sm:hidden">Cetak</span>
             </button>
         </div>
@@ -278,7 +278,7 @@
                             @php
                                 $ips = $totalSks > 0 ? ($totalMutu / $totalSks) : 0;
                                 if ($ips >= 3.50) { echo 'Sangat Memuaskan'; }
-                                elseif ($ips >= 2.75) { echo 'Memuakkan'; }
+                                elseif ($ips >= 2.75) { echo 'Memuaskan'; }
                                 elseif ($ips >= 2.00) { echo 'Kurang Puas'; }
                                 elseif ($ips >= 1.00) { echo 'Tidak Puas'; }
                                 else { echo 'Ayok Tingkatkan Lagi'; }
