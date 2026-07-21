@@ -1,0 +1,15 @@
+.dockerignore
+/node_modules
+/vendor
+/public/build
+/public/hot
+/storage/*.key
+.env
+.env.*
+!.env.example
+.git
+.phpunit.cache
+/tests
+/*.txt
+/Dockerfile
+/docker-compose.yml
