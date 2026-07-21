@@ -9,27 +9,23 @@ class MataKuliah extends Model
 {
     protected $table = 'matakuliah';
     protected $fillable = [
-        'nama_mk',
         'kode_mk',
+        'nama_mk',
         'deskripsi',
-        'tipe_matakuliah',
-        'id_program_studi',
-        'semester',
-        'sks',
     ];
 
     public function tugas()
     {
-        return $this->hasMany(Tugas::class, 'id_mk');
+        return $this->hasMany(Tugas::class, 'mk_id');
     }
 
     public function nilai()
     {
-        return $this->hasMany(Nilai::class, 'id_mk');
+        return $this->hasMany(Nilai::class, 'mk_id');
     }
 
     public function materi()
     {
-        return $this->hasMany(Material::class, 'id_mk', 'id_mk');
+        return $this->hasMany(Material::class, 'mk_id');
     }
 }
