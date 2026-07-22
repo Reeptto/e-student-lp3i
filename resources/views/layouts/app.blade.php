@@ -148,11 +148,11 @@
                 <div class="px-4 mb-3 mt-8 text-[10px] font-bold text-sky-200/70 uppercase tracking-widest">Keuangan & Info</div>
 
                 {{-- Finance --}}
-                <a href="{{ route('infopembayaran.index') }}"  wire:navigate
+                <!-- <a href="{{ route('infopembayaran.index') }}"  wire:navigate
                    class="{{ $linkBase }} {{ $currentRoute == 'infopembayaran.index' ? $linkActive : $linkInactive }}" wire:navigate>
                     <i class="fas fa-wallet w-5 text-center mr-3 text-lg {{ $currentRoute == 'infopembayaran.index' ? 'text-primary' : 'text-sky-200 group-hover:text-white' }}"></i>
                     Pembayaran
-                </a>
+                </a> -->
 
                 {{-- Announcement --}}
                 <a href="{{ route('pengumuman.index') }}" wire:navigate
