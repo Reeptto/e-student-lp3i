@@ -5,7 +5,7 @@ namespace App\Models;
 use App\Models\Material;
 use Illuminate\Database\Eloquent\Model;
 
-class MataKuliah extends Model
+class Matakuliah extends Model
 {
     protected $table = 'matakuliah';
     protected $fillable = [
