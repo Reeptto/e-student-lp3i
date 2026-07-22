@@ -1,15 +1,21 @@
 <x-guest-layout>
+    {{-- Pastikan Alpine.js dimuat agar fitur ganti halaman (step) berfungsi --}}
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+
     <div class="min-h-screen w-full flex items-center justify-center p-4 lg:p-8 font-poppins relative overflow-hidden">
         
+        {{-- Background --}}
         <div class="absolute inset-0 z-0">
             <div class="absolute inset-0 bg-black/40 z-10"></div>
             <img src="{{ asset('/img/gedung-lp3i.jpeg') }}" class="w-full h-full object-cover" alt="Background Gedung">
         </div>
 
- 
+        {{-- Container Utama dengan Alpine.js State (step: 1) --}}
         <div x-data="{ step: 1 }" class="relative z-20 w-full max-w-4xl bg-white rounded-3xl shadow-2xl overflow-hidden flex flex-col lg:flex-row min-h-[500px] border border-white/20 transition-all duration-300">
 
-            <div class="w-full lg:w-[45%] bg-white p-8 lg:p-10 flex-col justify-center relative lg:flex"
+            {{-- ================= BAGIAN 1: FORM LOGIN ================= --}}
+            {{-- Di mobile muncul saat step 1, di desktop (lg) selalu dipaksa tampil (lg:!flex) --}}
+            <div class="w-full lg:w-[45%] bg-white p-8 lg:p-10 flex-col justify-center relative lg:!flex"
                  :class="step === 1 ? 'flex' : 'hidden'">
                 
                 <div class="text-center mb-6"> 
@@ -33,7 +39,6 @@
                             <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                                 <svg class="h-4 w-4 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" /></svg>
                             </div>
-                            {{-- Padding input dikurangi (py-3 jadi py-2.5) --}}
                             <input id="nipd" class="w-full pl-9 pr-4 py-2.5 bg-gray-50 border border-gray-200 rounded-lg focus:bg-white focus:border-[#004269] focus:ring-4 focus:ring-[#004269]/10 transition-all font-medium text-sm text-gray-800 placeholder-gray-400" type="tel" name="nipd" required autofocus placeholder="Nomor Induk" />
                         </div>
                     </div>
@@ -48,7 +53,6 @@
                         </div>
                     </div>
 
-                    <i class="fas fa-sign-in-alt"></i>
                     <button type="submit" class="w-full bg-[#004269] hover:bg-[#002e4d] text-white font-bold py-3 rounded-lg shadow-lg shadow-blue-900/20 transition-all transform active:scale-[0.98] mt-2 text-sm lg:text-base">
                         Login
                     </button>
@@ -70,7 +74,7 @@
                     </div>
                 </form>
 
-                {{-- NAVIGASI MOBILE --}}
+                {{-- Tombol Lanjut ke Info (Hanya tampil di Mobile) --}}
                 <div class="mt-6 pt-4 border-t border-gray-100 lg:hidden">
                     <button @click="step = 2" class="w-full flex items-center justify-center gap-2 text-[#004269] font-bold text-xs bg-blue-50 py-2.5 rounded-lg hover:bg-blue-100 transition-colors">
                         <span>Lihat Informasi Layanan</span>
@@ -83,17 +87,19 @@
                 </div>
             </div>
 
-            <div class="w-full lg:w-[55%] bg-[#F1F8FF] p-8 lg:p-10 relative flex-col justify-center overflow-hidden lg:flex"
-                 :class="step === 2 ? 'flex' : 'hidden'">
+            {{-- ================= BAGIAN 2: INFORMASI LAYANAN ================= --}}
+            {{-- Default mobile disembunyikan (hidden), tampil saat step 2 (!flex), di desktop selalu tampil (lg:!flex) --}}
+            <div class="flex-1 w-full lg:w-[55%] bg-[#F1F8FF] p-8 lg:p-10 relative flex-col justify-center overflow-hidden hidden lg:!flex"
+                :class="step === 2 ? '!flex' : 'hidden'">
                 
-                {{-- DEKORASI (Tetap sama) --}}
+                {{-- DEKORASI --}}
                 <div class="absolute top-0 right-0 -mt-20 -mr-20 w-56 h-56 bg-[#009DA5] rounded-full opacity-10 blur-2xl"></div>
                 <div class="absolute bottom-0 left-0 -mb-20 -ml-20 w-56 h-56 bg-[#004269] rounded-full opacity-10 blur-2xl"></div>
                 <div class="absolute top-8 right-8 opacity-20" style="background-image: radial-gradient(#004269 2px, transparent 2px); background-size: 20px 20px; width: 80px; height: 80px;"></div>
 
                 <div class="relative z-10">
                     
-                    {{-- Navigasi Back Mobile --}}
+                    {{-- Navigasi Back Mobile (Hanya tampil di Mobile) --}}
                     <div class="mb-6 lg:hidden">
                         <button @click="step = 1" class="flex items-center gap-2 text-gray-500 font-semibold text-xs hover:text-[#004269] transition-colors">
                             <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
