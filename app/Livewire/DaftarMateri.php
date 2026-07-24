@@ -32,7 +32,7 @@ class DaftarMateri extends Component
         $this->id_prodi = $mahasiswa->id_program_studi;
 
         // Load semester sekali saat mount, hanya semester dari matakuliah prodi mahasiswa
-        $this->listSemester = MataKuliah::where('id_program_studi', $this->id_prodi)
+        $this->listSemester = Matakuliah::where('id_program_studi', $this->id_prodi)
             ->distinct()
             ->orderBy('semester', 'asc')
             ->pluck('semester')
@@ -55,7 +55,7 @@ class DaftarMateri extends Component
         // List matkul hanya dimuat saat semester dipilih, difilter per prodi
         $list_matkul = collect([]);
         if (!empty($this->semester)) {
-            $list_matkul = MataKuliah::where('id_program_studi', $this->id_prodi)
+            $list_matkul = Matakuliah::where('id_program_studi', $this->id_prodi)
                 ->where('semester', $this->semester)
                 ->orderBy('nama_mk', 'asc')
                 ->get();
